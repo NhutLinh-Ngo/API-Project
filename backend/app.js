@@ -46,3 +46,10 @@ app.use(
 		}
 	})
 );
+
+// ADD ROUTES
+const routes = require('./routes');
+
+//USE ROUTES
+app.use(routes);
+module.exports = app;
