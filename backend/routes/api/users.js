@@ -25,18 +25,10 @@ const validateSignup = [
 		.exists({ checkFalsy: true })
 		.isLength({ min: 1 })
 		.withMessage('Please provide a first name with at least 1 characters.'),
-	check('firstName')
-		.not()
-		.isEmail()
-		.withMessage('First name cannot be an email.'),
 	check('lastName')
 		.exists({ checkFalsy: true })
 		.isLength({ min: 1 })
 		.withMessage('Please provide a last name with at least 1 characters.'),
-	check('lastName')
-		.not()
-		.isEmail()
-		.withMessage('Last name cannot be an email.'),
 	handleValidationErrors
 ];
 
