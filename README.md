@@ -294,7 +294,7 @@ Returns all the spots owned (created) by the current user.
 - Request
 
   - Method: GET
-  - URL: /api/spots/currentUser
+  - URL: /api/spots/current
   - Body: none
 
 - Successful Response
@@ -483,7 +483,7 @@ Create and return a new image for a spot specified by id.
 - Request
 
   - Method: POST
-  - URL: /api/spots/:spotId/image
+  - URL: /api/spots/:spotId/images
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -666,7 +666,7 @@ Returns all the reviews written by the current user.
 - Request
 
   - Method: GET
-  - URL: /api/reviews/currentUser
+  - URL: /api/reviews/current
   - Body: none
 
 - Successful Response
@@ -1045,7 +1045,7 @@ Return all the bookings that the current user has made.
 - Request
 
   - Method: GET
-  - URL: /api/bookings/currentUser
+  - URL: /api/bookings/current
   - Body: none
 
 - Successful Response
@@ -1412,7 +1412,7 @@ Delete an existing image for a Spot.
 - Request
 
   - Method: DELETE
-  - URL: /api/SpotImages/:iamgeId --> delete from SpotImages table
+  - URL: /api/spot-images/:imageId
   - Body: none
 
 - Successful Response
@@ -1452,7 +1452,7 @@ Delete an existing image for a Review.
 - Request
 
   - Method: DELETE
-  - URL: /api/reviewImages/:imageId
+  - URL: /api/review-images/:imageId
   - Body: none
 
 - Successful Response
@@ -1493,8 +1493,8 @@ Return spots filtered by query parameters.
   - Method: GET
   - URL: /api/spots
   - Query Parameters
-    - page: integer, minimum: 0, maximum: 10, default: 0
-    - size: integer, minimum: 0, maximum: 20, default: 20
+    - page: integer, minimum: 1, maximum: 10, default: 1
+    - size: integer, minimum: 1, maximum: 20, default: 20
     - minLat: decimal, optional
     - maxLat: decimal, optional
     - minLng: decimal, optional
@@ -1547,8 +1547,8 @@ Return spots filtered by query parameters.
     	"message": "Validation Error",
     	"statusCode": 400,
     	"errors": {
-    		"page": "Page must be greater than or equal to 0",
-    		"size": "Size must be greater than or equal to 0",
+    		"page": "Page must be greater than or equal to 1",
+    		"size": "Size must be greater than or equal to 1",
     		"maxLat": "Maximum latitude is invalid",
     		"minLat": "Minimum latitude is invalid",
     		"minLng": "Maximum longitude is invalid",
