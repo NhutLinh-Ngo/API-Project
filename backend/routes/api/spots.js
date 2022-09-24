@@ -48,7 +48,7 @@ router.get('/current', authentication, async (req, res, next) => {
 				[Op.and]: [{ spotId: spot.id }, { preview: true }]
 			}
 		});
-		spot.previewImage = previewImage.url;
+		if (previewImage) spot.previewImage = previewImage.url;
 		Spots.push(spot);
 	}
 
@@ -100,6 +100,50 @@ router.get('/:spotId', async (req, res, next) => {
 	res.json(resSpot);
 });
 
+// CREATE NEW SPOT, under current user.
+router.post('/', authentication, async (req, res, next) => {
+	const { address, city, state, country, lat, lng, name, description, price } =
+		req.body;
+	const ownerId = req.user.id;
+
+	try {
+		const newSpot = await Spot.build({
+			ownerId,
+			address,
+			city,
+			state,
+			country,
+			lat,
+			lng,
+			name,
+			description,
+			price
+		});
+
+		await newSpot.validate();
+		await newSpot.save();
+
+		res.json(newSpot);
+	} catch {
+		res.status(400),
+			res.json({
+				message: 'Validation Error',
+				statusCode: 400,
+				errors: {
+					address: 'Street address is required',
+					city: 'City is required',
+					state: 'State is required',
+					country: 'Country is required',
+					lat: 'Latitude is not valid',
+					lng: 'Longitude is not valid',
+					name: 'Name must be less than 50 characters',
+					description: 'Description is required',
+					price: 'Price per day is required'
+				}
+			});
+	}
+});
+
 // GET ALL SPOTS
 router.get('/', async (req, res, next) => {
 	let findSpots = await Spot.findAll();
@@ -127,7 +171,8 @@ router.get('/', async (req, res, next) => {
 				[Op.and]: [{ spotId: spot.id }, { preview: true }]
 			}
 		});
-		spot.previewImage = previewImage.url;
+		if (previewImage) spot.previewImage = previewImage.url;
+
 		Spots.push(spot);
 	}
 
