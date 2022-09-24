@@ -22,8 +22,7 @@ router.get('/', async (req, res, next) => {
 			],
 			raw: true
 		});
-		const check = rating[0].avgRating.toFixed(1);
-		spot.avgRating = parseFloat(check);
+		spot.avgRating = rating[0].avgRating;
 
 		//GET PREVIEW IMAGE
 		let previewImage = await SpotImage.findOne({
