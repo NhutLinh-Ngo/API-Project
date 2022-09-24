@@ -48,7 +48,7 @@ router.get('/current', authentication, async (req, res, next) => {
 				[Op.and]: [{ spotId: spot.id }, { preview: true }]
 			}
 		});
-		spot.previewImage = previewImage.url;
+		if (previewImage) spot.previewImage = previewImage.url;
 		Spots.push(spot);
 	}
 
@@ -171,7 +171,6 @@ router.get('/', async (req, res, next) => {
 				[Op.and]: [{ spotId: spot.id }, { preview: true }]
 			}
 		});
-		console.log(previewImage);
 		if (previewImage) spot.previewImage = previewImage.url;
 
 		Spots.push(spot);
