@@ -76,6 +76,15 @@ router.get('/:spotId', async (req, res, next) => {
 		]
 	});
 
+	// couldn't find a spot with specified Id
+	if (!spot) {
+		res.status(404);
+		return res.json({
+			message: "Spot couldn't be found",
+			statusCode: 404
+		});
+	}
+
 	let allReview = await spot.getReviews();
 	let sumRating = 0;
 	let reviewCount = 0;
