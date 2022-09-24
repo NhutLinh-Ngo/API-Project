@@ -16,6 +16,7 @@ const authentication = (req, res, next) => {
 	});
 };
 
+// GET SPOTS OF CURRENT USER
 router.get('/current', authentication, async (req, res, next) => {
 	const ownerId = req.user.id;
 
@@ -54,6 +55,43 @@ router.get('/current', authentication, async (req, res, next) => {
 	res.json({ Spots });
 });
 
+// GET SPOT BY SPOT ID
+router.get('/:spotId', async (req, res, next) => {
+	const spotId = req.params.spotId;
+
+	// Getting the spot with all spot images with it
+	const spot = await Spot.findByPk(spotId, {
+		include: [
+			{
+				model: SpotImage,
+				attributes: {
+					exclude: ['createdAt', 'updatedAt']
+				}
+			},
+			{
+				model: User,
+				as: 'Owner',
+				attributes: ['id', 'firstName', 'lastName']
+			}
+		]
+	});
+
+	let allReview = await spot.getReviews();
+	let sumRating = 0;
+	let reviewCount = 0;
+	allReview.forEach((review) => {
+		reviewCount++;
+		sumRating += review.stars;
+	});
+	let avgStarRating = (sumRating / allReview.length).toFixed(1);
+
+	const resSpot = spot.toJSON();
+	resSpot.numReviews = reviewCount;
+	resSpot.avgStarRating = parseFloat(avgStarRating);
+	res.json(resSpot);
+});
+
+// GET ALL SPOTS
 router.get('/', async (req, res, next) => {
 	let findSpots = await Spot.findAll();
 
