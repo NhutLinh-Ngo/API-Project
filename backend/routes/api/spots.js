@@ -20,6 +20,7 @@ const authentication = (req, res, next) => {
 router.get('/current', authentication, async (req, res, next) => {
 	const ownerId = req.user.id;
 
+	// query all spot owned by current user
 	let findSpots = await Spot.findAll({
 		where: {
 			ownerId
@@ -27,6 +28,7 @@ router.get('/current', authentication, async (req, res, next) => {
 	});
 
 	let Spots = [];
+	// formulating response
 	for (let i = 0; i < findSpots.length; i++) {
 		let spot = findSpots[i].toJSON();
 		// GET AVG Rating for each Spot
@@ -39,6 +41,7 @@ router.get('/current', authentication, async (req, res, next) => {
 			],
 			raw: true
 		});
+		// format avgRating to 1 decimal places
 		const check = Number(rating[0].avgRating).toFixed(1);
 		spot.avgRating = parseFloat(check);
 
@@ -52,7 +55,7 @@ router.get('/current', authentication, async (req, res, next) => {
 		Spots.push(spot);
 	}
 
-	res.json({ Spots });
+	return res.json({ Spots });
 });
 
 // Add an Image to a Spot based on the Spot's id
@@ -64,29 +67,44 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 	const findSpot = await Spot.findByPk(spotId);
 
 	if (findSpot) {
+		// authorization, make sure spot belongs to current user.
 		if (ownerId !== findSpot.ownerId) {
 			res.status(403);
-			res.json({
+			return res.json({
 				message: 'Forbidden',
 				statusCode: 403
 			});
 		}
+		try {
+			// create new spot image
+			const newSpotImage = await SpotImage.build({ spotId, url, preview });
+			await newSpotImage.validate();
+			await newSpotImage.save();
 
-		const newSpotImage = await SpotImage.build({ spotId, url, preview });
-		await newSpotImage.validate();
-		await newSpotImage.save();
+			// associate new spot image with the specified spot
+			findSpot.addSpotImage(newSpotImage);
 
-		findSpot.addSpotImage(newSpotImage);
-
-		const resNewSpot = {};
-		resNewSpot.id = newSpotImage.id;
-		resNewSpot.url = newSpotImage.url;
-		resNewSpot.preview = newSpotImage.preview;
-		return res.json(resNewSpot);
+			// formulate response
+			const resNewSpot = {};
+			resNewSpot.id = newSpotImage.id;
+			resNewSpot.url = newSpotImage.url;
+			resNewSpot.preview = newSpotImage.preview;
+			return res.json(resNewSpot);
+		} catch {
+			// catch error for fail validation for new spot image
+			return res.status(400).json({
+				message: 'Validation Error',
+				statusCode: 400,
+				errors: {
+					url: 'url is required.',
+					preview: 'preview indicator is required'
+				}
+			});
+		}
 	}
 
 	res.status(404);
-	res.json({
+	return res.json({
 		message: "Spot couldn't be found",
 		statusCode: 404
 	});
@@ -95,7 +113,7 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 router.get('/:spotId', async (req, res, next) => {
 	const spotId = req.params.spotId;
 
-	// Getting the spot with all spot images with it
+	// Getting the spot with all spot images and its owner with it,eager loading
 	const spot = await Spot.findByPk(spotId, {
 		include: [
 			{
@@ -121,6 +139,7 @@ router.get('/:spotId', async (req, res, next) => {
 		});
 	}
 
+	// get review count and avgStarting based on found spot
 	let allReview = await spot.getReviews();
 	let sumRating = 0;
 	let reviewCount = 0;
@@ -130,12 +149,44 @@ router.get('/:spotId', async (req, res, next) => {
 	});
 	let avgStarRating = (sumRating / allReview.length).toFixed(1);
 
+	//formulating response
 	const resSpot = spot.toJSON();
 	resSpot.numReviews = reviewCount;
 	resSpot.avgStarRating = parseFloat(avgStarRating);
-	res.json(resSpot);
+	return res.json(resSpot);
 });
 
+// DELETE a SPOT
+router.delete('/:spotId', authentication, async (req, res, next) => {
+	const spotId = req.params.spotId;
+	const ownerId = req.user.id;
+
+	// Find spot by primary key
+	const deletingSpot = await Spot.findByPk(spotId);
+
+	if (deletingSpot) {
+		//authorization, error if current user is not the owner of the spot
+		if (ownerId !== deletingSpot.ownerId) {
+			return res.status(404).json({
+				message: 'Forbidden',
+				statusCode: 403
+			});
+		}
+
+		// deleting the spot, and response successfull
+		await deletingSpot.destroy();
+		return res.json({
+			message: 'Successfully deleted',
+			statusCode: 200
+		});
+	}
+
+	// error response when spot not found
+	return res.status(404).json({
+		message: "Spot couldn't be found",
+		statusCode: 404
+	});
+});
 // EDIT A SPOT
 router.put('/:spotId', authentication, async (req, res, next) => {
 	const spotId = req.params.spotId;
@@ -161,6 +212,7 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 	}
 
 	try {
+		//update current spot with given body
 		await findSpot.update({
 			address,
 			city,
@@ -174,7 +226,8 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 
 		return res.json(findSpot);
 	} catch {
-		res.status(400).json({
+		// validation error response
+		return res.status(400).json({
 			message: 'Validation Error',
 			statusCode: 400,
 			errors: {
@@ -198,6 +251,7 @@ router.post('/', authentication, async (req, res, next) => {
 	const ownerId = req.user.id;
 
 	try {
+		// create new spot with given body, and id of current user as owner
 		const newSpot = await Spot.build({
 			ownerId,
 			address,
@@ -214,24 +268,24 @@ router.post('/', authentication, async (req, res, next) => {
 		await newSpot.validate();
 		await newSpot.save();
 
-		res.json(newSpot);
+		return res.json(newSpot);
 	} catch {
-		res.status(400),
-			res.json({
-				message: 'Validation Error',
-				statusCode: 400,
-				errors: {
-					address: 'Street address is required',
-					city: 'City is required',
-					state: 'State is required',
-					country: 'Country is required',
-					lat: 'Latitude is not valid',
-					lng: 'Longitude is not valid',
-					name: 'Name must be less than 50 characters',
-					description: 'Description is required',
-					price: 'Price per day is required'
-				}
-			});
+		res.status(400);
+		return res.json({
+			message: 'Validation Error',
+			statusCode: 400,
+			errors: {
+				address: 'Street address is required',
+				city: 'City is required',
+				state: 'State is required',
+				country: 'Country is required',
+				lat: 'Latitude is not valid',
+				lng: 'Longitude is not valid',
+				name: 'Name must be less than 50 characters',
+				description: 'Description is required',
+				price: 'Price per day is required'
+			}
+		});
 	}
 });
 
@@ -267,6 +321,6 @@ router.get('/', async (req, res, next) => {
 		Spots.push(spot);
 	}
 
-	res.json({ Spots });
+	return res.json({ Spots });
 });
 module.exports = router;
