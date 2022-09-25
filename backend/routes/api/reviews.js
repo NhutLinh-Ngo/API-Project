@@ -64,6 +64,6 @@ router.get('/current', authentication, async (req, res, next) => {
 		Reviews.push(review);
 	}
 	//response
-	res.json({ Reviews });
+	return res.json({ Reviews });
 });
 module.exports = router;

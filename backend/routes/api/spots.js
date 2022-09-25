@@ -1,6 +1,13 @@
 const express = require('express');
 
-const { Spot, User, Review, sequelize, SpotImage } = require('../../db/models');
+const {
+	Spot,
+	User,
+	Review,
+	sequelize,
+	SpotImage,
+	ReviewImage
+} = require('../../db/models');
 const { Op } = require('sequelize');
 const { authentication, createPaginationObject } = require('../../utils/auth');
 
@@ -48,6 +55,32 @@ router.get('/current', authentication, async (req, res, next) => {
 	return res.json({ Spots });
 });
 
+//Get all review by spot Id
+router.get('/:spotId/reviews', async (req, res, next) => {
+	const spotId = parseInt(req.params.spotId);
+	const findSpot = await Spot.findByPk(spotId);
+
+	if (findSpot) {
+		const Reviews = await findSpot.getReviews({
+			include: [
+				{
+					model: User,
+					attributes: ['id', 'firstName', 'lastName']
+				},
+				{
+					model: ReviewImage,
+					attributes: ['id', 'url']
+				}
+			]
+		});
+		return res.json({ Reviews });
+	}
+
+	return res.status(404).json({
+		message: "Spot couldn't be found",
+		statusCode: 404
+	});
+});
 // Add an Image to a Spot based on the Spot's id
 router.post('/:spotId/images', authentication, async (req, res, next) => {
 	const spotId = req.params.spotId;
