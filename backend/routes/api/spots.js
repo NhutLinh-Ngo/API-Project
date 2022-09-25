@@ -136,6 +136,61 @@ router.get('/:spotId', async (req, res, next) => {
 	res.json(resSpot);
 });
 
+// EDIT A SPOT
+router.put('/:spotId', authentication, async (req, res, next) => {
+	const spotId = req.params.spotId;
+	const ownerId = req.user.id;
+	const { address, city, country, lat, lng, name, description, price } =
+		req.body;
+
+	const findSpot = await Spot.findByPk(spotId);
+
+	// Error if spot cannot be found.
+	if (!findSpot) {
+		return res.status(404).json({
+			message: "Spot couldn't be found",
+			statusCode: 404
+		});
+	}
+	// error if the spot doesn't belong to the current user.
+	if (findSpot.ownerId !== ownerId) {
+		return res.status(403).json({
+			message: 'Forbidden',
+			statusCode: 403
+		});
+	}
+
+	try {
+		await findSpot.update({
+			address,
+			city,
+			country,
+			lat,
+			lng,
+			name,
+			description,
+			price
+		});
+
+		return res.json(findSpot);
+	} catch {
+		req.status(400).json({
+			message: 'Validation Error',
+			statusCode: 400,
+			errors: {
+				address: 'Street address is required',
+				city: 'City is required',
+				state: 'State is required',
+				country: 'Country is required',
+				lat: 'Latitude is not valid',
+				lng: 'Longitude is not valid',
+				name: 'Name must be less than 50 characters',
+				description: 'Description is required',
+				price: 'Price per day is required'
+			}
+		});
+	}
+});
 // CREATE NEW SPOT, under current user.
 router.post('/', authentication, async (req, res, next) => {
 	const { address, city, state, country, lat, lng, name, description, price } =
