@@ -77,7 +77,12 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 		await newSpotImage.save();
 
 		findSpot.addSpotImage(newSpotImage);
-		res.json(newSpotImage);
+
+		const resNewSpot = {};
+		resNewSpot.id = newSpotImage.id;
+		resNewSpot.url = newSpotImage.url;
+		resNewSpot.preview = newSpotImage.preview;
+		return res.json(resNewSpot);
 	}
 
 	res.status(404);
