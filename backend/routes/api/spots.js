@@ -174,7 +174,7 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 
 		return res.json(findSpot);
 	} catch {
-		req.status(400).json({
+		res.status(400).json({
 			message: 'Validation Error',
 			statusCode: 400,
 			errors: {
