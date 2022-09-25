@@ -62,4 +62,35 @@ const requireAuth = function (req, _res, next) {
 	return next(err);
 };
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+// AUTHENTICATION middleware
+const authentication = (req, res, next) => {
+	if (req.user) return next();
+
+	res.status(401);
+	res.json({
+		message: 'Authentication required',
+		statusCode: 401
+	});
+};
+
+function createPaginationObject(req, res, next) {
+	let defaultSize = 1,
+		defaultPage = 1;
+	let { page, size } = req.query;
+	page = page === undefined ? defaultPage : parseInt(page);
+	size = size === undefined ? defaultSize : parseInt(size);
+	const pagination = {};
+	if (page >= 1 && size >= 1) {
+		pagination.limit = size;
+		pagination.offset = size * (page - 1);
+	}
+	req.pagination = pagination;
+	next();
+}
+module.exports = {
+	setTokenCookie,
+	restoreUser,
+	requireAuth,
+	authentication,
+	createPaginationObject
+};
