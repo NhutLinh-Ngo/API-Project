@@ -95,15 +95,18 @@ router.post('/:spotId/reviews', authentication, async (req, res, next) => {
 			findSpot.addReview(newReview);
 
 			return res.status(201).json(newReview);
-		} catch {
-			return res.status(400).json({
-				message: 'Validation error',
-				statusCode: 400,
-				errors: {
-					review: 'Review text is required',
-					stars: 'Stars must be an integer from 1 to 5'
-				}
-			});
+		} catch (error) {
+			error.status = 400;
+			error.message = 'Validation Error';
+			return next(error);
+			// return res.status(400).json({
+			// 	message: 'Validation error',
+			// 	statusCode: 400,
+			// 	errors: {
+			// 		review: 'Review text is required',
+			// 		stars: 'Stars must be an integer from 1 to 5'
+			// 	}
+			// });
 		}
 	}
 
@@ -171,16 +174,19 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 			resNewSpot.url = newSpotImage.url;
 			resNewSpot.preview = newSpotImage.preview;
 			return res.json(resNewSpot);
-		} catch {
+		} catch (error) {
 			// catch error for fail validation for new spot image
-			return res.status(400).json({
-				message: 'Validation Error',
-				statusCode: 400,
-				errors: {
-					url: 'url is required.',
-					preview: 'preview indicator is required'
-				}
-			});
+			error.status = 400;
+			error.message = 'Validation Error';
+			return next(error);
+			// return res.status(400).json({
+			// 	message: 'Validation Error',
+			// 	statusCode: 400,
+			// 	errors: {
+			// 		url: 'url is required.',
+			// 		preview: 'preview indicator is required'
+			// 	}
+			// });
 		}
 	}
 
@@ -306,23 +312,11 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 		});
 
 		return res.json(findSpot);
-	} catch {
+	} catch (error) {
 		// validation error response
-		return res.status(400).json({
-			message: 'Validation Error',
-			statusCode: 400,
-			errors: {
-				address: 'Street address is required',
-				city: 'City is required',
-				state: 'State is required',
-				country: 'Country is required',
-				lat: 'Latitude is not valid',
-				lng: 'Longitude is not valid',
-				name: 'Name must be less than 50 characters',
-				description: 'Description is required',
-				price: 'Price per day is required'
-			}
-		});
+		error.status = 400;
+		error.message = 'Validation Error';
+		return next(error);
 	}
 });
 // CREATE NEW SPOT, under current user.
@@ -351,23 +345,10 @@ router.post('/', authentication, async (req, res, next) => {
 
 		await findOwner.addSpot(newSpot);
 		return res.status(201).json(newSpot);
-	} catch {
-		res.status(400);
-		return res.json({
-			message: 'Validation Error',
-			statusCode: 400,
-			errors: {
-				address: 'Street address is required',
-				city: 'City is required',
-				state: 'State is required',
-				country: 'Country is required',
-				lat: 'Latitude is not valid',
-				lng: 'Longitude is not valid',
-				name: 'Name must be less than 50 characters',
-				description: 'Description is required',
-				price: 'Price per day is required'
-			}
-		});
+	} catch (error) {
+		error.status = 400;
+		error.message = 'Validation Error';
+		return next(error);
 	}
 });
 
