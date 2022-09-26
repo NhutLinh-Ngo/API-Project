@@ -13,6 +13,53 @@ const { authentication } = require('../../utils/auth');
 
 const router = express.Router();
 
+// Add an image to a review based on the review's Id
+router.post('/:reviewId/images', authentication, async (req, res, next) => {
+	const reviewId = parseInt(req.params.reviewId);
+	const userId = req.user.id;
+	const { url } = req.body;
+	const findReview = await Review.findByPk(reviewId);
+
+	if (findReview) {
+		// Checking to see if review belong to the user
+		if (findReview.userId !== userId) {
+			return res.status(404).json({
+				message: 'Forbidden',
+				statusCode: 403
+			});
+		}
+		// check to see wether image limit exceeded
+		const imagesCount = await ReviewImage.count({ where: { reviewId } });
+		console.log(imagesCount);
+		if (imagesCount >= 10) {
+			return res.status(403).json({
+				message: 'Maximum number of images for this resource was reached',
+				statusCode: 403
+			});
+		}
+
+		// create new ReviewImage and add association.
+		const newReviewImage = await ReviewImage.build({ reviewId, url });
+		await newReviewImage.validate();
+		await newReviewImage.save();
+
+		findReview.addReviewImage(newReviewImage);
+
+		// formulate response
+		let jsonReviewImage = newReviewImage.toJSON();
+		const response = {};
+		response.id = jsonReviewImage.id;
+		response.url = jsonReviewImage.url;
+
+		return res.json(response);
+	}
+
+	return res.status(404).json({
+		message: "Review couldn't be found",
+		statusCode: 404
+	});
+});
+
 // GET all review of current user
 router.get('/current', authentication, async (req, res, next) => {
 	const userId = req.user.id;
