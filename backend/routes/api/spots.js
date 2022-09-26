@@ -6,7 +6,8 @@ const {
 	Review,
 	sequelize,
 	SpotImage,
-	ReviewImage
+	ReviewImage,
+	Booking
 } = require('../../db/models');
 const { Op } = require('sequelize');
 const { authentication, createPaginationObject } = require('../../utils/auth');
@@ -53,6 +54,40 @@ router.get('/current', authentication, async (req, res, next) => {
 	}
 
 	return res.json({ Spots });
+});
+
+// Get all Bookings for a Spot based on the Spot's Id
+router.get('/:spotId/bookings', authentication, async (req, res, next) => {
+	const spotId = parseInt(req.params.spotId);
+	const userId = req.user.id;
+	let Bookings = [];
+	const findSpot = await Spot.findByPk(spotId);
+
+	if (findSpot) {
+		// if the user is the owner of the spot
+		if (findSpot.ownerId === userId) {
+			Bookings = await findSpot.getBookings({
+				include: {
+					model: User,
+					attributes: ['id', 'firstName', 'lastName']
+				}
+			});
+			return res.json({ Bookings });
+		}
+
+		// the spot does not belong to current user.
+		Bookings = await findSpot.getBookings({
+			attributes: ['spotId', 'startDate', 'endDate']
+		});
+
+		return res.json({ Bookings });
+	}
+
+	// no Spot found with given Id
+	return res.status(404).json({
+		message: "Spot couldn't be found",
+		statusCode: 404
+	});
 });
 
 // Create new review for a spot based on the Spot's Id
