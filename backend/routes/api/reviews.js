@@ -113,4 +113,44 @@ router.get('/current', authentication, async (req, res, next) => {
 	//response
 	return res.json({ Reviews });
 });
+
+router.put('/:reviewId', authentication, async (req, res, next) => {
+	const reviewId = parseInt(req.params.reviewId);
+	const userId = req.user.id;
+	const { review, stars } = req.body;
+	const findReview = await Review.findByPk(reviewId);
+
+	if (findReview) {
+		// Authorization, Make sure review belongs to current user
+		if (findReview.userId !== userId) {
+			return res.status(404).json({
+				message: 'Forbidden',
+				statusCode: 403
+			});
+		}
+
+		try {
+			// update review
+			await findReview.update({ review, stars });
+
+			return res.json(findReview);
+		} catch {
+			// validation error
+			return res.status(400).json({
+				message: 'Validation error',
+				statusCode: 400,
+				errors: {
+					review: 'Review text is required',
+					stars: 'Stars must be an integer from 1 to 5'
+				}
+			});
+		}
+	}
+
+	// to review found
+	return res.status(404).json({
+		message: "Review couldn't be found",
+		statusCode: 404
+	});
+});
 module.exports = router;
