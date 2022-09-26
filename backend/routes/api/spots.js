@@ -94,7 +94,7 @@ router.post('/:spotId/reviews', authentication, async (req, res, next) => {
 
 			findSpot.addReview(newReview);
 
-			return res.json(newReview);
+			return res.status(201).json(newReview);
 		} catch {
 			return res.status(400).json({
 				message: 'Validation error',
@@ -350,7 +350,7 @@ router.post('/', authentication, async (req, res, next) => {
 		await newSpot.save();
 
 		await findOwner.addSpot(newSpot);
-		return res.json(newSpot);
+		return res.status(201).json(newSpot);
 	} catch {
 		res.status(400);
 		return res.json({
