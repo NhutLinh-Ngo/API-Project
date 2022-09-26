@@ -55,6 +55,64 @@ router.get('/current', authentication, async (req, res, next) => {
 	return res.json({ Spots });
 });
 
+// Create new review for a spot based on the Spot's Id
+router.post('/:spotId/reviews', authentication, async (req, res, next) => {
+	const spotId = parseInt(req.params.spotId);
+	const userId = req.user.id;
+	const { review, stars } = req.body;
+	// find the spot to add review
+	const findSpot = await Spot.findByPk(spotId);
+
+	if (findSpot) {
+		//Check to see wether user have already created a review for this spot
+		const reviewExist = await Review.findOne({
+			where: {
+				spotId,
+				userId
+			}
+		});
+
+		// error response of review already exist for spot/user
+		if (reviewExist) {
+			return res.status(403).json({
+				message: 'User already has a review for this spot',
+				statusCode: 403
+			});
+		}
+
+		//build new view
+		try {
+			const newReview = await Review.build({
+				spotId,
+				userId,
+				review,
+				stars
+			});
+
+			await newReview.validate();
+			await newReview.save();
+
+			findSpot.addReview(newReview);
+
+			return res.json(newReview);
+		} catch {
+			return res.status(400).json({
+				message: 'Validation error',
+				statusCode: 400,
+				errors: {
+					review: 'Review text is required',
+					stars: 'Stars must be an integer from 1 to 5'
+				}
+			});
+		}
+	}
+
+	// no Spot found with given Id
+	return res.status(404).json({
+		message: "Spot couldn't be found",
+		statusCode: 404
+	});
+});
 //Get all review by spot Id
 router.get('/:spotId/reviews', async (req, res, next) => {
 	const spotId = parseInt(req.params.spotId);
@@ -272,7 +330,7 @@ router.post('/', authentication, async (req, res, next) => {
 	const { address, city, state, country, lat, lng, name, description, price } =
 		req.body;
 	const ownerId = req.user.id;
-
+	const findOwner = await User.findByPk(ownerId);
 	try {
 		// create new spot with given body, and id of current user as owner
 		const newSpot = await Spot.build({
@@ -291,6 +349,7 @@ router.post('/', authentication, async (req, res, next) => {
 		await newSpot.validate();
 		await newSpot.save();
 
+		await findOwner.addSpot(newSpot);
 		return res.json(newSpot);
 	} catch {
 		res.status(400);
