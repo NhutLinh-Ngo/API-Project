@@ -37,21 +37,30 @@ router.post('/:reviewId/images', authentication, async (req, res, next) => {
 				statusCode: 403
 			});
 		}
+		try {
+			// create new ReviewImage and add association.
+			const newReviewImage = await ReviewImage.build({ reviewId, url });
+			await newReviewImage.validate();
+			await newReviewImage.save();
 
-		// create new ReviewImage and add association.
-		const newReviewImage = await ReviewImage.build({ reviewId, url });
-		await newReviewImage.validate();
-		await newReviewImage.save();
+			findReview.addReviewImage(newReviewImage);
 
-		findReview.addReviewImage(newReviewImage);
+			// formulate response
+			let jsonReviewImage = newReviewImage.toJSON();
+			const response = {};
+			response.id = jsonReviewImage.id;
+			response.url = jsonReviewImage.url;
 
-		// formulate response
-		let jsonReviewImage = newReviewImage.toJSON();
-		const response = {};
-		response.id = jsonReviewImage.id;
-		response.url = jsonReviewImage.url;
-
-		return res.json(response);
+			return res.json(response);
+		} catch {
+			return res.status(400).json({
+				message: 'Validation error',
+				statusCode: 400,
+				errors: {
+					url: 'url for image required'
+				}
+			});
+		}
 	}
 
 	return res.status(404).json({
