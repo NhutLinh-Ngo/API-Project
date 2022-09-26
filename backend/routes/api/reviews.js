@@ -153,4 +153,33 @@ router.put('/:reviewId', authentication, async (req, res, next) => {
 		statusCode: 404
 	});
 });
+
+router.delete('/:reviewId', authentication, async (req, res, next) => {
+	const reviewId = parseInt(req.params.reviewId);
+	const userId = req.user.id;
+
+	const findReview = await Review.findByPk(reviewId);
+
+	if (findReview) {
+		if (findReview.userId !== userId) {
+			return res.status(404).json({
+				message: 'Forbidden',
+				statusCode: 403
+			});
+		}
+
+		await findReview.destroy();
+
+		return res.json({
+			message: 'Successfully deleted',
+			statusCode: 200
+		});
+	}
+
+	return res.status(404).json({
+		message: "Review couldn't be found",
+		statusCode: 404
+	});
+});
+
 module.exports = router;
