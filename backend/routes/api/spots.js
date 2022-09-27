@@ -1,5 +1,4 @@
 const express = require('express');
-
 const {
 	Spot,
 	User,
@@ -10,8 +9,17 @@ const {
 	Booking
 } = require('../../db/models');
 const { Op } = require('sequelize');
-const { authentication, createPaginationObject } = require('../../utils/auth');
-const { validateSpot, validateSpotImage } = require('../../utils/validation');
+const { authentication } = require('../../utils/auth');
+const {
+	validateSpot,
+	validateSpotImage,
+	validateQueryParams
+} = require('../../utils/validation');
+
+const {
+	spotQueryFilter,
+	createPaginationObject
+} = require('../../utils/middleWare');
 
 const router = express.Router();
 
@@ -428,44 +436,51 @@ router.post('/', authentication, validateSpot, async (req, res, next) => {
 });
 
 // GET ALL SPOTS
-router.get('/', createPaginationObject, async (req, res, next) => {
-	const { minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-	let pagination = req.pagination;
+router.get(
+	'/',
+	validateQueryParams,
+	spotQueryFilter,
+	createPaginationObject,
+	async (req, res, next) => {
+		let pagination = req.pagination;
+		let where = req.where;
 
-	let findSpots = await Spot.findAll({
-		...pagination
-	});
-	let Spots = [];
-	for (let i = 0; i < findSpots.length; i++) {
-		let spot = findSpots[i].toJSON();
-		// console.log(spot);
-		// GET AVG Rating for each Spot
-		let rating = await Review.findAll({
-			where: {
-				spotId: Number(spot.id)
-			},
-			attributes: [
-				[sequelize.fn('AVG', sequelize.col('Review.stars')), 'avgRating']
-			],
-			raw: true
+		let findSpots = await Spot.findAll({
+			...pagination,
+			where
 		});
-		if (rating) {
-			const check = Number(rating[0].avgRating).toFixed(1);
-			spot.avgRating = parseFloat(check);
-		} else spot.avgRating = 'this location has no ratings yet.';
+		let Spots = [];
+		for (let i = 0; i < findSpots.length; i++) {
+			let spot = findSpots[i].toJSON();
+			// console.log(spot);
+			// GET AVG Rating for each Spot
+			let rating = await Review.findAll({
+				where: {
+					spotId: Number(spot.id)
+				},
+				attributes: [
+					[sequelize.fn('AVG', sequelize.col('Review.stars')), 'avgRating']
+				],
+				raw: true
+			});
+			if (rating) {
+				const check = Number(rating[0].avgRating).toFixed(1);
+				spot.avgRating = parseFloat(check);
+			} else spot.avgRating = 'this location has no ratings yet.';
 
-		//GET PREVIEW IMAGE
-		let previewImage = await SpotImage.findOne({
-			where: {
-				[Op.and]: [{ spotId: spot.id }, { preview: true }]
-			}
-		});
-		if (previewImage) spot.previewImage = previewImage.url;
-		else spot.previewImage = 'No preview image Yet.';
+			//GET PREVIEW IMAGE
+			let previewImage = await SpotImage.findOne({
+				where: {
+					[Op.and]: [{ spotId: spot.id }, { preview: true }]
+				}
+			});
+			if (previewImage) spot.previewImage = previewImage.url;
+			else spot.previewImage = 'No preview image Yet.';
 
-		Spots.push(spot);
+			Spots.push(spot);
+		}
+
+		return res.json({ Spots, page: req.page, size: req.size });
 	}
-
-	return res.json({ Spots, page: req.page, size: req.size });
-});
+);
 module.exports = router;
