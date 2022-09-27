@@ -74,16 +74,22 @@ const authentication = (req, res, next) => {
 };
 
 function createPaginationObject(req, res, next) {
-	let defaultSize = 1,
+	let defaultSize = 20,
 		defaultPage = 1;
 	let { page, size } = req.query;
+	page = isNaN(page) ? defaultPage : page;
+	size = isNaN(size) ? defaultSize : size;
 	page = page === undefined ? defaultPage : parseInt(page);
 	size = size === undefined ? defaultSize : parseInt(size);
+	if (size > 20) size = 20;
+	if (page > 10) page = 10;
 	const pagination = {};
 	if (page >= 1 && size >= 1) {
 		pagination.limit = size;
 		pagination.offset = size * (page - 1);
 	}
+	req.page = page;
+	req.size = size;
 	req.pagination = pagination;
 	next();
 }

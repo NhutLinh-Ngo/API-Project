@@ -467,8 +467,12 @@ router.post('/', authentication, async (req, res, next) => {
 });
 
 // GET ALL SPOTS
-router.get('/', async (req, res, next) => {
-	let findSpots = await Spot.findAll();
+router.get('/', createPaginationObject, async (req, res, next) => {
+	const { minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+	let pagination = req.pagination;
+	let findSpots = await Spot.findAll({
+		...pagination
+	});
 	let Spots = [];
 	for (let i = 0; i < findSpots.length; i++) {
 		let spot = findSpots[i].toJSON();
@@ -497,6 +501,6 @@ router.get('/', async (req, res, next) => {
 		Spots.push(spot);
 	}
 
-	return res.json({ Spots });
+	return res.json({ Spots, page: req.page, size: req.size });
 });
 module.exports = router;
