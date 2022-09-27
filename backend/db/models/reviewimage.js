@@ -19,7 +19,13 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false
 			},
 			url: {
-				type: DataTypes.STRING
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notNull: {
+						msg: 'Review image url required'
+					}
+				}
 			}
 		},
 		{

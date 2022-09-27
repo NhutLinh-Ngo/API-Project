@@ -12,6 +12,17 @@ const {
 const { Op } = require('sequelize');
 const { authentication, createPaginationObject } = require('../../utils/auth');
 
+class ValidationError extends Error {
+	constructor(error, message, path) {
+		super(message, path);
+		this.title = 'Bad Request.';
+		this.message = message;
+		this.errors = error;
+		this.status = 403;
+		this.path = path;
+	}
+}
+
 // get all of current user's bookings
 const router = express.Router();
 
@@ -118,23 +129,20 @@ router.put('/:bookingId', authentication, async (req, res, next) => {
 			}
 		}
 
-		try {
-			if (startDate >= endDate) {
-				const error = new Error('endDate cannot come before startDate');
-				error.title = 'validation Error';
-				error.status = 403;
-				return next(error);
-			}
-			await foundBooking.update({
-				startDate,
-				endDate
-			});
-
-			return res.json(foundBooking);
-		} catch (error) {
-			error.status = 403;
+		if (startDate >= endDate) {
+			const error = new ValidationError(
+				'endDate cannot come before startDate',
+				'validation Error',
+				'endDate'
+			);
 			return next(error);
 		}
+		await foundBooking.update({
+			startDate,
+			endDate
+		});
+
+		return res.json(foundBooking);
 	}
 
 	// no Spot found with given Id

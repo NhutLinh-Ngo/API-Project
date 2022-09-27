@@ -30,37 +30,27 @@ router.post('/:reviewId/images', authentication, async (req, res, next) => {
 		}
 		// check to see wether image limit exceeded
 		const imagesCount = await ReviewImage.count({ where: { reviewId } });
-		console.log(imagesCount);
 		if (imagesCount >= 10) {
 			return res.status(403).json({
 				message: 'Maximum number of images for this resource was reached',
 				statusCode: 403
 			});
 		}
-		try {
-			// create new ReviewImage and add association.
-			const newReviewImage = await ReviewImage.build({ reviewId, url });
-			await newReviewImage.validate();
-			await newReviewImage.save();
 
-			findReview.addReviewImage(newReviewImage);
+		// create new ReviewImage and add association.
+		const newReviewImage = await ReviewImage.build({ reviewId, url });
+		await newReviewImage.validate();
+		await newReviewImage.save();
 
-			// formulate response
-			let jsonReviewImage = newReviewImage.toJSON();
-			const response = {};
-			response.id = jsonReviewImage.id;
-			response.url = jsonReviewImage.url;
+		findReview.addReviewImage(newReviewImage);
 
-			return res.json(response);
-		} catch {
-			return res.status(400).json({
-				message: 'Validation error',
-				statusCode: 400,
-				errors: {
-					url: 'url for image required'
-				}
-			});
-		}
+		// formulate response
+		let jsonReviewImage = newReviewImage.toJSON();
+		const response = {};
+		response.id = jsonReviewImage.id;
+		response.url = jsonReviewImage.url;
+
+		return res.json(response);
 	}
 
 	return res.status(404).json({
@@ -116,6 +106,7 @@ router.get('/current', authentication, async (req, res, next) => {
 			}
 		});
 		if (previewImage) review.Spot.previewImage = previewImage.url;
+		else review.Spot.previewImage = 'No preview image yet.';
 
 		Reviews.push(review);
 	}
@@ -138,22 +129,10 @@ router.put('/:reviewId', authentication, async (req, res, next) => {
 			});
 		}
 
-		try {
-			// update review
-			await findReview.update({ review, stars });
+		// update review
+		await findReview.update({ review, stars });
 
-			return res.json(findReview);
-		} catch {
-			// validation error
-			return res.status(400).json({
-				message: 'Validation error',
-				statusCode: 400,
-				errors: {
-					review: 'Review text is required',
-					stars: 'Stars must be an integer from 1 to 5'
-				}
-			});
-		}
+		return res.json(findReview);
 	}
 
 	// to review found

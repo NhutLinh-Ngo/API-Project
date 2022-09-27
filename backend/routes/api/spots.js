@@ -11,6 +11,7 @@ const {
 } = require('../../db/models');
 const { Op } = require('sequelize');
 const { authentication, createPaginationObject } = require('../../utils/auth');
+const { validateSpot, validateSpotImage } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -108,24 +109,17 @@ router.post('/:spotId/bookings', authentication, async (req, res, next) => {
 		}
 
 		//create new booking
-		try {
-			const newBooking = await Booking.build({
-				spotId,
-				userId,
-				endDate,
-				startDate
-			});
+		const newBooking = await Booking.build({
+			spotId,
+			userId,
+			endDate,
+			startDate
+		});
 
-			await newBooking.validate();
-			await newBooking.save();
+		await newBooking.validate();
+		await newBooking.save();
 
-			return res.json(newBooking);
-		} catch (error) {
-			console.log(error);
-			error.status = 403;
-			error.message = 'validation Error';
-			return next(error);
-		}
+		return res.json(newBooking);
 	}
 
 	// no Spot found with given Id
@@ -195,33 +189,19 @@ router.post('/:spotId/reviews', authentication, async (req, res, next) => {
 		}
 
 		//build new view
-		try {
-			const newReview = await Review.build({
-				spotId,
-				userId,
-				review,
-				stars
-			});
+		const newReview = await Review.build({
+			spotId,
+			userId,
+			review,
+			stars
+		});
 
-			await newReview.validate();
-			await newReview.save();
+		await newReview.validate();
+		await newReview.save();
 
-			findSpot.addReview(newReview);
+		findSpot.addReview(newReview);
 
-			return res.status(201).json(newReview);
-		} catch (error) {
-			error.status = 400;
-			error.message = 'Validation Error';
-			return next(error);
-			// return res.status(400).json({
-			// 	message: 'Validation error',
-			// 	statusCode: 400,
-			// 	errors: {
-			// 		review: 'Review text is required',
-			// 		stars: 'Stars must be an integer from 1 to 5'
-			// 	}
-			// });
-		}
+		return res.status(201).json(newReview);
 	}
 
 	// no Spot found with given Id
@@ -257,23 +237,27 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 	});
 });
 // Add an Image to a Spot based on the Spot's id
-router.post('/:spotId/images', authentication, async (req, res, next) => {
-	const spotId = req.params.spotId;
-	const ownerId = req.user.id;
+router.post(
+	'/:spotId/images',
+	authentication,
+	validateSpotImage,
+	async (req, res, next) => {
+		const spotId = req.params.spotId;
+		const ownerId = req.user.id;
 
-	const { url, preview } = req.body;
-	const findSpot = await Spot.findByPk(spotId);
+		const { url, preview } = req.body;
+		const findSpot = await Spot.findByPk(spotId);
 
-	if (findSpot) {
-		// authorization, make sure spot belongs to current user.
-		if (ownerId !== findSpot.ownerId) {
-			res.status(403);
-			return res.json({
-				message: 'Forbidden',
-				statusCode: 403
-			});
-		}
-		try {
+		if (findSpot) {
+			// authorization, make sure spot belongs to current user.
+			if (ownerId !== findSpot.ownerId) {
+				res.status(403);
+				return res.json({
+					message: 'Forbidden',
+					statusCode: 403
+				});
+			}
+
 			// create new spot image
 			const newSpotImage = await SpotImage.build({ spotId, url, preview });
 			await newSpotImage.validate();
@@ -288,28 +272,15 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 			resNewSpot.url = newSpotImage.url;
 			resNewSpot.preview = newSpotImage.preview;
 			return res.json(resNewSpot);
-		} catch (error) {
-			// catch error for fail validation for new spot image
-			error.status = 400;
-			error.message = 'Validation Error';
-			return next(error);
-			// return res.status(400).json({
-			// 	message: 'Validation Error',
-			// 	statusCode: 400,
-			// 	errors: {
-			// 		url: 'url is required.',
-			// 		preview: 'preview indicator is required'
-			// 	}
-			// });
 		}
-	}
 
-	res.status(404);
-	return res.json({
-		message: "Spot couldn't be found",
-		statusCode: 404
-	});
-});
+		res.status(404);
+		return res.json({
+			message: "Spot couldn't be found",
+			statusCode: 404
+		});
+	}
+);
 // GET SPOT BY SPOT ID
 router.get('/:spotId', async (req, res, next) => {
 	const spotId = req.params.spotId;
@@ -353,7 +324,9 @@ router.get('/:spotId', async (req, res, next) => {
 	//formulating response
 	const resSpot = spot.toJSON();
 	resSpot.numReviews = reviewCount;
-	resSpot.avgStarRating = parseFloat(avgStarRating);
+	resSpot.avgStarRating = avgStarRating
+		? parseFloat(avgStarRating)
+		: 'This location has No Ratings';
 	return res.json(resSpot);
 });
 
@@ -412,58 +385,46 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 		});
 	}
 
-	try {
-		//update current spot with given body
-		await findSpot.update({
-			address,
-			city,
-			country,
-			lat,
-			lng,
-			name,
-			description,
-			price
-		});
-
-		return res.json(findSpot);
-	} catch (error) {
-		// validation error response
-		error.status = 400;
-		error.message = 'Validation Error';
-		return next(error);
-	}
+	//update current spot with given body
+	await findSpot.update({
+		address,
+		city,
+		country,
+		lat,
+		lng,
+		name,
+		description,
+		price
+	});
+	return res.json(findSpot);
 });
+
 // CREATE NEW SPOT, under current user.
-router.post('/', authentication, async (req, res, next) => {
+router.post('/', authentication, validateSpot, async (req, res, next) => {
 	const { address, city, state, country, lat, lng, name, description, price } =
 		req.body;
 	const ownerId = req.user.id;
 	const findOwner = await User.findByPk(ownerId);
-	try {
-		// create new spot with given body, and id of current user as owner
-		const newSpot = await Spot.build({
-			ownerId,
-			address,
-			city,
-			state,
-			country,
-			lat,
-			lng,
-			name,
-			description,
-			price
-		});
 
-		await newSpot.validate();
-		await newSpot.save();
+	// create new spot with given body, and id of current user as owner
+	const newSpot = await Spot.build({
+		ownerId,
+		address,
+		city,
+		state,
+		country,
+		lat,
+		lng,
+		name,
+		description,
+		price
+	});
 
-		await findOwner.addSpot(newSpot);
-		return res.status(201).json(newSpot);
-	} catch (error) {
-		error.status = 400;
-		error.message = 'Validation Error';
-		return next(error);
-	}
+	await newSpot.validate();
+	await newSpot.save();
+
+	await findOwner.addSpot(newSpot);
+	return res.status(201).json(newSpot);
 });
 
 // GET ALL SPOTS
@@ -483,8 +444,10 @@ router.get('/', async (req, res, next) => {
 			],
 			raw: true
 		});
-		const check = Number(rating[0].avgRating).toFixed(1);
-		spot.avgRating = parseFloat(check);
+		if (rating) {
+			const check = Number(rating[0].avgRating).toFixed(1);
+			spot.avgRating = parseFloat(check);
+		} else spot.avgRating = 'this location has no ratings yet.';
 
 		//GET PREVIEW IMAGE
 		let previewImage = await SpotImage.findOne({
@@ -493,6 +456,7 @@ router.get('/', async (req, res, next) => {
 			}
 		});
 		if (previewImage) spot.previewImage = previewImage.url;
+		else spot.previewImage = 'No preview image Yet.';
 
 		Spots.push(spot);
 	}

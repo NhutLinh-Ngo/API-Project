@@ -69,6 +69,7 @@ app.use((err, _req, _res, next) => {
 		err.errors.map((e) => (erObj[e.path] = e.message));
 		err.title = 'Validation error';
 		err.errors = erObj;
+		err.message = 'Validation Error';
 	}
 	next(err);
 });
@@ -76,6 +77,20 @@ app.use((err, _req, _res, next) => {
 app.use((err, _req, res, _next) => {
 	res.status(err.status || 500);
 	console.error(err);
+	// custom validation error handler
+	if (err.path) {
+		const erObj = {};
+		erObj[err.path] = err.errors;
+		res.json({
+			title: err.title || 'Server Error',
+			statusCode: res.statusCode,
+			message: err.message,
+			errors: erObj,
+			stack: isProduction ? null : err.stack
+		});
+	}
+
+	// standard error handler
 	res.json({
 		title: err.title || 'Server Error',
 		statusCode: res.statusCode,
