@@ -26,14 +26,20 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true,
 				validate: {
-					len: [1, 250]
+					len: [1, 250],
+					notNull: {
+						msg: 'Street address is required'
+					}
 				}
 			},
 			city: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 250]
+					len: [1, 250],
+					notNull: {
+						msg: 'City is required'
+					}
 				}
 			},
 			state: {
@@ -44,6 +50,9 @@ module.exports = (sequelize, DataTypes) => {
 					hasNumber(value) {
 						if (/[0-9]/.test(value))
 							throw new Error('State input cannot containt number');
+					},
+					notNull: {
+						msg: 'State is required'
 					}
 				}
 			},
@@ -55,40 +64,67 @@ module.exports = (sequelize, DataTypes) => {
 					hasNumber(value) {
 						if (/[0-9]/.test(value))
 							throw new Error('State input cannot containt number');
+					},
+					notNull: {
+						msg: 'Country is required'
 					}
 				}
 			},
 			lat: {
 				type: DataTypes.DECIMAL,
+				isDecimal: true,
 				validate: {
-					isDecimal: true
+					isDecimal: {
+						msg: 'Latitude is not valid'
+					}
 				}
 			},
 			lng: {
 				type: DataTypes.DECIMAL,
+				isDecimal: true,
 				validate: {
-					isDecimal: true
+					isDecimal: {
+						msg: 'Longitude is not valid'
+					}
 				}
 			},
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 50]
+					len: {
+						args: [1, 250],
+						msg: 'Name must be less than 50 characters'
+					},
+					notNull: {
+						msg: 'Name is required'
+					}
 				}
 			},
 			description: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 250]
+					notNull: {
+						msg: 'Description is required'
+					},
+					len: {
+						args: [1, 5000],
+						msg: 'Name must be less than 5000 characters'
+					}
 				}
 			},
 			price: {
 				type: DataTypes.DECIMAL,
 				allowNull: false,
 				validate: {
-					min: 1
+					min: {
+						args: [1],
+						msg: 'Minimum price is $1'
+					},
+					notNull: {
+						msg: 'Price per day is required'
+					}
 				}
 			}
 		},
