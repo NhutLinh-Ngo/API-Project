@@ -119,6 +119,12 @@ router.put('/:bookingId', authentication, async (req, res, next) => {
 		}
 
 		try {
+			if (startDate >= endDate) {
+				const error = new Error('End date cannot be on or before startDate');
+				error.title = 'validation Error';
+				error.status = 403;
+				return next(error);
+			}
 			await foundBooking.update({
 				startDate,
 				endDate
