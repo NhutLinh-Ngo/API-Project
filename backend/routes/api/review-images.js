@@ -18,16 +18,16 @@ router.delete('/:imageId', authentication, async (req, res, next) => {
 	const imageId = parseInt(req.params.imageId);
 	const userId = req.user.id;
 
-	const FoundSpotImage = await SpotImage.findByPk(imageId, {
+	const foundReviewImage = await ReviewImage.findByPk(imageId, {
 		include: {
-			model: Spot,
-			attributes: ['ownerId']
+			model: Review,
+			attributes: ['userId']
 		}
 	});
 
-	if (FoundSpotImage) {
-		if (FoundSpotImage.Spot.ownerId == userId) {
-			await FoundSpotImage.destroy();
+	if (foundReviewImage) {
+		if (foundReviewImage.Review.userId == userId) {
+			await foundReviewImage.destroy();
 
 			return res.json({
 				message: 'Successfully deleted',
@@ -35,14 +35,14 @@ router.delete('/:imageId', authentication, async (req, res, next) => {
 			});
 		} else {
 			return res.status(403).json({
-				message: 'This spot does not belong to you',
+				message: 'Sorry, this review this not belongs to you',
 				statusCode: 403
 			});
 		}
 	}
 
 	return res.status(404).json({
-		message: "Spot Image couldn't be found",
+		message: "Review Image couldn't be found",
 		statusCode: 404
 	});
 });
