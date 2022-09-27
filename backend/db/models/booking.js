@@ -25,13 +25,23 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			startDate: {
 				type: DataTypes.DATEONLY,
-				allowNull: false
+				allowNull: false,
+				validate: {
+					isAfter: {
+						args: new Date().toString(),
+						msg: `Booking date can only be made after today`
+					}
+				}
 			},
 			endDate: {
 				type: DataTypes.DATEONLY,
 				allowNull: false,
 				validate: {
-					isAfter: this.startDate
+					beforeStartDate(value) {
+						console.log(this.startDate);
+						if (value <= this.startDate)
+							throw new Error('endDate cannot be on or before startDate');
+					}
 				}
 			}
 		},
