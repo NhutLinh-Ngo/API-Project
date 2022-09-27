@@ -114,6 +114,16 @@ router.post('/:spotId/bookings', authentication, async (req, res, next) => {
 					}
 				});
 			}
+			if (startDate <= booking.startDate && booking.endDate <= endDate) {
+				return res.status(403).json({
+					message: 'Sorry, this spot is already booked for the specified dates',
+					statusCode: 403,
+					errors: {
+						startDate: 'Start date conflicts with an existing booking',
+						endDate: 'End date conflicts with an existing booking'
+					}
+				});
+			}
 		}
 
 		//create new booking
@@ -245,50 +255,45 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 	});
 });
 // Add an Image to a Spot based on the Spot's id
-router.post(
-	'/:spotId/images',
-	authentication,
-	validateSpotImage,
-	async (req, res, next) => {
-		const spotId = req.params.spotId;
-		const ownerId = req.user.id;
+router.post('/:spotId/images', authentication, async (req, res, next) => {
+	const spotId = req.params.spotId;
+	const ownerId = req.user.id;
 
-		const { url, preview } = req.body;
-		const findSpot = await Spot.findByPk(spotId);
+	const { url, preview } = req.body;
+	const findSpot = await Spot.findByPk(spotId);
 
-		if (findSpot) {
-			// authorization, make sure spot belongs to current user.
-			if (ownerId !== findSpot.ownerId) {
-				res.status(403);
-				return res.json({
-					message: 'Forbidden',
-					statusCode: 403
-				});
-			}
-
-			// create new spot image
-			const newSpotImage = await SpotImage.build({ spotId, url, preview });
-			await newSpotImage.validate();
-			await newSpotImage.save();
-
-			// associate new spot image with the specified spot
-			findSpot.addSpotImage(newSpotImage);
-
-			// formulate response
-			const resNewSpot = {};
-			resNewSpot.id = newSpotImage.id;
-			resNewSpot.url = newSpotImage.url;
-			resNewSpot.preview = newSpotImage.preview;
-			return res.json(resNewSpot);
+	if (findSpot) {
+		// authorization, make sure spot belongs to current user.
+		if (ownerId !== findSpot.ownerId) {
+			res.status(403);
+			return res.json({
+				message: 'Forbidden',
+				statusCode: 403
+			});
 		}
 
-		res.status(404);
-		return res.json({
-			message: "Spot couldn't be found",
-			statusCode: 404
-		});
+		// create new spot image
+		const newSpotImage = await SpotImage.build({ spotId, url, preview });
+		await newSpotImage.validate();
+		await newSpotImage.save();
+
+		// associate new spot image with the specified spot
+		findSpot.addSpotImage(newSpotImage);
+
+		// formulate response
+		const resNewSpot = {};
+		resNewSpot.id = newSpotImage.id;
+		resNewSpot.url = newSpotImage.url;
+		resNewSpot.preview = newSpotImage.preview;
+		return res.json(resNewSpot);
 	}
-);
+
+	res.status(404);
+	return res.json({
+		message: "Spot couldn't be found",
+		statusCode: 404
+	});
+});
 // GET SPOT BY SPOT ID
 router.get('/:spotId', async (req, res, next) => {
 	const spotId = req.params.spotId;
