@@ -28,17 +28,29 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 2000]
+					notNull: {
+						msg: 'Review text is required'
+					},
+					len: {
+						args: [1, 5000],
+						msg: 'Review must be less than 5000 characters'
+					}
 				}
 			},
 			stars: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				validate: {
-					betweenOneAndFive(value) {
-						if (value < 1 || value > 5) {
-							throw new Error('Stars must be an integer from 1 to 5');
-						}
+					notNull: {
+						msg: 'Stars rating required'
+					},
+					min: {
+						args: [1],
+						msg: 'Stars must be an integer from 1 to 5'
+					},
+					max: {
+						args: [5],
+						msg: 'Stars must be an integer from 1 to 5'
 					}
 				}
 			}
