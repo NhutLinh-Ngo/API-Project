@@ -120,7 +120,7 @@ router.put('/:bookingId', authentication, async (req, res, next) => {
 
 		try {
 			if (startDate >= endDate) {
-				const error = new Error('End date cannot be on or before startDate');
+				const error = new Error('endDate cannot come before startDate');
 				error.title = 'validation Error';
 				error.status = 403;
 				return next(error);
@@ -144,4 +144,42 @@ router.put('/:bookingId', authentication, async (req, res, next) => {
 	});
 });
 
+// Delete Booking
+router.delete('/:bookingId', authentication, async (req, res, next) => {
+	const bookingId = parseInt(req.params.bookingId);
+	const userId = req.user.id;
+	let todayDate = new Date();
+
+	const foundBooking = await Booking.findByPk(bookingId, {
+		include: {
+			model: Spot,
+			attributes: ['ownerId']
+		}
+	});
+
+	if (foundBooking) {
+		if (
+			todayDate >= foundBooking.startDate &&
+			todayDate <= foundBooking.endDate
+		) {
+			return res.status(403).json({
+				message: "Bookings that have been started can't be deleted",
+				statusCode: 403
+			});
+		}
+		if (foundBooking.userId == userId || foundBooking.Spot.ownerId == userId) {
+			await foundBooking.destroy();
+
+			return res.json({
+				message: 'Successfully deleted',
+				statusCode: 200
+			});
+		}
+	}
+	// no Spot found with given Id
+	return res.status(404).json({
+		message: "Booking couldn't be found",
+		statusCode: 404
+	});
+});
 module.exports = router;
