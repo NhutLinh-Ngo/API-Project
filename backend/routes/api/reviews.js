@@ -22,7 +22,7 @@ router.post('/:reviewId/images', authentication, async (req, res, next) => {
 	if (findReview) {
 		// Checking to see if review belong to the user
 		if (findReview.userId !== userId) {
-			return res.status(404).json({
+			return res.status(403).json({
 				message: 'Forbidden',
 				statusCode: 403
 			});
@@ -112,7 +112,7 @@ router.put('/:reviewId', authentication, async (req, res, next) => {
 	if (findReview) {
 		// Authorization, Make sure review belongs to current user
 		if (findReview.userId !== userId) {
-			return res.status(404).json({
+			return res.status(403).json({
 				message: 'Forbidden',
 				statusCode: 403
 			});
@@ -139,7 +139,7 @@ router.delete('/:reviewId', authentication, async (req, res, next) => {
 
 	if (findReview) {
 		if (findReview.userId !== userId) {
-			return res.status(404).json({
+			return res.status(403).json({
 				message: 'Forbidden',
 				statusCode: 403
 			});
