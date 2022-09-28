@@ -83,7 +83,7 @@ router.put(
 			// console.log(foundBooking);
 			// cannot edit booking in the past
 			let todayDate = new Date();
-			if (foundBooking.endDate <= todayDate) {
+			if (foundBooking.endDate <= todayDate.toString()) {
 				return res.status(403).json({
 					message: "Past bookings can't be modified",
 					statusCode: 403
