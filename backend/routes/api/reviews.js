@@ -95,7 +95,9 @@ router.get('/current', authentication, async (req, res, next) => {
 				[Op.and]: [{ preview: true }, { spotId }]
 			}
 		});
-		review.Spot.previewImage = previewImage ? previewImage.url : null;
+		review.Spot.previewImage = previewImage
+			? previewImage.url
+			: 'No preview Images yet!';
 
 		Reviews.push(review);
 	}

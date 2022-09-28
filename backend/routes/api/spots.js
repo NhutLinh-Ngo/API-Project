@@ -318,7 +318,9 @@ router.get('/:spotId', async (req, res, next) => {
 	const resSpot = spot.toJSON();
 	resSpot.numReviews = reviewCount;
 	resSpot.avgStarRating =
-		avgStarRating == NaN ? parseFloat(avgStarRating) : null;
+		avgStarRating == NaN
+			? parseFloat(avgStarRating)
+			: 'No rating for this location yet!';
 	return res.json(resSpot);
 });
 
@@ -441,7 +443,9 @@ router.get(
 				where: { [Op.and]: [{ spotId: spot.id }, { preview: true }] }
 			});
 
-			spot.previewImage = previewImage ? previewImage.url : null;
+			spot.previewImage = previewImage
+				? previewImage.url
+				: 'No preview Image Yet';
 
 			Spots.push(spot);
 		}

@@ -9,6 +9,8 @@ module.exports = {
 				city: 'Lady Bug',
 				state: 'PA',
 				country: 'USA',
+				lat: 30.3435343,
+				lng: 145.3234234,
 				name: 'Coke House',
 				description: 'Perfect weekend getaway',
 				price: 59.99
@@ -19,6 +21,8 @@ module.exports = {
 				city: 'Dont Stop',
 				state: 'OK',
 				country: 'Canada',
+				lat: 24.3435343,
+				lng: 135.3234234,
 				name: 'Running Home',
 				description: 'Awesome home gym',
 				price: 159.99

@@ -20,6 +20,8 @@ router.post('/', validateSignup, async (req, res) => {
 	const token = await setTokenCookie(res, user);
 	const resUser = user.toJSON();
 	resUser.token = token;
+	delete resUser.createdAt;
+	delete resUser.updatedAt;
 	return res.json({
 		user: resUser
 	});
