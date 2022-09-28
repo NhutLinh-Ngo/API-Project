@@ -88,6 +88,7 @@ const validateSpot = [
 	check('price')
 		.exists()
 		.withMessage('Price per day is required')
+		.bail()
 		.isInt({ min: 1 })
 		.withMessage('Minimum price is $1'),
 	handleValidationErrors

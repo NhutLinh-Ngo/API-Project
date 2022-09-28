@@ -68,11 +68,15 @@ app.use((err, _req, _res, next) => {
 	if (err instanceof ValidationError) {
 		err.errors.map((e) => (erObj[e.path] = e.message));
 		err.title = 'Validation error';
+		// Setting status code to 403 if it is a unique constraints
+		const type = err.errors.map((e) => e.type);
+		err.status = type.length ? 403 : null;
 		err.errors = erObj;
 		err.message = 'Validation Error';
 	}
 	next(err);
 });
+
 // Error formatter
 app.use((err, _req, res, _next) => {
 	res.status(err.status || 500);
