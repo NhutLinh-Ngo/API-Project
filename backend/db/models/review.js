@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
 						msg: 'Review text is required'
 					},
 					len: {
-						args: [1, 5000],
-						msg: 'Review must be less than 5000 characters'
+						args: [1, 250],
+						msg: 'Review must be between 1 and 250 characters'
 					}
 				}
 			},
@@ -51,6 +51,9 @@ module.exports = (sequelize, DataTypes) => {
 					max: {
 						args: [5],
 						msg: 'Stars must be an integer from 1 to 5'
+					},
+					isNumeric: {
+						msg: 'Review rating must be a valid number between 1 and 5'
 					}
 				}
 			}

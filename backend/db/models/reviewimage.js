@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
 					notNull: {
 						msg: 'Review image url required'
 					}
+					// isUrl: {
+					// 	msg: 'Review Image must be url'
+					// }
 				}
 			}
 		},
