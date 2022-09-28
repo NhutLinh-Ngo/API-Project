@@ -5,7 +5,7 @@ module.exports = {
 		await queryInterface.bulkInsert('Spots', [
 			{
 				ownerId: 2,
-				address: '123 coke street',
+				address: '123 cokeBoi street',
 				city: 'Lady Bug',
 				state: 'PA',
 				country: 'USA',
