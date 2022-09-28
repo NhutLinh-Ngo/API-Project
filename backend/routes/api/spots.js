@@ -13,7 +13,8 @@ const { authentication } = require('../../utils/auth');
 const {
 	validateSpot,
 	validateQueryParams,
-	validateBookingDates
+	validateBookingDates,
+	validateSpotImage
 } = require('../../utils/validation');
 
 const {
@@ -247,39 +248,44 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 		.json({ message: "Spot couldn't be found", statusCode: 404 });
 });
 // Add an Image to a Spot based on the Spot's id
-router.post('/:spotId/images', authentication, async (req, res, next) => {
-	const spotId = req.params.spotId;
-	const ownerId = req.user.id;
+router.post(
+	'/:spotId/images',
+	authentication,
+	validateSpotImage,
+	async (req, res, next) => {
+		const spotId = req.params.spotId;
+		const ownerId = req.user.id;
 
-	const { url, preview } = req.body;
-	const findSpot = await Spot.findByPk(spotId);
+		const { url, preview } = req.body;
+		const findSpot = await Spot.findByPk(spotId);
 
-	if (findSpot) {
-		// authorization, make sure spot belongs to current user.
-		if (ownerId !== findSpot.ownerId) {
-			return res.status(403).json({ message: 'Forbidden', statusCode: 403 });
+		if (findSpot) {
+			// authorization, make sure spot belongs to current user.
+			if (ownerId !== findSpot.ownerId) {
+				return res.status(403).json({ message: 'Forbidden', statusCode: 403 });
+			}
+
+			// create new spot image
+			const newSpotImage = await SpotImage.build({ spotId, url, preview });
+			await newSpotImage.validate();
+			await newSpotImage.save();
+
+			// associate new spot image with the specified spot
+			findSpot.addSpotImage(newSpotImage);
+
+			// formulate response
+			const resNewSpot = {};
+			resNewSpot.id = newSpotImage.id;
+			resNewSpot.url = newSpotImage.url;
+			resNewSpot.preview = newSpotImage.preview;
+			return res.json(resNewSpot);
 		}
 
-		// create new spot image
-		const newSpotImage = await SpotImage.build({ spotId, url, preview });
-		await newSpotImage.validate();
-		await newSpotImage.save();
-
-		// associate new spot image with the specified spot
-		findSpot.addSpotImage(newSpotImage);
-
-		// formulate response
-		const resNewSpot = {};
-		resNewSpot.id = newSpotImage.id;
-		resNewSpot.url = newSpotImage.url;
-		resNewSpot.preview = newSpotImage.preview;
-		return res.json(resNewSpot);
+		return res
+			.status(404)
+			.json({ message: "Spot couldn't be found", statusCode: 404 });
 	}
-
-	return res
-		.status(404)
-		.json({ message: "Spot couldn't be found", statusCode: 404 });
-});
+);
 // GET SPOT BY SPOT ID
 router.get('/:spotId', async (req, res, next) => {
 	const spotId = req.params.spotId;
