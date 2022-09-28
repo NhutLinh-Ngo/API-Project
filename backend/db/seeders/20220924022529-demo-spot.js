@@ -11,7 +11,7 @@ module.exports = {
 				country: 'USA',
 				name: 'Coke House',
 				description: 'Perfect weekend getaway',
-				price: '59.99'
+				price: 59.99
 			},
 			{
 				ownerId: 2,
@@ -21,7 +21,7 @@ module.exports = {
 				country: 'Canada',
 				name: 'Running Home',
 				description: 'Awesome home gym',
-				price: '159.99'
+				price: 159.99
 			}
 		]);
 	},

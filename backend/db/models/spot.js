@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
 				}
 			},
 			lat: {
-				type: DataTypes.DECIMAL,
+				type: DataTypes.FLOAT,
 				isDecimal: true,
 				validate: {
 					isDecimal: {
@@ -80,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
 				}
 			},
 			lng: {
-				type: DataTypes.DECIMAL,
+				type: DataTypes.FLOAT,
 				isDecimal: true,
 				validate: {
 					isDecimal: {
@@ -92,12 +92,12 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
+					notNull: {
+						msg: 'Name is required'
+					},
 					len: {
 						args: [1, 250],
 						msg: 'Name must be less than 50 characters'
-					},
-					notNull: {
-						msg: 'Name is required'
 					}
 				}
 			},
@@ -109,21 +109,21 @@ module.exports = (sequelize, DataTypes) => {
 						msg: 'Description is required'
 					},
 					len: {
-						args: [1, 5000],
-						msg: 'Name must be less than 5000 characters'
+						args: [1, 250],
+						msg: 'Name must be less than 250 characters'
 					}
 				}
 			},
 			price: {
-				type: DataTypes.DECIMAL,
+				type: DataTypes.FLOAT,
 				allowNull: false,
 				validate: {
+					notNull: {
+						msg: 'Price per day is required'
+					},
 					min: {
 						args: [1],
 						msg: 'Minimum price is $1'
-					},
-					notNull: {
-						msg: 'Price per day is required'
 					}
 				}
 			}
