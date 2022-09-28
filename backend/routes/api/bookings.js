@@ -81,12 +81,7 @@ router.put(
 				});
 			}
 			// cannot edit booking in the past
-			const date = new Date();
-			const year = date.getFullYear();
-			let month = date.getMonth() + 1;
-			const day = date.getDate();
-			month = month < 10 ? `0${month}` : month;
-			const todayDate = `${year}-${month}-${day}`;
+			const todayDate = new Date().toJSON().slice(0, 10);
 			if (
 				foundBooking.endDate <= todayDate ||
 				foundBooking.startDate <= todayDate
