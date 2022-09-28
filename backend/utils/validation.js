@@ -93,9 +93,15 @@ const validateSpot = [
 	handleValidationErrors
 ];
 
+const validateBookingDates = [
+	check('startDate').isDate().withMessage('must be date YYYY-MM-DD format'),
+	check('endDate').isDate().withMessage('must be date YYYY-MM-DD format'),
+	handleValidationErrors
+];
 module.exports = {
 	handleValidationErrors,
 	validateSpot,
 	validateSpotImage,
-	validateQueryParams
+	validateQueryParams,
+	validateBookingDates
 };
