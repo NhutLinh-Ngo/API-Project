@@ -4,7 +4,6 @@ const {
 	Spot,
 	User,
 	Review,
-	sequelize,
 	SpotImage,
 	ReviewImage
 } = require('../../db/models');
@@ -69,15 +68,6 @@ router.get('/current', authentication, async (req, res, next) => {
 		where: {
 			userId
 		},
-		attributes: [
-			'id',
-			'userId',
-			'spotId',
-			'review',
-			'stars',
-			'createdAt',
-			'updatedAt'
-		],
 		include: [
 			{
 				model: User,
@@ -105,8 +95,7 @@ router.get('/current', authentication, async (req, res, next) => {
 				[Op.and]: [{ preview: true }, { spotId }]
 			}
 		});
-		if (previewImage) review.Spot.previewImage = previewImage.url;
-		else review.Spot.previewImage = 'No preview image yet.';
+		review.Spot.previewImage = previewImage ? previewImage.url : null;
 
 		Reviews.push(review);
 	}

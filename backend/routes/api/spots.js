@@ -12,7 +12,6 @@ const { Op } = require('sequelize');
 const { authentication } = require('../../utils/auth');
 const {
 	validateSpot,
-	validateSpotImage,
 	validateQueryParams,
 	validateBookingDates
 } = require('../../utils/validation');
@@ -29,11 +28,7 @@ router.get('/current', authentication, async (req, res, next) => {
 	const ownerId = req.user.id;
 
 	// query all spot owned by current user
-	let findSpots = await Spot.findAll({
-		where: {
-			ownerId
-		}
-	});
+	let findSpots = await Spot.findAll({ where: { ownerId } });
 
 	let Spots = [];
 	// formulating response
@@ -59,7 +54,7 @@ router.get('/current', authentication, async (req, res, next) => {
 				[Op.and]: [{ spotId: spot.id }, { preview: true }]
 			}
 		});
-		if (previewImage) spot.previewImage = previewImage.url;
+		spot.previewImage = previewImage ? previewImage.url : null;
 		Spots.push(spot);
 	}
 
@@ -200,12 +195,7 @@ router.post('/:spotId/reviews', authentication, async (req, res, next) => {
 
 	if (findSpot) {
 		//Check to see wether user have already created a review for this spot
-		const reviewExist = await Review.findOne({
-			where: {
-				spotId,
-				userId
-			}
-		});
+		const reviewExist = await Review.findOne({ where: { spotId, userId } });
 
 		// error response of review already exist for spot/user
 		if (reviewExist) {
@@ -215,13 +205,8 @@ router.post('/:spotId/reviews', authentication, async (req, res, next) => {
 			});
 		}
 
-		//build new view
-		const newReview = await Review.build({
-			spotId,
-			userId,
-			review,
-			stars
-		});
+		//build new Review
+		const newReview = await Review.build({ spotId, userId, review, stars });
 
 		await newReview.validate();
 		await newReview.save();
@@ -232,10 +217,9 @@ router.post('/:spotId/reviews', authentication, async (req, res, next) => {
 	}
 
 	// no Spot found with given Id
-	return res.status(404).json({
-		message: "Spot couldn't be found",
-		statusCode: 404
-	});
+	return res
+		.status(404)
+		.json({ message: "Spot couldn't be found", statusCode: 404 });
 });
 //Get all review by spot Id
 router.get('/:spotId/reviews', async (req, res, next) => {
@@ -258,10 +242,9 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 		return res.json({ Reviews });
 	}
 
-	return res.status(404).json({
-		message: "Spot couldn't be found",
-		statusCode: 404
-	});
+	return res
+		.status(404)
+		.json({ message: "Spot couldn't be found", statusCode: 404 });
 });
 // Add an Image to a Spot based on the Spot's id
 router.post('/:spotId/images', authentication, async (req, res, next) => {
@@ -274,11 +257,7 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 	if (findSpot) {
 		// authorization, make sure spot belongs to current user.
 		if (ownerId !== findSpot.ownerId) {
-			res.status(403);
-			return res.json({
-				message: 'Forbidden',
-				statusCode: 403
-			});
+			return res.status(403).json({ message: 'Forbidden', statusCode: 403 });
 		}
 
 		// create new spot image
@@ -297,11 +276,9 @@ router.post('/:spotId/images', authentication, async (req, res, next) => {
 		return res.json(resNewSpot);
 	}
 
-	res.status(404);
-	return res.json({
-		message: "Spot couldn't be found",
-		statusCode: 404
-	});
+	return res
+		.status(404)
+		.json({ message: "Spot couldn't be found", statusCode: 404 });
 });
 // GET SPOT BY SPOT ID
 router.get('/:spotId', async (req, res, next) => {
@@ -310,27 +287,16 @@ router.get('/:spotId', async (req, res, next) => {
 	// Getting the spot with all spot images and its owner with it,eager loading
 	const spot = await Spot.findByPk(spotId, {
 		include: [
-			{
-				model: SpotImage,
-				attributes: {
-					exclude: ['createdAt', 'updatedAt']
-				}
-			},
-			{
-				model: User,
-				as: 'Owner',
-				attributes: ['id', 'firstName', 'lastName']
-			}
+			{ model: SpotImage, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+			{ model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
 		]
 	});
 
 	// couldn't find a spot with specified Id
 	if (!spot) {
-		res.status(404);
-		return res.json({
-			message: "Spot couldn't be found",
-			statusCode: 404
-		});
+		return res
+			.status(404)
+			.json({ message: "Spot couldn't be found", statusCode: 404 });
 	}
 
 	// get review count and avgStarting based on found spot
@@ -361,25 +327,18 @@ router.delete('/:spotId', authentication, async (req, res, next) => {
 	if (deletingSpot) {
 		//authorization, error if current user is not the owner of the spot
 		if (ownerId !== deletingSpot.ownerId) {
-			return res.status(404).json({
-				message: 'Forbidden',
-				statusCode: 403
-			});
+			return res.status(404).json({ message: 'Forbidden', statusCode: 403 });
 		}
 
 		// deleting the spot, and response successfull
 		await deletingSpot.destroy();
-		return res.json({
-			message: 'Successfully deleted',
-			statusCode: 200
-		});
+		return res.json({ message: 'Successfully deleted', statusCode: 200 });
 	}
 
 	// error response when spot not found
-	return res.status(404).json({
-		message: "Spot couldn't be found",
-		statusCode: 404
-	});
+	return res
+		.status(404)
+		.json({ message: "Spot couldn't be found", statusCode: 404 });
 });
 // EDIT A SPOT
 router.put('/:spotId', authentication, async (req, res, next) => {
@@ -392,17 +351,13 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 
 	// Error if spot cannot be found.
 	if (!findSpot) {
-		return res.status(404).json({
-			message: "Spot couldn't be found",
-			statusCode: 404
-		});
+		return res
+			.status(404)
+			.json({ message: "Spot couldn't be found", statusCode: 404 });
 	}
 	// error if the spot doesn't belong to the current user.
 	if (findSpot.ownerId !== ownerId) {
-		return res.status(403).json({
-			message: 'Forbidden',
-			statusCode: 403
-		});
+		return res.status(403).json({ message: 'Forbidden', statusCode: 403 });
 	}
 
 	//update current spot with given body
@@ -457,19 +412,14 @@ router.get(
 		let pagination = req.pagination;
 		let where = req.where;
 
-		let findSpots = await Spot.findAll({
-			...pagination,
-			where
-		});
+		let findSpots = await Spot.findAll({ ...pagination, where });
 		let Spots = [];
 		for (let i = 0; i < findSpots.length; i++) {
 			let spot = findSpots[i].toJSON();
 			// console.log(spot);
 			// GET AVG Rating for each Spot
 			let rating = await Review.findAll({
-				where: {
-					spotId: Number(spot.id)
-				},
+				where: { spotId: Number(spot.id) },
 				attributes: [
 					[sequelize.fn('AVG', sequelize.col('Review.stars')), 'avgRating']
 				],
@@ -482,12 +432,10 @@ router.get(
 
 			//GET PREVIEW IMAGE
 			let previewImage = await SpotImage.findOne({
-				where: {
-					[Op.and]: [{ spotId: spot.id }, { preview: true }]
-				}
+				where: { [Op.and]: [{ spotId: spot.id }, { preview: true }] }
 			});
-			if (previewImage) spot.previewImage = previewImage.url;
-			else spot.previewImage = 'No preview image Yet.';
+
+			spot.previewImage = previewImage ? previewImage.url : null;
 
 			Spots.push(spot);
 		}
