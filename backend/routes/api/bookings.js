@@ -80,10 +80,17 @@ router.put(
 					statusCode: 403
 				});
 			}
-			// console.log(foundBooking);
 			// cannot edit booking in the past
-			let todayDate = new Date();
-			if (foundBooking.endDate <= todayDate.toString()) {
+			const date = new Date();
+			const year = date.getFullYear();
+			let month = date.getMonth() + 1;
+			const day = date.getDate();
+			month = month < 10 ? `0${month}` : month;
+			const todayDate = `${year}-${month}-${day}`;
+			if (
+				foundBooking.endDate <= todayDate ||
+				foundBooking.startDate <= todayDate
+			) {
 				return res.status(403).json({
 					message: "Past bookings can't be modified",
 					statusCode: 403

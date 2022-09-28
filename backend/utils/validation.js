@@ -24,9 +24,9 @@ const handleValidationErrors = (req, _res, next) => {
 };
 
 const validateSpotImage = [
-	check('url')
-		.exists({ checkFalsy: true })
-		.withMessage('url for image required'),
+	check('preview')
+		.isBoolean()
+		.withMessage('Preview must be boolean true/false'),
 	handleValidationErrors
 ];
 const validateQueryParams = [
