@@ -1,0 +1,76 @@
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    position: absolute;
+    top: 80px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 300px;
+    height: 300px;
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    border: 1px solid rgb(160, 154, 154);
+    border-radius: 15px;
+}
+.login-form-wrapper > h4{
+    margin-bottom: 30px;
+}
+.login-form-wrapper>h5 {
+    margin-top: 35px;
+    font-size: 20px;
+}
+.login-title{
+    position: relative;
+}
+.login-form{
+    width: 100%;
+    margin: 10 50px;
+}
+.close-login{
+    position: absolute;
+    top:10px;
+    left: 20px;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+.close-login:hover{
+    background-color: rgb(236, 231, 231);
+    cursor: pointer;
+}
+
+.input{
+    /* border: 1px solid green; */
+    margin-bottom: 10px;
+    width: 100%;
+}
+.input-box {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    text-indent: 10px;
+}
+
+.login-submit-button{
+    width: 100%;
+    margin-top: 30px;
+    border-radius: 10px;
+    height: 30px;
+    color: white;
+    font-size: 13px;
+    background-color: rgb(227, 84, 84);
+    border: none;
+    cursor: pointer;
+}
+
+.login_error{
+    position: absolute;
+    bottom: 45%;
+    font-size: 12px;
+    text-align: center;
+    color: red;
+}
