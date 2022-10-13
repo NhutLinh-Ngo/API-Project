@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import './LoginFormPage.css';
 export default function LoginFormPage() {
@@ -32,7 +32,9 @@ export default function LoginFormPage() {
 	};
 	return (
 		<div className="login-form-wrapper">
-			<p className="close-login">x</p>
+			<p className="close-login" onClick={() => history.push('/')}>
+				x
+			</p>
 			<h4 className="login-title">Login</h4>
 			<form onSubmit={onSubmit} className="login-form">
 				<div className="input">
@@ -70,7 +72,10 @@ export default function LoginFormPage() {
 					Log In
 				</button>
 			</form>
-			<h5>Welcome to AriBnb</h5>
+			<h5>Welcome back to NhutBnB</h5>
+			<p className="login-singup-toggle">
+				Don't have an account? <Link to="/signup"> signup</Link>
+			</p>
 		</div>
 	);
 }

@@ -7,8 +7,8 @@
     top: 80px;
     right: 50%;
     transform: translateX(50%);
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 490px;
     padding-top: 30px;
     padding-right: 30px;
     padding-left: 30px;
@@ -19,18 +19,27 @@
     margin-bottom: 30px;
 }
 .login-form-wrapper>h5 {
+    position: absolute;
+    bottom:  120px;
     margin-top: 35px;
     font-size: 20px;
+    font-weight: 300;
 }
 .login-title{
-    position: relative;
+    text-align: center;
+    position:absolute;
+    border-bottom: 1px solid rgba(118 118 118/0.4);
+    padding-bottom: 10px;
+    width: 100%;
 }
 .login-form{
     width: 100%;
     margin: 10 50px;
+    position: relative;
+    top: 60px;
 }
 .close-login{
-    position: absolute;
+    position: fixed;
     top:10px;
     left: 20px;
     padding: 5px 10px;
@@ -49,10 +58,17 @@
 }
 .input-box {
     width: 100%;
-    height: 30px;
+    height: 35px;
     border-radius: 10px;
+    margin-bottom: 10px;
     border: 1px solid gray;
     text-indent: 10px;
+}
+.input-box:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 .login-submit-button{
@@ -62,15 +78,22 @@
     height: 30px;
     color: white;
     font-size: 13px;
-    background-color: rgb(227, 84, 84);
+    background-color: rgb(255 90 95);
     border: none;
     cursor: pointer;
+    height: 40px;
 }
 
 .login_error{
     position: absolute;
-    bottom: 45%;
+    bottom: 30%;
     font-size: 12px;
     text-align: center;
     color: red;
+}
+.login-singup-toggle{
+    position: absolute;
+    bottom: 10px;
+    font-size: 13px;
+
 }
