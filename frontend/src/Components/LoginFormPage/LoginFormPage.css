@@ -14,6 +14,7 @@
     padding-left: 30px;
     border: 1px solid rgb(160, 154, 154);
     border-radius: 15px;
+    background-color: white;
 }
 .login-form-wrapper > h4{
     margin-bottom: 30px;
@@ -78,10 +79,11 @@
     height: 30px;
     color: white;
     font-size: 13px;
-    background-color: #df1561;
+    /* background-color: #df1561; */
     border: none;
     cursor: pointer;
     height: 40px;
+    background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
 }
 
 .login_error{

@@ -14,7 +14,7 @@ function App() {
 
 	return (
 		isLoaded && (
-			<div>
+			<div className="main-page-wrapper">
 				<Navigation isLoaded={isLoaded} />
 				<Switch>
 					<Route path="/login">

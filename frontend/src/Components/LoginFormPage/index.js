@@ -30,6 +30,17 @@ export default function LoginFormPage() {
 			}
 		);
 	};
+	const handleDemo = (e) => {
+		e.preventDefault();
+
+		return dispatch(
+			sessionActions.login({ credential: 'Cokeboi68', password: 'cokeboi123' })
+		).catch(async (res) => {
+			const data = await res.json();
+			if (data && data.errors) setErrors(data.errors);
+		});
+	};
+
 	return (
 		<div className="login-form-wrapper">
 			<p className="close-login" onClick={() => history.push('/')}>
@@ -70,6 +81,9 @@ export default function LoginFormPage() {
 					))}
 				<button type="submit" className="login-submit-button">
 					Log In
+				</button>
+				<button className="login-submit-button" onClick={handleDemo}>
+					Demo-User
 				</button>
 			</form>
 			<h5>Welcome back to NhutBnB</h5>
