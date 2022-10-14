@@ -3,8 +3,8 @@
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
-    position: absolute;
-    top: 80px;
+    position: fixed;
+    top: 120px;
     right: 50%;
     transform: translateX(50%);
     width: 400px;
@@ -78,7 +78,7 @@
     height: 30px;
     color: white;
     font-size: 13px;
-    background-color: rgb(255 90 95);
+    background-color: #df1561;
     border: none;
     cursor: pointer;
     height: 40px;

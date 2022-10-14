@@ -3,8 +3,8 @@
         flex-direction: column;
         /* justify-content: center; */
         align-items: center;
-        position: absolute;
-        top: 80px;
+        position: fixed;
+        top: 120px;
         right: 50%;
         transform: translateX(50%);
         width: 400px;
@@ -28,7 +28,7 @@
         height: 30px;
         color: white;
         font-size: 13px;
-        background-color: rgb(255 90 95);
+        background-color: #df1561;
         border: none;
         cursor: pointer;
         height: 40px;
@@ -36,42 +36,42 @@
 
 .signup-error1{
     position: absolute;
-        top: 40px;
+        top: 38px;
         font-size: 12px;
         text-align: center;
         color: red;
 }
 .signup-error2{
     position: absolute;
-        top: 98px;
+        top: 93px;
         font-size: 12px;
         text-align: center;
         color: red;
 }
 .signup-error3{
     position: absolute;
-        top: 154px;
+        top: 148px;
         font-size: 12px;
         text-align: center;
         color: red;
 }
 .signup-error4{
     position: absolute;
-        top: 210px;
+        top: 203px;
         font-size: 12px;
         text-align: center;
         color: red;
 }
 .signup-error5{
     position: absolute;
-        top: 268px;
+        top: 258px;
         font-size: 12px;
         text-align: center;
         color: red;
 }
 .signup-error6{
     position: absolute;
-        top: 325px;
+        top: 313px;
         font-size: 12px;
         text-align: center;
         color: red;

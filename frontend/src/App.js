@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import LoginFormPage from './Components/LoginFormPage';
 import SignupFormPage from './Components/SignupFormPage';
+import Navigation from './Components/Navigation';
 import * as sessionActions from './store/session';
 function App() {
 	const dispatch = useDispatch();
@@ -14,17 +15,14 @@ function App() {
 	return (
 		isLoaded && (
 			<div>
+				<Navigation isLoaded={isLoaded} />
 				<Switch>
-					<Route exact path="/">
-						Home Page
-					</Route>
 					<Route path="/login">
 						<LoginFormPage />
 					</Route>
 					<Route path="/signup">
 						<SignupFormPage />
 					</Route>
-					<Route>Page Not Found</Route>
 				</Switch>
 			</div>
 		)
