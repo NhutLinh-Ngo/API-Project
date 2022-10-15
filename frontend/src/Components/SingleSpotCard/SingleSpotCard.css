@@ -1,0 +1,37 @@
+.single-spot-card-wrapper{
+    height: 350px;
+    width: 280px;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 2%;
+    cursor: pointer;
+}
+.single-card-previewImage{
+    max-width: 100%;
+    height: 70%;
+    border-radius: 10px;
+}
+
+.card-row{
+    margin-bottom: 4%;
+}
+
+.single-card-row1{
+    margin-top: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.87em;
+}
+
+.single-card-row2{
+    color: #717171;
+    font-size: 1em;
+}
+
+.single-card-row4 > span{
+    font-weight: bold;
+}
+.single-card-row4{
+    font-size: 15px;
+}

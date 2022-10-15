@@ -1,0 +1,101 @@
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    position: fixed;
+    top: 120px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 400px;
+    height: 490px;
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    border: 1px solid rgb(160, 154, 154);
+    border-radius: 15px;
+    background-color: white;
+}
+.login-form-wrapper > h4{
+    margin-bottom: 30px;
+}
+.login-form-wrapper>h5 {
+    position: absolute;
+    bottom:  120px;
+    margin-top: 35px;
+    font-size: 20px;
+    font-weight: 300;
+}
+.login-title{
+    text-align: center;
+    position:absolute;
+    border-bottom: 1px solid rgba(118 118 118/0.4);
+    padding-bottom: 10px;
+    width: 100%;
+}
+.login-form{
+    width: 100%;
+    margin: 10 50px;
+    position: relative;
+    top: 60px;
+}
+.close-login{
+    position: fixed;
+    top:10px;
+    left: 20px;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+.close-login:hover{
+    background-color: rgb(236, 231, 231);
+    cursor: pointer;
+}
+
+.input{
+    /* border: 1px solid green; */
+    margin-bottom: 10px;
+    width: 100%;
+}
+.input-box {
+    width: 100%;
+    height: 35px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid gray;
+    text-indent: 10px;
+}
+.input-box:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.login-submit-button{
+    width: 100%;
+    margin-top: 30px;
+    border-radius: 10px;
+    height: 30px;
+    color: white;
+    font-size: 13px;
+    /* background-color: #df1561; */
+    border: none;
+    cursor: pointer;
+    height: 40px;
+    background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
+}
+
+.login_error{
+    position: absolute;
+    bottom: 30%;
+    font-size: 12px;
+    text-align: center;
+    color: red;
+}
+.login-singup-toggle{
+    position: absolute;
+    bottom: 10px;
+    font-size: 13px;
+
+}

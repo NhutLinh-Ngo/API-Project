@@ -1,0 +1,6 @@
+.allSpots-wrapper{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3.5rem;
+}
