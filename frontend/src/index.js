@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
+import * as spotsActions from './store/spots';
 
 const store = configureStore();
 
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 	window.csrfFetch = csrfFetch;
 	window.store = store;
 	window.sessionActions = sessionActions;
+	window.spotsActions = spotsActions;
 }
 
 const Root = () => {

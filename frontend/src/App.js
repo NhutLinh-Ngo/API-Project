@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import LoginFormPage from './Components/LoginFormPage';
 import SignupFormPage from './Components/SignupFormPage';
+import AllSpots from './Components/AllSpots';
 import Navigation from './Components/Navigation';
 import * as sessionActions from './store/session';
 function App() {
@@ -17,6 +18,9 @@ function App() {
 			<div className="main-page-wrapper">
 				<Navigation isLoaded={isLoaded} />
 				<Switch>
+					<Route exact path="/">
+						<AllSpots />
+					</Route>
 					<Route path="/login">
 						<LoginFormPage />
 					</Route>
