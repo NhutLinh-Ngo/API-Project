@@ -9,7 +9,6 @@
     padding: 20px 4.5%;
     overflow: hidden;
     box-sizing: border-box;
-    z-index: 10;
     background-color: white;
 }
 .nav-dropped-down{
@@ -35,6 +34,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    cursor: pointer;
 
 }
 .nav-dropped-down-li:hover{

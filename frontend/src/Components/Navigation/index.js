@@ -2,11 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
+import { Modal } from '../../context/Modal';
+import LoginForm from '../LoginFormModal';
+import SignupFormPage from '../SignupFormPage';
+import useModalVariableContext from '../../context/ModalShowVariable';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector((state) => state.session.user);
 	const [showMenu, setShowMenu] = useState(false);
+	const {
+		showModalLogin,
+		setShowModalLogin,
+		showModalSignup,
+		setShowModalSignup
+	} = useModalVariableContext();
 	let sessionLinks;
 
 	const openMenu = () => {
@@ -37,34 +47,29 @@ function Navigation({ isLoaded }) {
 				</button>
 				{showMenu && (
 					<ul className="nav-dropped-down">
-						<li className="nav-dropped-down-li">
-							{' '}
-							<NavLink
-								to="/login"
-								style={{
-									paddingLeft: 5,
-									textDecoration: 'none',
-									width: '100%',
-									color: 'black'
-								}}
-							>
-								Log In
-							</NavLink>
+						<li
+							className="nav-dropped-down-li"
+							onClick={() => setShowModalLogin(true)}
+						>
+							Log In
 						</li>
-						<li className="nav-dropped-down-li">
-							<NavLink
-								to="/signup"
-								style={{
-									paddingLeft: 5,
-									textDecoration: 'none',
-									width: '100%',
-									color: 'black'
-								}}
-							>
-								Sign Up
-							</NavLink>
+						<li
+							className="nav-dropped-down-li"
+							onClick={() => setShowModalSignup(true)}
+						>
+							Sign Up
 						</li>
 					</ul>
+				)}
+				{showModalLogin && (
+					<Modal onClose={() => setShowModalLogin(false)}>
+						<LoginForm />
+					</Modal>
+				)}
+				{showModalSignup && (
+					<Modal onClose={() => setShowModalSignup(false)}>
+						<SignupFormPage />
+					</Modal>
 				)}
 			</>
 		);
@@ -75,9 +80,6 @@ function Navigation({ isLoaded }) {
 			<NavLink exact to="/">
 				Home
 			</NavLink>
-			{/* <ul className="navbar-ul">
-				<li>{isLoaded && sessionLinks}</li>
-			</ul> */}
 			{isLoaded && sessionLinks}
 		</div>
 	);

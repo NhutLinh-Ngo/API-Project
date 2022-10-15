@@ -6,6 +6,8 @@ import configureStore from './store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { restoreCSRF, csrfFetch } from './store/csrf';
+import { ModalProvider } from './context/Modal';
+import { ModalVariableProviser } from './context/ModalShowVariable';
 import * as sessionActions from './store/session';
 import * as spotsActions from './store/spots';
 
@@ -23,9 +25,13 @@ if (process.env.NODE_ENV !== 'production') {
 const Root = () => {
 	return (
 		<Provider store={store}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
+			<ModalVariableProviser>
+				<ModalProvider>
+					<BrowserRouter>
+						<App />
+					</BrowserRouter>
+				</ModalProvider>
+			</ModalVariableProviser>
 		</Provider>
 	);
 };

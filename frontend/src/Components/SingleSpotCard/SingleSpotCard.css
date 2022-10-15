@@ -4,7 +4,7 @@
     padding: 0;
     overflow: hidden;
     margin-bottom: 2%;
-    /* border: 1px solid red; */
+    cursor: pointer;
 }
 .single-card-previewImage{
     max-width: 100%;

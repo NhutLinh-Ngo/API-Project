@@ -2,48 +2,53 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import useModalVariableContext from '../../context/ModalShowVariable';
 import './LoginFormPage.css';
 export default function LoginFormPage() {
 	const [credential, setCredential] = useState('');
 	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState([]);
 	const [hasSummited, setHasSummited] = useState(false);
-	const dispatch = useDispatch();
-	const history = useHistory();
-	const sessionUser = useSelector((state) => state.session.user);
 
-	if (sessionUser) {
-		return <Redirect to="/" />;
-	}
+	const dispatch = useDispatch();
+
+	const { setShowModalLogin, setShowModalSignup } = useModalVariableContext();
+
+	const switchToSignupModal = () => {
+		setShowModalLogin(false);
+		setShowModalSignup(true);
+	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 		setErrors([]);
 		setHasSummited(true);
 
-		return dispatch(sessionActions.login({ credential, password })).catch(
-			async (res) => {
+		return dispatch(sessionActions.login({ credential, password }))
+			.then(() => setShowModalLogin(false))
+			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.errors) {
 					setErrors(data.errors);
 				}
-			}
-		);
+			});
 	};
 	const handleDemo = (e) => {
 		e.preventDefault();
 
 		return dispatch(
 			sessionActions.login({ credential: 'Cokeboi68', password: 'cokeboi123' })
-		).catch(async (res) => {
-			const data = await res.json();
-			if (data && data.errors) setErrors(data.errors);
-		});
+		)
+			.then(() => setShowModalLogin(false))
+			.catch(async (res) => {
+				const data = await res.json();
+				if (data && data.errors) setErrors(data.errors);
+			});
 	};
 
 	return (
 		<div className="login-form-wrapper">
-			<p className="close-login" onClick={() => history.push('/')}>
+			<p className="close-login" onClick={() => setShowModalLogin(false)}>
 				x
 			</p>
 			<h4 className="login-title">Login</h4>
@@ -88,7 +93,18 @@ export default function LoginFormPage() {
 			</form>
 			<h5>Welcome back to NhutBnB</h5>
 			<p className="login-singup-toggle">
-				Don't have an account? <Link to="/signup"> signup</Link>
+				Don't have an account?{' '}
+				<span
+					style={{
+						cursor: 'pointer',
+						fontSize: '14px',
+						textDecoration: 'underline'
+					}}
+					onClick={switchToSignupModal}
+				>
+					{'  '}
+					signup
+				</span>
 			</p>
 		</div>
 	);

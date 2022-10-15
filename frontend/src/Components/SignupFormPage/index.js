@@ -2,26 +2,30 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import useModalVariableContext from '../../context/ModalShowVariable';
 import './SignupFormPage.css';
 
 export default function SignupFormPage() {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const sessionUser = useSelector((state) => state.session.user);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [username, setUsername] = useState('');
-	const [hasSummited, setHasSummited] = useState(false);
+	const [hasSubmit, setHasSubmit] = useState(false);
 	const [errors, setErrors] = useState({});
+	const { setShowModalLogin, setShowModalSignup } = useModalVariableContext();
 
-	if (sessionUser) return <Redirect to="/" />;
+	const switchToLoginModal = () => {
+		setShowModalLogin(true);
+		setShowModalSignup(false);
+	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setHasSummited(true);
+		setHasSubmit(true);
 		if (password !== confirmPassword) {
 			return setErrors({ confirmPassword: 'Passwords do not match!' });
 		}
@@ -35,17 +39,19 @@ export default function SignupFormPage() {
 			password
 		};
 
-		return dispatch(sessionActions.signup(signupInfo)).catch(async (res) => {
-			const data = await res.json();
-			if (data && data.errors) {
-				setErrors(data.errors);
-			}
-		});
+		return dispatch(sessionActions.signup(signupInfo))
+			.then(() => setShowModalSignup(false))
+			.catch(async (res) => {
+				const data = await res.json();
+				if (data && data.errors) {
+					setErrors(data.errors);
+				}
+			});
 	};
 
 	return (
 		<div className="signup-form-wrapper">
-			<p className="close-login" onClick={() => history.push('/')}>
+			<p className="close-login" onClick={() => setShowModalSignup(false)}>
 				x
 			</p>
 			<h4 className="login-title">Signup</h4>
@@ -60,7 +66,7 @@ export default function SignupFormPage() {
 						// required
 					/>
 				</div>
-				{hasSummited && (
+				{hasSubmit && (
 					<div className="signup-error1">
 						{errors.firstName ? errors.firstName : null}
 					</div>
@@ -75,7 +81,7 @@ export default function SignupFormPage() {
 						// required
 					/>
 				</div>
-				{hasSummited && (
+				{hasSubmit && (
 					<div className="signup-error2">
 						{errors.lastName ? errors.lastName : null}
 					</div>
@@ -90,7 +96,7 @@ export default function SignupFormPage() {
 						// required
 					/>
 				</div>
-				{hasSummited && (
+				{hasSubmit && (
 					<div className="signup-error3">
 						{errors.email ? errors.email : null}
 					</div>
@@ -105,7 +111,7 @@ export default function SignupFormPage() {
 						// required
 					/>
 				</div>
-				{hasSummited && (
+				{hasSubmit && (
 					<div className="signup-error4">
 						{errors.username ? errors.username : null}
 					</div>
@@ -120,7 +126,7 @@ export default function SignupFormPage() {
 						// required
 					/>
 				</div>
-				{hasSummited && (
+				{hasSubmit && (
 					<div className="signup-error5">
 						{errors.password ? errors.password : null}
 					</div>
@@ -135,7 +141,7 @@ export default function SignupFormPage() {
 						// required
 					/>
 				</div>
-				{hasSummited && (
+				{hasSubmit && (
 					<div className="signup-error6">
 						{errors.confirmPassword ? errors.confirmPassword : null}
 					</div>
@@ -145,7 +151,18 @@ export default function SignupFormPage() {
 				</button>
 			</form>
 			<p className="login-singup-toggle">
-				Already have an account? <Link to="/login"> Login</Link>
+				Already have an account?{' '}
+				<span
+					style={{
+						cursor: 'pointer',
+						fontSize: '14px',
+						textDecoration: 'underline'
+					}}
+					onClick={switchToLoginModal}
+				>
+					{'  '}
+					Login
+				</span>
 			</p>
 		</div>
 	);
