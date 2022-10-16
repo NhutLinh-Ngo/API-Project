@@ -2,6 +2,7 @@ import React, { useContext, useState, createContext } from 'react';
 import ReactDOM from 'react-dom';
 
 const ModalVariableContext = createContext();
+
 export function ModalVariableProviser({ children }) {
 	const [showModalLogin, setShowModalLogin] = useState(false);
 	const [showModalSignup, setShowModalSignup] = useState(false);
