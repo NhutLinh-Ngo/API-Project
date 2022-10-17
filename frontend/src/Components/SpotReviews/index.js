@@ -47,8 +47,8 @@ export default function SpotReviews({ spot }) {
 				</Modal>
 			)}
 			<div className="reviews-wrapper">
-				{spotReviews?.map((review) => (
-					<div className="review-wrapper">
+				{spotReviews?.map((review, i) => (
+					<div className="review-wrapper" key={i}>
 						<div className="review-row1">
 							<img
 								src="https://img.icons8.com/external-others-inmotus-design/67/000000/external-User-virtual-keyboard-others-inmotus-design-6.png"

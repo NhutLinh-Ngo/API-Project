@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaStar } from 'react-icons/fa';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import useModalVariableContext from '../../context/ModalShowVariable';
+import * as spotsActions from '../../store/spots';
 import './SpotReviewFormModal.css';
 export default function SpotReviewForm() {
 	const { spotId } = useParams();

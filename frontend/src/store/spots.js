@@ -22,6 +22,8 @@ const initialState = {
 //todo: define TYPES
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const LOAD_SINGLE_SPOT_DETAILS = '/spots/LOAD_SINGLE_SPOT_DETAILS';
+const ADD_SPOT = 'spots/ADD_SPOT';
+const ADD_IMAGE = '/spots/ADD_IMAGE';
 
 //todo: define ACTIONS
 const loadSpots = (allSpots) => {
@@ -35,6 +37,20 @@ const loadSingleSpots = (spot) => {
 	return {
 		type: LOAD_SINGLE_SPOT_DETAILS,
 		spot
+	};
+};
+
+const addSpot = (spot) => {
+	return {
+		type: ADD_SPOT,
+		spot
+	};
+};
+
+const addImage = (imageUrl) => {
+	return {
+		type: ADD_IMAGE,
+		imageUrl
 	};
 };
 // todo: define THUNKS
@@ -56,6 +72,31 @@ export const getDetailsOfSpot = (spotId) => async (dispatch) => {
 		dispatch(loadSingleSpots(spotData));
 	}
 };
+
+export const CreateNewSpot = (spotInfo) => async (dispatch) => {
+	const res = await csrfFetch('/api/spots', {
+		method: 'POST',
+		body: JSON.stringify(spotInfo)
+	});
+
+	if (res.ok) {
+		const newSpotData = await res.json();
+		dispatch(addSpot(newSpotData));
+		return newSpotData;
+	}
+};
+
+export const AddImageToSpot = (imageInfo, spotId) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+		method: 'POST',
+		body: JSON.stringify(imageInfo)
+	});
+
+	if (res.ok) {
+		const data = res.json();
+		return data;
+	}
+};
 //todo: define REDUCER
 const spotsReducer = (state = initialState, action) => {
 	Object.freeze(state);
@@ -66,6 +107,9 @@ const spotsReducer = (state = initialState, action) => {
 			return spotsState;
 		case LOAD_SINGLE_SPOT_DETAILS:
 			spotsState.SingleSpots = action.spot;
+			return spotsState;
+		case ADD_SPOT:
+			spotsState.AllSpots[action.spot.id] = action.spot;
 			return spotsState;
 		default:
 			return state;

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import AllSpots from './Components/AllSpots';
 import Navigation from './Components/Navigation';
 import SingleSpotDetails from './Components/SingleSpotDetails';
+import CreateSpotFormPage from './Components/CreateSpotFormPage';
 import * as sessionActions from './store/session';
 function App() {
 	const dispatch = useDispatch();
@@ -15,13 +16,17 @@ function App() {
 	return (
 		isLoaded && (
 			<div className="main-page-wrapper">
-				<Navigation isLoaded={isLoaded} />
 				<Switch>
 					<Route exact path="/">
+						<Navigation isLoaded={isLoaded} />
 						<AllSpots />
 					</Route>
 					<Route path="/spots/:spotId">
+						<Navigation isLoaded={isLoaded} />
 						<SingleSpotDetails />
+					</Route>
+					<Route path="/lets-make-money">
+						<CreateSpotFormPage />
 					</Route>
 				</Switch>
 			</div>

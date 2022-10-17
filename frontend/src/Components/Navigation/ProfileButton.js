@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
@@ -29,9 +30,13 @@ function ProfileButton({ user }) {
 	};
 
 	return (
-		<>
-			<button onClick={openMenu} className="navbar-button signed-in">
-				<i class="fa-sharp fa-solid fa-user"></i>
+		<div className="nav-bar-loggedIn">
+			<NavLink to="/lets-make-money" className="become-host">
+				Become a host
+			</NavLink>
+			<button onClick={openMenu} className="navbar-button">
+				<i class="fa-solid fa-bars"></i>
+				<i class="fa-solid fa-circle-user"></i>
 			</button>
 			{showMenu && (
 				<ul className="nav-dropped-down">
@@ -46,7 +51,7 @@ function ProfileButton({ user }) {
 					</li>
 				</ul>
 			)}
-		</>
+		</div>
 	);
 }
 

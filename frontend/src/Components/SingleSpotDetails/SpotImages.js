@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './SingleSpotDetails.css';
 
 export default function SpotImages({ spot, previewImage, otherImages }) {
+	console.log(otherImages);
 	return (
 		<div className="spot-details-images-wrapper">
 			<div className="spot-details-preview-image">

@@ -11,6 +11,25 @@
     box-sizing: border-box;
     background-color: white;
 }
+.nav-bar-loggedIn{
+    display: flex;
+    align-items: center;
+    column-gap: 2rem;
+}
+.become-host{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 37px;
+    width: 150px;
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    border-radius: 37px;
+}
+.become-host:hover{
+    background-color: rgb(244, 244, 244);
+}
 .nav-dropped-down{
     height: 130px;
     width: 200px;

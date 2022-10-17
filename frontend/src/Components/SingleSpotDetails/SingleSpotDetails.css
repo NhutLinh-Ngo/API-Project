@@ -112,6 +112,9 @@
     flex-grow: 1;
  }
 
+ .empty-div{
+    background-color: yellow;
+ }
  @media (max-width: 1110px) {
     .spot-details-wrapper{
         max-width: 980px;
