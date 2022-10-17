@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailsOfSpot } from '../../store/spots';
 import { useParams } from 'react-router-dom';
 import Title from './Title';
 import SpotImages from './SpotImages';
 import SpotDetailsBody from './SpotDetailsBody';
+import SpotReviews from '../SpotReviews';
 import './SingleSpotDetails.css';
+
 export default function SingleSpotDetails() {
 	const dispatch = useDispatch();
 	const { spotId } = useParams();
@@ -43,6 +45,7 @@ export default function SingleSpotDetails() {
 				previewImage={previewImage}
 			/>
 			<SpotDetailsBody name={name} spot={spot} />
+			<SpotReviews spot={spot} />
 		</div>
 	);
 }

@@ -6,6 +6,7 @@ const ModalVariableContext = createContext();
 export function ModalVariableProviser({ children }) {
 	const [showModalLogin, setShowModalLogin] = useState(false);
 	const [showModalSignup, setShowModalSignup] = useState(false);
+	const [showModalReview, setShowModalReview] = useState(false);
 
 	return (
 		<ModalVariableContext.Provider
@@ -13,7 +14,9 @@ export function ModalVariableProviser({ children }) {
 				showModalLogin,
 				setShowModalLogin,
 				showModalSignup,
-				setShowModalSignup
+				setShowModalSignup,
+				showModalReview,
+				setShowModalReview
 			}}
 		>
 			{children}
