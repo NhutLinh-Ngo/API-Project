@@ -1,0 +1,46 @@
+.spot-reviews-wrapper{
+    /* border: 1px solid red; */
+    padding: 2rem 0;
+}
+.review-title{
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.create-new-review{
+    border: none;
+    background-color: white;
+    text-decoration: underline;
+    font-size: 1.1rem;
+    font-weight: 300;
+    cursor: pointer;
+}
+.reviews-wrapper{
+    display: flex;
+    width: 100%;
+    margin-top: 1.2rem;
+}
+.review-wrapper {
+    width: 50%;
+}
+.review-row1 {
+    display: flex;
+}
+
+.review-row2{
+    margin-top: 1rem;
+    font-weight: 300;
+}
+.review-name-date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 0.5rem;
+}
+
+.reviewer-name {
+    font-weight: bold;
+}
+
+.review-date {
+    color: #717171;
+}

@@ -21,6 +21,7 @@ const initialState = {
 };
 //todo: define TYPES
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
+const LOAD_SINGLE_SPOT_DETAILS = '/spots/LOAD_SINGLE_SPOT_DETAILS';
 
 //todo: define ACTIONS
 const loadSpots = (allSpots) => {
@@ -30,6 +31,12 @@ const loadSpots = (allSpots) => {
 	};
 };
 
+const loadSingleSpots = (spot) => {
+	return {
+		type: LOAD_SINGLE_SPOT_DETAILS,
+		spot
+	};
+};
 // todo: define THUNKS
 export const getAllSpots = () => async (dispatch) => {
 	const res = await fetch('/api/spots');
@@ -41,6 +48,14 @@ export const getAllSpots = () => async (dispatch) => {
 	}
 };
 
+export const getDetailsOfSpot = (spotId) => async (dispatch) => {
+	const res = await fetch(`/api/spots/${spotId}`);
+
+	if (res.ok) {
+		const spotData = await res.json();
+		dispatch(loadSingleSpots(spotData));
+	}
+};
 //todo: define REDUCER
 const spotsReducer = (state = initialState, action) => {
 	Object.freeze(state);
@@ -48,6 +63,9 @@ const spotsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case LOAD_SPOTS:
 			spotsState.AllSpots = action.allSpots;
+			return spotsState;
+		case LOAD_SINGLE_SPOT_DETAILS:
+			spotsState.SingleSpots = action.spot;
 			return spotsState;
 		default:
 			return state;

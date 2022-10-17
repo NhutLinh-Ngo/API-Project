@@ -16,9 +16,9 @@ export default function AllSpots() {
 	if (!allSpots.length) return null;
 
 	return (
-		<div className="allSpots-wrapper" style={{ marginTop: '120px' }}>
+		<div className="allSpots-wrapper">
 			{allSpots?.map((spot) => (
-				<SingleSpotCard spot={spot} />
+				<SingleSpotCard spot={spot} key={spot.id} />
 			))}
 		</div>
 	);

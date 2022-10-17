@@ -321,8 +321,8 @@ router.get('/:spotId', async (req, res, next) => {
 	resSpot.numReviews = reviewCount;
 	resSpot.avgStarRating =
 		avgStarRating == NaN
-			? parseFloat(avgStarRating)
-			: 'No rating for this location yet!';
+			? 'No rating for this location yet!'
+			: parseFloat(avgStarRating);
 	return res.json(resSpot);
 });
 
