@@ -14,7 +14,9 @@ export default function SingleSpotTitle({ spot }) {
 				•
 				<span className="spot-details-tile-reviews">
 					{' '}
-					{spot.numReviews} reviews{' '}
+					<a href="#all-reviews" style={{ color: 'black' }}>
+						{spot.numReviews} reviews
+					</a>
 				</span>{' '}
 				•{' '}
 				<span className="spot-details-tile-location">

@@ -1,0 +1,52 @@
+.star-input{
+    display: none;
+    cursor: pointer;
+}
+
+.rating-text{
+    margin-bottom: 0.5rem;
+    color: lightgray;
+}
+.review-form{
+    text-align: center;
+
+}
+
+
+.review-text{
+    resize: none;
+    width: 80%;
+    height: 150px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+}
+.review-text:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.review-text-wrapper{
+    margin-top: 1.5rem;
+}
+
+.review-text-title{
+    font-weight: 500;
+}
+.review-text-subTitle{
+    color: lightgray;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.review-button{
+    width: 30%;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+}

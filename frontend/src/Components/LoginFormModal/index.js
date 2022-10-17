@@ -33,6 +33,7 @@ export default function LoginFormPage() {
 				}
 			});
 	};
+
 	const handleDemo = (e) => {
 		e.preventDefault();
 

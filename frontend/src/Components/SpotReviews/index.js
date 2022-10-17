@@ -23,54 +23,52 @@ export default function SpotReviews({ spot }) {
 	let allowReview = false;
 	if (sessionUser && sessionUser.id !== spot.Owner.id) allowReview = true;
 	return (
-		<a id="jump-to-reviews">
-			<div className="spot-reviews-wrapper">
-				<div className="review-title">
-					<i class="fa-solid fa-star"></i>{' '}
-					{spot.avgStarRating
-						? spot.avgStarRating
-						: 'Be the first to review this place!'}{' '}
-					• {spot.numReviews} reviews
-				</div>
-				{allowReview && (
-					<button
-						type="button"
-						className="create-new-review"
-						onClick={() => setShowModalReview(true)}
-					>
-						{' '}
-						Write a review
-					</button>
-				)}
-				{showModalReview && (
-					<Modal onClose={() => setShowModalReview(false)}>
-						<SpotReviewForm />
-					</Modal>
-				)}
-				<div className="reviews-wrapper">
-					{spotReviews?.map((review) => (
-						<div className="review-wrapper">
-							<div className="review-row1">
-								<img
-									src="https://img.icons8.com/external-others-inmotus-design/67/000000/external-User-virtual-keyboard-others-inmotus-design-6.png"
-									style={{ height: '50px', width: '50px' }}
-								/>
-								<div className="review-name-date">
-									<div className="reviewer-name">{review.User.firstName}</div>
-									<div className="review-date">
-										{new Date(review.createdAt)
-											.toDateString()
-											.split(' ')
-											.filter((el, i) => i % 2 !== 0)
-											.join(' ')}
-									</div>
+		<div className="spot-reviews-wrapper" id="all-reviews">
+			<div className="review-title">
+				<i class="fa-solid fa-star"></i>{' '}
+				{spot.avgStarRating
+					? spot.avgStarRating
+					: 'Be the first to review this place!'}{' '}
+				• {spot.numReviews} reviews
+			</div>
+			{allowReview && (
+				<button
+					type="button"
+					className="create-new-review"
+					onClick={() => setShowModalReview(true)}
+				>
+					{' '}
+					Write a review
+				</button>
+			)}
+			{showModalReview && (
+				<Modal onClose={() => setShowModalReview(false)}>
+					<SpotReviewForm />
+				</Modal>
+			)}
+			<div className="reviews-wrapper">
+				{spotReviews?.map((review) => (
+					<div className="review-wrapper">
+						<div className="review-row1">
+							<img
+								src="https://img.icons8.com/external-others-inmotus-design/67/000000/external-User-virtual-keyboard-others-inmotus-design-6.png"
+								style={{ height: '50px', width: '50px' }}
+							/>
+							<div className="review-name-date">
+								<div className="reviewer-name">{review.User.firstName}</div>
+								<div className="review-date">
+									{new Date(review.createdAt)
+										.toDateString()
+										.split(' ')
+										.filter((el, i) => i % 2 !== 0)
+										.join(' ')}
 								</div>
 							</div>
-							<div className="review-row2">{review.review}</div>
 						</div>
-					))}
-				</div>
+						<div className="review-row2">{review.review}</div>
+					</div>
+				))}
 			</div>
-		</a>
+		</div>
 	);
 }
