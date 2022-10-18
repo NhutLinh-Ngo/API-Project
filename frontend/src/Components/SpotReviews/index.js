@@ -5,6 +5,7 @@ import { getReviewsBySpotId } from '../../store/review';
 import { Modal } from '../../context/Modal';
 import useModalVariableContext from '../../context/ModalShowVariable';
 import SpotReviewForm from '../SpotReviewFormModal';
+import DeleteReview from '../ReviewDelete';
 import './SpotReviews.css';
 export default function SpotReviews({ spot }) {
 	const { spotId } = useParams();
@@ -19,6 +20,8 @@ export default function SpotReviews({ spot }) {
 	}, [dispatch]);
 
 	if (!spotReviews) return null;
+
+	// Show review Button only if user is logged in, and dont already have a review for this page.
 	let allowReview = false;
 	if (sessionUser && sessionUser.id !== spot.Owner.id) allowReview = true;
 	spotReviews.forEach((review) => {
@@ -58,20 +61,25 @@ export default function SpotReviews({ spot }) {
 				{spotReviews?.map((review, i) => (
 					<div className="review-wrapper" key={i}>
 						<div className="review-row1">
-							<img
-								src="https://img.icons8.com/external-others-inmotus-design/67/000000/external-User-virtual-keyboard-others-inmotus-design-6.png"
-								style={{ height: '50px', width: '50px' }}
-							/>
-							<div className="review-name-date">
-								<div className="reviewer-name">{review.User.firstName}</div>
-								<div className="review-date">
-									{new Date(review.createdAt)
-										.toDateString()
-										.split(' ')
-										.filter((el, i) => i % 2 !== 0)
-										.join(' ')}
+							<div class="reviewer">
+								<img
+									src="https://img.icons8.com/external-others-inmotus-design/67/000000/external-User-virtual-keyboard-others-inmotus-design-6.png"
+									style={{ height: '50px', width: '50px' }}
+								/>
+								<div className="review-name-date">
+									<div className="reviewer-name">{review.User.firstName}</div>
+									<div className="review-date">
+										{new Date(review.createdAt)
+											.toDateString()
+											.split(' ')
+											.filter((el, i) => i % 2 !== 0)
+											.join(' ')}
+									</div>
 								</div>
 							</div>
+							{sessionUser.id === review.userId && (
+								<DeleteReview reviewId={review.id} spotId={spotId} />
+							)}
 						</div>
 						<div className="review-row2">{review.review}</div>
 					</div>
