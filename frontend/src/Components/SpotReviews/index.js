@@ -19,7 +19,6 @@ export default function SpotReviews({ spot }) {
 	}, [dispatch]);
 
 	if (!spotReviews) return null;
-	console.log(spotReviews);
 	let allowReview = false;
 	if (sessionUser && sessionUser.id !== spot.Owner.id) allowReview = true;
 	spotReviews.forEach((review) => {

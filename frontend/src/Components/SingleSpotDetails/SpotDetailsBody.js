@@ -2,7 +2,6 @@ import React from 'react';
 import './SingleSpotDetails.css';
 
 export default function SpotDetailsBody({ spot, name }) {
-	console.log(spot);
 	return (
 		<div className="spot-details-body">
 			<div className="spot-details-body-leftCol">

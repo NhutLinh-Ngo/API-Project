@@ -17,9 +17,11 @@ export default function SpotReviewForm() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	console.log('SPOT ID', spotId);
-	console.log('STAR RATING', stars);
-	console.log('REVIEW', review);
+	const handleReviewReloadData = async () => {
+		setShowModalReview(false);
+		await dispatch(reviewsActions.getReviewsBySpotId(spotId));
+		await dispatch(spotsActions.getDetailsOfSpot(spotId));
+	};
 
 	const HandleSubmitReview = async (e) => {
 		e.preventDefault();
@@ -29,17 +31,18 @@ export default function SpotReviewForm() {
 
 		const reviewInfoData = { review, stars };
 
-		await dispatch(reviewsActions.postReview(reviewInfoData, spotId))
-			.then(setShowModalReview(false))
-			.catch(async (res) => {
-				const data = await res.json();
-				if (data && data.errors) {
-					setErrors(data.errors);
-				}
-			});
-		await dispatch(reviewsActions.getReviewsBySpotId(spotId));
-		await dispatch(spotsActions.getDetailsOfSpot(spotId));
-		history.push(`/spots/${spotId}`);
+		const newReview = await dispatch(
+			reviewsActions.postReview(reviewInfoData, spotId)
+		).catch(async (res) => {
+			const data = await res.json();
+			if (data && data.errors) {
+				setErrors(data.errors);
+			}
+		});
+
+		if (newReview) {
+			handleReviewReloadData();
+		}
 	};
 	return (
 		<div className="login-form-wrapper">
