@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import './AllSpots.css';
-import SingleSpotCard from '../SingleSpotCard';
+import SingleSpotCard from '../SpotSingleCard';
 import * as spotsActions from '../../store/spots';
 
 export default function AllSpots() {

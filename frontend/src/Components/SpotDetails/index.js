@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Title from './Title';
 import SpotImages from './SpotImages';
 import SpotDetailsBody from './SpotDetailsBody';
-import SpotReviews from '../SpotReviews';
+import SpotReviews from '../ReviewsForSpot';
 import './SingleSpotDetails.css';
 
 export default function SingleSpotDetails() {

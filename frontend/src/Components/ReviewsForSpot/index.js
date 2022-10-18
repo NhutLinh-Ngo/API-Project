@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getReviewsBySpotId } from '../../store/review';
 import { Modal } from '../../context/Modal';
 import useModalVariableContext from '../../context/ModalShowVariable';
-import SpotReviewForm from '../SpotReviewFormModal';
+import SpotReviewForm from '../ReviewFormModal';
 import DeleteReview from '../ReviewDelete';
 import './SpotReviews.css';
 export default function SpotReviews({ spot }) {

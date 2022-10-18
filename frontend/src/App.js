@@ -1,12 +1,12 @@
 import { Route, Switch } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import AllSpots from './Components/AllSpots';
+import AllSpots from './Components/SpotsGetAll';
 import Navigation from './Components/Navigation';
-import SingleSpotDetails from './Components/SingleSpotDetails';
-import CreateSpotFormPage from './Components/CreateSpotFormPage';
-import UpdateListingForm from './Components/UpdateListingForm';
-import ScrollToTop from './Components/ScrollToTop';
+import SingleSpotDetails from './Components/SpotDetails';
+import CreateSpotFormPage from './Components/SpotCreateFormPage';
+import UpdateListingForm from './Components/SpotUpdateListingForm';
+import ScrollToTop from './Components/ZScrollToTop';
 import * as sessionActions from './store/session';
 function App() {
 	const dispatch = useDispatch();
