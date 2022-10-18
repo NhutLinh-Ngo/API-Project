@@ -42,6 +42,13 @@ export const getReviewsBySpotId = (spotId) => async (dispatch) => {
 	}
 };
 
+export const postReview = (review, spotId) => async () => {
+	return await csrfFetch(`/api/spots/${spotId}/reviews`, {
+		method: 'POST',
+		body: JSON.stringify(review)
+	});
+};
+
 // todo: Review Reducer
 const ReviewsReducer = (state = initialState, action) => {
 	Object.freeze(state);
