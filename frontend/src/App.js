@@ -6,6 +6,7 @@ import Navigation from './Components/Navigation';
 import SingleSpotDetails from './Components/SingleSpotDetails';
 import CreateSpotFormPage from './Components/CreateSpotFormPage';
 import UpdateListingForm from './Components/UpdateListingForm';
+import ScrollToTop from './Components/ScrollToTop';
 import * as sessionActions from './store/session';
 function App() {
 	const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function App() {
 	return (
 		isLoaded && (
 			<div className="main-page-wrapper">
+				<ScrollToTop />
 				<Switch>
 					<Route exact path="/">
 						<Navigation isLoaded={isLoaded} />
