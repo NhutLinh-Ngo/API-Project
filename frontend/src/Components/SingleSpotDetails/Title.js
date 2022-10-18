@@ -7,7 +7,6 @@ export default function SingleSpotTitle({ spot }) {
 	const { spotId } = useParams();
 	let allowEdit = false;
 	if (sessionUser) allowEdit = sessionUser.id == spot.ownerId;
-	console.log(spot.avgStarRating);
 	return (
 		<div className="spot-details-title-wrapper">
 			<div className="spot-details-main-title">

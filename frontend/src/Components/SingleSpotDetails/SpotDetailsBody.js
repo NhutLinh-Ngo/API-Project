@@ -2,13 +2,14 @@ import React from 'react';
 import './SingleSpotDetails.css';
 
 export default function SpotDetailsBody({ spot, name }) {
+	console.log(spot);
 	return (
 		<div className="spot-details-body">
 			<div className="spot-details-body-leftCol">
 				{/* Spot Name and Host  */}
 				<div className="spot-details-hostInfo">
 					<div className="spot-details-hostInfo-row1">
-						{name} hosted by {spot.Owner.firstName}
+						{name} hosted by {spot?.Owner.firstName}
 					</div>
 					<div className="spot-details-hostInfo-row2">spot #: {spot.id}</div>
 				</div>

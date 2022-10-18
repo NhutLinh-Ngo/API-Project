@@ -7,16 +7,17 @@ import './UpdateListingForm.css';
 export default function UpdateListingForm() {
 	const { spotId } = useParams();
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const spot = useSelector((state) => state.spots.SingleSpots);
 
 	// create spot controlled form state
-	const [address, setAddress] = useState(spot.address);
-	const [city, setCity] = useState(spot.city);
-	const [state, setState] = useState(spot.state);
-	const [country, setCountry] = useState(spot.country);
-	const [name, setName] = useState(spot.name);
-	const [description, setDescription] = useState(spot.description);
-	const [price, setPrice] = useState(spot.price);
+	const [address, setAddress] = useState('');
+	const [city, setCity] = useState('');
+	const [state, setState] = useState('');
+	const [country, setCountry] = useState('');
+	const [name, setName] = useState(spot.name || '');
+	const [description, setDescription] = useState('');
+	const [price, setPrice] = useState('');
 	const [errors, setErrors] = useState({});
 	const [hasSubmit, setHasSubmit] = useState(false);
 
@@ -24,9 +25,48 @@ export default function UpdateListingForm() {
 		dispatch(getDetailsOfSpot(spotId));
 	}, [dispatch]);
 
-	if (!spot) return null;
+	useEffect(() => {
+		setAddress(spot.address);
+		setCity(spot.city);
+		setState(spot.state);
+		setCountry(spot.country);
+		setName(spot.name);
+		setDescription(spot.description);
+		setPrice(spot.price);
+	}, [spot]);
 
-	console.log(address, city, state, country, name, description, price);
+	const hanldeUpdateSpot = async (e) => {
+		e.preventDefault();
+		setHasSubmit(true);
+
+		const SpotUpdateInfo = {
+			address,
+			city,
+			state,
+			country,
+			name,
+			description,
+			price
+		};
+		await dispatch(spotsActions.UpdateSpot(SpotUpdateInfo, spotId)).catch(
+			async (res) => {
+				const data = await res.json();
+				if (data && data.errors) {
+					setErrors(data.errors);
+				}
+			}
+		);
+		//REDIRECT TO NEW SPOT IF EVERYTHING GO WELL!
+		if (!Object.values(errors).length) history.push(`/spots/${spotId}`);
+	};
+
+	const HandleDeleteSpot = async () => {
+		if (window.confirm('Please confirm you want to delete this listing!'))
+			await dispatch(spotsActions.DeleteSpot(spotId));
+
+		history.push('/');
+	};
+	if (!Object.values(spot).length) return null;
 	return (
 		<div className="create-page-form-wrapper">
 			<div className="create-spot-home-navlink">
@@ -42,19 +82,10 @@ export default function UpdateListingForm() {
 				Need to make some changes? to <br /> {spot.name}
 			</div>
 			<div className="spot-form-wrapper">
-				<button
-					style={{
-						position: 'absolute',
-						top: '2rem',
-						right: '2rem',
-						border: 'none',
-						backgroundColor: 'white',
-						cursor: 'pointer'
-					}}
-				>
+				<button className="delete-spot-button" onClick={HandleDeleteSpot}>
 					Remove spot from listing
 				</button>
-				<form id="create-form">
+				<form id="create-form" onSubmit={hanldeUpdateSpot}>
 					<input
 						className="spot-form-input"
 						type="text"
@@ -62,11 +93,11 @@ export default function UpdateListingForm() {
 						onChange={(e) => setName(e.target.value)}
 						placeholder="Name of your place"
 					/>
-					{hasSubmit && (
-						<div className="spot-error1 error">
-							{errors.name ? errors.name : <div></div>}
-						</div>
-					)}
+					<div className="spot-error1 error">
+						{hasSubmit && (
+							<span>{errors.name ? errors.name : <div></div>}</span>
+						)}
+					</div>
 					<input
 						className="spot-form-input"
 						type="text"
@@ -74,11 +105,9 @@ export default function UpdateListingForm() {
 						onChange={(e) => setAddress(e.target.value)}
 						placeholder="Address"
 					/>
-					{hasSubmit && (
-						<div className="spot-error2 error">
-							{errors.address ? errors.address : null}
-						</div>
-					)}
+					<div className="spot-error2 error">
+						{hasSubmit && <span>{errors.address ? errors.address : null}</span>}
+					</div>
 					<input
 						className="spot-form-input"
 						type="text"
@@ -86,11 +115,9 @@ export default function UpdateListingForm() {
 						onChange={(e) => setCity(e.target.value)}
 						placeholder="City"
 					/>
-					{hasSubmit && (
-						<div className="spot-error3 error">
-							{errors.city ? errors.city : null}
-						</div>
-					)}
+					<div className="spot-error3 error">
+						{hasSubmit && <span>{errors.city ? errors.city : null}</span>}
+					</div>
 					<input
 						className="spot-form-input"
 						type="text"
@@ -98,11 +125,9 @@ export default function UpdateListingForm() {
 						onChange={(e) => setState(e.target.value)}
 						placeholder="State"
 					/>
-					{hasSubmit && (
-						<div className="spot-error4 error">
-							{errors.state ? errors.state : null}
-						</div>
-					)}
+					<div className="spot-error4 error">
+						{hasSubmit && <span>{errors.state ? errors.state : null}</span>}
+					</div>
 					<input
 						className="spot-form-input"
 						type="text"
@@ -110,11 +135,9 @@ export default function UpdateListingForm() {
 						onChange={(e) => setCountry(e.target.value)}
 						placeholder="Country"
 					/>
-					{hasSubmit && (
-						<div className="spot-error5 error">
-							{errors.country ? errors.country : null}
-						</div>
-					)}
+					<div className="spot-error5 error">
+						{hasSubmit && <span>{errors.country ? errors.country : null}</span>}
+					</div>
 					<textarea
 						className="form-textArea"
 						type="text"
@@ -122,11 +145,11 @@ export default function UpdateListingForm() {
 						onChange={(e) => setDescription(e.target.value)}
 						placeholder="Tell everyone about your amazing place..."
 					/>
-					{hasSubmit && (
-						<div className="spot-error6 error">
-							{errors.description ? errors.description : null}
-						</div>
-					)}
+					<div className="spot-error6 error">
+						{hasSubmit && (
+							<span>{errors.description ? errors.description : null}</span>
+						)}
+					</div>
 					<input
 						className="spot-form-input"
 						type="number"
@@ -134,11 +157,9 @@ export default function UpdateListingForm() {
 						onChange={(e) => setPrice(e.target.value)}
 						placeholder="Price per night"
 					/>
-					{hasSubmit && (
-						<div className="spot-error7 error">
-							{errors.price ? errors.price : null}
-						</div>
-					)}
+					<div className="spot-error7 error">
+						{hasSubmit && <span>{errors.price ? errors.price : null}</span>}
+					</div>
 					<button className="form-submit-button">Update</button>
 				</form>
 			</div>

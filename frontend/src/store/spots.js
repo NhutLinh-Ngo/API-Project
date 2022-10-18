@@ -13,17 +13,11 @@ const normalizeData = (data) => {
 // initialize spots state
 const initialState = {
 	AllSpots: {},
-	SingleSpots: {
-		//spotdata,
-		SpotImages: [],
-		Owner: {}
-	}
+	SingleSpots: {}
 };
 //todo: define TYPES
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const LOAD_SINGLE_SPOT_DETAILS = '/spots/LOAD_SINGLE_SPOT_DETAILS';
-const ADD_SPOT = 'spots/ADD_SPOT';
-const ADD_IMAGE = '/spots/ADD_IMAGE';
 
 //todo: define ACTIONS
 const loadSpots = (allSpots) => {
@@ -40,20 +34,8 @@ const loadSingleSpots = (spot) => {
 	};
 };
 
-// const addSpot = (spot) => {
-// 	return {
-// 		type: ADD_SPOT,
-// 		spot
-// 	};
-// };
-
-// const addImage = (imageUrl) => {
-// 	return {
-// 		type: ADD_IMAGE,
-// 		imageUrl
-// 	};
-// };
 // todo: define THUNKS
+// Spots Thunks
 export const getAllSpots = () => async (dispatch) => {
 	const res = await fetch('/api/spots');
 
@@ -86,6 +68,20 @@ export const CreateNewSpot = (spotInfo) => async (dispatch) => {
 	}
 };
 
+export const UpdateSpot = (spotInfo, spotId) => async () => {
+	return await csrfFetch(`/api/spots/${spotId}`, {
+		method: 'PUT',
+		body: JSON.stringify(spotInfo)
+	});
+};
+
+export const DeleteSpot = (spotId) => async () => {
+	return await csrfFetch(`/api/spots/${spotId}`, {
+		method: 'DELETE'
+	});
+};
+
+// Images
 export const AddImageToSpot = (imageInfo, spotId) => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots/${spotId}/images`, {
 		method: 'POST',

@@ -12,14 +12,13 @@ export default function SingleSpotDetails() {
 	const dispatch = useDispatch();
 	const { spotId } = useParams();
 	const spot = useSelector((state) => state.spots.SingleSpots);
-
 	// Fetch and Load data
 	useEffect(() => {
 		dispatch(getDetailsOfSpot(spotId));
 	}, [dispatch]);
 
 	// wait for Spot to load
-	if (!spot) return null;
+	if (!Object.keys(spot).length) return null;
 
 	//get Preview Image
 	const previewImage = spot.SpotImages?.find((image) => image.preview === true);
@@ -28,7 +27,7 @@ export default function SingleSpotDetails() {
 	const nonPreviewImages = spot.SpotImages?.filter(
 		(image) => image.preview === false
 	);
-	nonPreviewImages.forEach((image, i) => {
+	nonPreviewImages?.forEach((image, i) => {
 		otherImages[i] = image;
 	});
 
