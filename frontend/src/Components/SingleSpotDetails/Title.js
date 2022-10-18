@@ -7,7 +7,7 @@ export default function SingleSpotTitle({ spot }) {
 	const { spotId } = useParams();
 	let allowEdit = false;
 	if (sessionUser) allowEdit = sessionUser.id == spot.ownerId;
-
+	console.log(spot.avgStarRating);
 	return (
 		<div className="spot-details-title-wrapper">
 			<div className="spot-details-main-title">
@@ -20,7 +20,11 @@ export default function SingleSpotTitle({ spot }) {
 			</div>
 			<div className="spot-details-title-row2">
 				<span className="spot-details-tile-rating">
-					<i class="fa-solid fa-star"></i>{' '}
+					{spot.avgStarRating ? (
+						<i class="fa-solid fa-star"></i>
+					) : (
+						<i class="fa-regular fa-star"></i>
+					)}{' '}
 					{spot.avgStarRating
 						? spot.avgStarRating
 						: 'Be the first to rate this place!'}

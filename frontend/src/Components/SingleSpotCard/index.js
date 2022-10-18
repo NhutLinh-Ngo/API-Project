@@ -25,7 +25,12 @@ export default function SingleSpotCard({ spot }) {
 						{spot.city}, {spot.state}
 					</span>
 					<span>
-						<i class="fa-solid fa-star"></i>
+						{spot.avgRating ? spot.avgRating : ''}{' '}
+						{spot.avgRating == 0 ? (
+							<i class="fa-regular fa-star"></i>
+						) : (
+							<i class="fa-solid fa-star"></i>
+						)}
 					</span>
 				</div>
 				<div className="single-card-row2 card-row">{name}</div>

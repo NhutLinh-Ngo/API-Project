@@ -25,7 +25,12 @@ export default function SpotReviews({ spot }) {
 	return (
 		<div className="spot-reviews-wrapper" id="all-reviews">
 			<div className="review-title">
-				<i class="fa-solid fa-star"></i>{' '}
+				{/* Empty star if no review Yet */}
+				{spot.avgStarRating ? (
+					<i class="fa-solid fa-star"></i>
+				) : (
+					<i class="fa-regular fa-star"></i>
+				)}{' '}
 				{spot.avgStarRating
 					? spot.avgStarRating
 					: 'Be the first to review this place!'}{' '}
