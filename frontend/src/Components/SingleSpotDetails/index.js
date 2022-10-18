@@ -24,9 +24,13 @@ export default function SingleSpotDetails() {
 	//get Preview Image
 	const previewImage = spot.SpotImages?.find((image) => image.preview === true);
 	// get all Non-preview Images
-	const otherImages = spot.SpotImages?.filter(
+	let otherImages = new Array(4).fill(null);
+	const nonPreviewImages = spot.SpotImages?.filter(
 		(image) => image.preview === false
 	);
+	nonPreviewImages.forEach((image, i) => {
+		otherImages[i] = image;
+	});
 
 	// get 3 Word Name of location
 	const spotNameArr = spot.name?.split(' ');

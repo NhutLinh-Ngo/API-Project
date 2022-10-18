@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './SingleSpotDetails.css';
 
 export default function SpotImages({ spot, previewImage, otherImages }) {
-	console.log(otherImages);
 	return (
 		<div className="spot-details-images-wrapper">
 			<div className="spot-details-preview-image">
@@ -16,9 +15,13 @@ export default function SpotImages({ spot, previewImage, otherImages }) {
 				{otherImages?.map((image, i) => (
 					<img
 						className={`spot-details-other-image`}
-						key={image.id}
-						src={image.url}
-						alt={`${spot.name} Images`}
+						key={i}
+						src={
+							image
+								? image.url
+								: 'https://www.nicepng.com/png/detail/4-42119_coming-soon-coming-soon-logo-png.png'
+						}
+						alt={`Images`}
 					/>
 				))}
 			</div>
