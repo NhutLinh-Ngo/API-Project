@@ -77,7 +77,7 @@ export default function SpotReviews({ spot }) {
 									</div>
 								</div>
 							</div>
-							{sessionUser.id === review.userId && (
+							{sessionUser && sessionUser?.id === review.userId && (
 								<DeleteReview reviewId={review.id} spotId={spotId} />
 							)}
 						</div>
