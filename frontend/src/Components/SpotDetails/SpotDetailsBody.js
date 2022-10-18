@@ -8,7 +8,7 @@ export default function SpotDetailsBody({ spot, name }) {
 				{/* Spot Name and Host  */}
 				<div className="spot-details-hostInfo">
 					<div className="spot-details-hostInfo-row1">
-						{name} hosted by {spot.Owner.firstName}
+						{name} hosted by {spot?.Owner.firstName}
 					</div>
 					<div className="spot-details-hostInfo-row2">spot #: {spot.id}</div>
 				</div>
@@ -79,7 +79,7 @@ export default function SpotDetailsBody({ spot, name }) {
 					<div>{spot.description}</div>
 				</div>
 			</div>
-			<div className="spot-details-body-rightCol">BOOKING STUFF GOES HERE</div>
+			<div className="spot-details-body-rightCol"></div>
 		</div>
 	);
 }

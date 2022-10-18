@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					notNull: {
 						msg: 'url required for image'
+					},
+					isUrl: {
+						msg: 'please provide porper image URL'
 					}
 				}
 			},

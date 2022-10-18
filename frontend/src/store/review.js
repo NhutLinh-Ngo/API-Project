@@ -42,6 +42,24 @@ export const getReviewsBySpotId = (spotId) => async (dispatch) => {
 	}
 };
 
+export const postReview = (review, spotId) => async () => {
+	const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+		method: 'POST',
+		body: JSON.stringify(review)
+	});
+
+	const newReview = await res.json();
+	return newReview;
+};
+
+export const deleteReview = (reviewId) => async () => {
+	const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+		method: 'DELETE'
+	});
+
+	const deleteRes = await res.json();
+	return deleteRes;
+};
 // todo: Review Reducer
 const ReviewsReducer = (state = initialState, action) => {
 	Object.freeze(state);

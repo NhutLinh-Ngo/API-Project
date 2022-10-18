@@ -5,7 +5,6 @@
 
 .rating-text{
     margin-bottom: 0.5rem;
-    color: lightgray;
 }
 .review-form{
     text-align: center;
@@ -27,16 +26,14 @@
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
-.review-text-wrapper{
-    margin-top: 1.5rem;
-}
+
 
 .review-text-title{
     font-weight: 500;
 }
 .review-text-subTitle{
     color: lightgray;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     font-weight: 300;
 }
 

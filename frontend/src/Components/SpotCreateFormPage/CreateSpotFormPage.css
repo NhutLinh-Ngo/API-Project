@@ -1,0 +1,107 @@
+.create-page-form-wrapper{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.create-spot-home-navlink{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0 1rem 2rem;
+    display: flex;
+    align-items: center;
+}
+
+#create-spot-title{
+    font-size: 2rem;
+    font-weight: 300;
+    min-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4158D0;
+background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+}
+
+.spot-form-wrapper{
+    min-width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#create-spot-title{
+    color: white;
+    font-weight: 300;
+}
+#create-form{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    min-width: 100%;
+    padding: 0 15%;
+    max-height: 98vh;
+}
+
+.spot-form-input{
+    height: 35px;
+    border-radius: 37px;
+    border: 1px solid lightgray;
+    text-indent: 15px;
+}
+
+.spot-form-input:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.form-textArea{
+    resize: none;
+    height: 90px;
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid lightgray;
+    /* margin-top: 1rem; */
+}
+
+.form-textArea:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.form-submit-button{
+    border: none;
+    height: 30px;
+    border-radius: 30px;
+    background-color: #efa88a;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-top: 2rem;
+    cursor: pointer;
+}
+.form-submit-button:hover{
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
+}
+.disable{
+    cursor:auto;
+    background-color: white;
+}
+.error{
+    color: red;
+    font-size: 14px;
+    padding: 0;
+    height: 1.5rem;
+}
+.image-form-input{
+    margin-bottom: 1rem;
+}

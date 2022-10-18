@@ -24,8 +24,12 @@
 }
 .review-row1 {
     display: flex;
+    align-items: center;
 }
+.reviewer{
+    display: flex;
 
+}
 .review-row2{
     margin-top: 1rem;
     font-weight: 300;

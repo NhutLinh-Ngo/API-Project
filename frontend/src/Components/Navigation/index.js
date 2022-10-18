@@ -6,8 +6,8 @@ import { Modal } from '../../context/Modal';
 import LoginForm from '../LoginFormModal';
 import SignupFormPage from '../SignupFormPage';
 import useModalVariableContext from '../../context/ModalShowVariable';
+import logo from '../../assets/logo.png';
 import './Navigation.css';
-
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector((state) => state.session.user);
 	const [showMenu, setShowMenu] = useState(false);
@@ -78,7 +78,7 @@ function Navigation({ isLoaded }) {
 	return (
 		<div className="navbar-wrapper">
 			<NavLink exact to="/">
-				Home
+				<img src={logo} style={{ height: '40px' }} />
 			</NavLink>
 			{isLoaded && sessionLinks}
 		</div>
