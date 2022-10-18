@@ -8,7 +8,6 @@ export default function SingleSpotCard({ spot }) {
 		name += spotNameArr[i] + ' ';
 		if (i === 2) break;
 	}
-	console.log(spot.previewImage);
 	return (
 		<NavLink to={`/spots/${spot.id}`} style={{ textDecoration: 'none' }}>
 			<div className="single-spot-card-wrapper">

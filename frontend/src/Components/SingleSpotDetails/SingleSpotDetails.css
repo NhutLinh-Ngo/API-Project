@@ -60,10 +60,21 @@
 }
 
 /* TITLE DETAILS */
+.spot-details-main-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.edit-listing{
+    color: black;
+    font-weight: 600;
+}
 .spot-details-title-row1{
     font-weight: bold;
     font-size: 34px;
     margin-bottom: 1rem;
+    max-width: 88%;
+
 }
 
 .spot-details-title-row2{

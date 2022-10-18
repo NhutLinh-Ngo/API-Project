@@ -5,6 +5,7 @@ import AllSpots from './Components/AllSpots';
 import Navigation from './Components/Navigation';
 import SingleSpotDetails from './Components/SingleSpotDetails';
 import CreateSpotFormPage from './Components/CreateSpotFormPage';
+import UpdateListingForm from './Components/UpdateListingForm';
 import * as sessionActions from './store/session';
 function App() {
 	const dispatch = useDispatch();
@@ -21,9 +22,13 @@ function App() {
 						<Navigation isLoaded={isLoaded} />
 						<AllSpots />
 					</Route>
-					<Route path="/spots/:spotId">
+					<Route exact path="/spots/:spotId">
 						<Navigation isLoaded={isLoaded} />
 						<SingleSpotDetails />
+					</Route>
+					<Route path="/spots/:spotId/update">
+						<Navigation isLoaded={isLoaded} />
+						<UpdateListingForm />
 					</Route>
 					<Route path="/lets-make-money">
 						<CreateSpotFormPage />
