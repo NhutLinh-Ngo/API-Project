@@ -27,7 +27,6 @@ function App() {
 						<SingleSpotDetails />
 					</Route>
 					<Route path="/spots/:spotId/update">
-						<Navigation isLoaded={isLoaded} />
 						<UpdateListingForm />
 					</Route>
 					<Route path="/lets-make-money">

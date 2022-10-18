@@ -31,7 +31,7 @@ export default function SpotReviewForm() {
 									className="star-input"
 									type="radio"
 									name="rating"
-									value={stars}
+									value={ratingValue}
 									onClick={() => setStars(ratingValue)}
 								/>
 								<FaStar

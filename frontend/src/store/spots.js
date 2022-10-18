@@ -40,19 +40,19 @@ const loadSingleSpots = (spot) => {
 	};
 };
 
-const addSpot = (spot) => {
-	return {
-		type: ADD_SPOT,
-		spot
-	};
-};
+// const addSpot = (spot) => {
+// 	return {
+// 		type: ADD_SPOT,
+// 		spot
+// 	};
+// };
 
-const addImage = (imageUrl) => {
-	return {
-		type: ADD_IMAGE,
-		imageUrl
-	};
-};
+// const addImage = (imageUrl) => {
+// 	return {
+// 		type: ADD_IMAGE,
+// 		imageUrl
+// 	};
+// };
 // todo: define THUNKS
 export const getAllSpots = () => async (dispatch) => {
 	const res = await fetch('/api/spots');
@@ -108,9 +108,6 @@ const spotsReducer = (state = initialState, action) => {
 		case LOAD_SINGLE_SPOT_DETAILS:
 			spotsState.SingleSpots = action.spot;
 			return spotsState;
-		// case ADD_SPOT:
-		// 	spotsState.AllSpots[action.spot.id] = action.spot;
-		// 	return spotsState;
 		default:
 			return state;
 	}

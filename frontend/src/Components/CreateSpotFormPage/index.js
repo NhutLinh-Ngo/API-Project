@@ -148,11 +148,11 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setName(e.target.value)}
 								placeholder="Name of your place"
 							/>
-							{hasSubmit && (
-								<div className="spot-error1 error">
-									{errors.name ? errors.name : <div></div>}
-								</div>
-							)}
+							<div className="spot-error1 error">
+								{hasSubmit && (
+									<span>{errors.name ? errors.name : <div></div>}</span>
+								)}
+							</div>
 							<input
 								className="spot-form-input"
 								type="text"
@@ -160,11 +160,11 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setAddress(e.target.value)}
 								placeholder="Address"
 							/>
-							{hasSubmit && (
-								<div className="spot-error2 error">
-									{errors.address ? errors.address : null}
-								</div>
-							)}
+							<div className="spot-error2 error">
+								{hasSubmit && (
+									<span>{errors.address ? errors.address : null}</span>
+								)}
+							</div>
 							<input
 								className="spot-form-input"
 								type="text"
@@ -172,11 +172,9 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setCity(e.target.value)}
 								placeholder="City"
 							/>
-							{hasSubmit && (
-								<div className="spot-error3 error">
-									{errors.city ? errors.city : null}
-								</div>
-							)}
+							<div className="spot-error3 error">
+								{hasSubmit && <span>{errors.city ? errors.city : null}</span>}
+							</div>
 							<input
 								className="spot-form-input"
 								type="text"
@@ -184,11 +182,9 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setState(e.target.value)}
 								placeholder="State"
 							/>
-							{hasSubmit && (
-								<div className="spot-error4 error">
-									{errors.state ? errors.state : null}
-								</div>
-							)}
+							<div className="spot-error4 error">
+								{hasSubmit && <span>{errors.state ? errors.state : null}</span>}
+							</div>
 							<input
 								className="spot-form-input"
 								type="text"
@@ -196,11 +192,11 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setCountry(e.target.value)}
 								placeholder="Country"
 							/>
-							{hasSubmit && (
-								<div className="spot-error5 error">
-									{errors.country ? errors.country : null}
-								</div>
-							)}
+							<div className="spot-error5 error">
+								{hasSubmit && (
+									<span>{errors.country ? errors.country : null}</span>
+								)}
+							</div>
 							<textarea
 								className="form-textArea"
 								type="text"
@@ -208,11 +204,11 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setDescription(e.target.value)}
 								placeholder="Tell everyone about your amazing place..."
 							/>
-							{hasSubmit && (
-								<div className="spot-error6 error">
-									{errors.description ? errors.description : null}
-								</div>
-							)}
+							<div className="spot-error6 error">
+								{hasSubmit && (
+									<span>{errors.description ? errors.description : null}</span>
+								)}
+							</div>
 							<input
 								className="spot-form-input"
 								type="number"
@@ -220,17 +216,10 @@ export default function CreateSpotFormPage() {
 								onChange={(e) => setPrice(e.target.value)}
 								placeholder="Price per night"
 							/>
-							{hasSubmit && (
-								<div className="spot-error7 error">
-									{errors.price ? errors.price : null}
-								</div>
-							)}
-							<button
-								className={`form-submit-button ${
-									disableCreateSpotForm ? 'disable' : ''
-								}`}
-								disabled={disableCreateSpotForm}
-							>
+							<div className="spot-error7 error">
+								{hasSubmit && <span>{errors.price ? errors.price : null}</span>}
+							</div>
+							<button className="form-submit-button">
 								Lets add some pictures!
 							</button>
 						</form>
@@ -249,13 +238,15 @@ export default function CreateSpotFormPage() {
 								placeholder="Preview Image"
 								required
 							/>
-							{hasSubmitImg && (
-								<div>{imageErrors.url ? imageErrors.url : null}</div>
-							)}
+							<div className="spot-error7 error">
+								{hasSubmitImg && (
+									<span>{imageErrors.url ? imageErrors.url : null}</span>
+								)}
+							</div>
 							{otherImages.map((item, i) => {
 								return (
 									<input
-										className="spot-form-input"
+										className="spot-form-input image-form-input"
 										key={i}
 										type="url"
 										value={item}
@@ -264,14 +255,7 @@ export default function CreateSpotFormPage() {
 									/>
 								);
 							})}
-							<button
-								className={`form-submit-button ${
-									disableImageForm ? 'disable' : ''
-								}`}
-								disabled={disableImageForm}
-							>
-								host
-							</button>
+							<button className="form-submit-button">host</button>
 						</form>
 					</>
 				)}
