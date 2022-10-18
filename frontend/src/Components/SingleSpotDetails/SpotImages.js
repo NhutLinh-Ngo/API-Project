@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './SingleSpotDetails.css';
 
-export default function SpotImages({ spot, previewImage, otherImages }) {
+export default function SpotImages({ previewImage, otherImages }) {
 	return (
 		<div className="spot-details-images-wrapper">
 			<div className="spot-details-preview-image">
 				<img
-					src={previewImage?.url}
+					src={
+						previewImage
+							? previewImage.url
+							: 'https://www.nicepng.com/png/detail/4-42119_coming-soon-coming-soon-logo-png.png'
+					}
 					alt="preview Image"
 					className="spot-details-preview"
 				/>

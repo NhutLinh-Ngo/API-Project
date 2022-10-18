@@ -81,7 +81,7 @@ export const CreateNewSpot = (spotInfo) => async (dispatch) => {
 
 	if (res.ok) {
 		const newSpotData = await res.json();
-		dispatch(addSpot(newSpotData));
+		// dispatch(addSpot(newSpotData));
 		return newSpotData;
 	}
 };
@@ -108,9 +108,9 @@ const spotsReducer = (state = initialState, action) => {
 		case LOAD_SINGLE_SPOT_DETAILS:
 			spotsState.SingleSpots = action.spot;
 			return spotsState;
-		case ADD_SPOT:
-			spotsState.AllSpots[action.spot.id] = action.spot;
-			return spotsState;
+		// case ADD_SPOT:
+		// 	spotsState.AllSpots[action.spot.id] = action.spot;
+		// 	return spotsState;
 		default:
 			return state;
 	}

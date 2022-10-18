@@ -43,11 +43,7 @@ export default function SingleSpotDetails() {
 	return (
 		<div className="spot-details-wrapper">
 			<Title spot={spot} />
-			<SpotImages
-				spot={spot}
-				otherImages={otherImages}
-				previewImage={previewImage}
-			/>
+			<SpotImages otherImages={otherImages} previewImage={previewImage} />
 			<SpotDetailsBody name={name} spot={spot} />
 			<SpotReviews spot={spot} />
 		</div>

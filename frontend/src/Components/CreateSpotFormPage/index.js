@@ -5,32 +5,32 @@ import './CreateSpotFormPage.css';
 import * as spotsActions from '../../store/spots';
 export default function CreateSpotFormPage() {
 	const dispatch = useDispatch();
-	// create spot controlled form data
+	const history = useHistory();
+
+	// create spot controlled form state
 	const [address, setAddress] = useState('');
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('');
 	const [country, setCountry] = useState('');
-	const [lat, setLat] = useState(null);
-	const [lng, setLng] = useState(null);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [price, setPrice] = useState('');
 	const [errors, setErrors] = useState({});
-	const [imageErrors, setImageErrors] = useState({});
 	const [spotId, setSpotId] = useState('');
-
-	const history = useHistory();
-	// submission controlled data
 	const [hasSubmit, setHasSubmit] = useState(false);
+
+	// images controlled state
+	const [previewImg, setPreviewImg] = useState(null);
+	const [otherImages, setOtherImages] = useState(new Array(4).fill(null));
+	const [hasSubmitImg, setHasSubmitImg] = useState(false);
+	const [imageErrors, setImageErrors] = useState({});
+
+	// TOGGLE BETWEEN create spot and add images form
 	const [showSpotForm, setShowSpotForm] = useState(true);
 	const [showImageForm, setShowImageForm] = useState(false);
 
-	// images controlled data
-	const [previewImg, setPreviewImg] = useState(null);
-	const [otherImages, setOtherImages] = useState(new Array(5).fill(null));
-
-	let newSpot;
 	// onsubmit handle for Creating new Spot
+	let newSpot;
 	const handleFormInfo = async (e) => {
 		e.preventDefault();
 		setHasSubmit(true);
@@ -40,12 +40,11 @@ export default function CreateSpotFormPage() {
 			city,
 			state,
 			country,
-			lat,
-			lng,
 			name,
 			description,
 			price
 		};
+		// POST fetch to create new SPOT!
 		newSpot = await dispatch(spotsActions.CreateNewSpot(spotInfo)).catch(
 			async (res) => {
 				const data = await res.json();
@@ -63,13 +62,25 @@ export default function CreateSpotFormPage() {
 		}
 	};
 
+	//disable create button if not all data are given
+	const disableCreateSpotForm =
+		address && city && state && country && name && description && price
+			? false
+			: true;
+
+	// Disable Image form button of preview is not provided,
+	// prevent having to go through backend, cleaner overall UI
+	const disableImageForm = previewImg ? false : true;
+
 	// on submit handle for new spot images
 	const handleImageForm = async (e) => {
 		e.preventDefault();
+		setHasSubmitImg(true);
 		setImageErrors({});
-		let sucessPost;
+
+		// POST PREVIEW IAMGE
 		const previewImageData = { url: previewImg, preview: true };
-		sucessPost = await dispatch(
+		let sucessPost = await dispatch(
 			spotsActions.AddImageToSpot(previewImageData, spotId)
 		).catch(async (res) => {
 			const data = await res.json();
@@ -78,8 +89,9 @@ export default function CreateSpotFormPage() {
 			}
 		});
 
-		// posting other pictures
-		otherImages.forEach(async (image) => {
+		// POST OTHER IMAGES IF PROVIDED,
+		//otherImage is fill with null thus it will only post aditional image if provided.
+		await otherImages.forEach(async (image) => {
 			if (image) {
 				const imageData = { url: image, preview: false };
 				await dispatch(spotsActions.AddImageToSpot(imageData, spotId)).catch(
@@ -93,9 +105,11 @@ export default function CreateSpotFormPage() {
 			}
 		});
 
+		//REDIRECT TO NEW SPOT IF EVERYTHING GO WELL!
 		if (!Object.values(imageErrors).length) history.push(`/spots/${spotId}`);
 	};
 
+	// FILL IN NULL FILLED array with aditional images if user provide them
 	const updateOtherImagesFieldChange = (index) => (e) => {
 		let newArr = [...otherImages];
 		newArr[index] = e.target.value;
@@ -104,20 +118,28 @@ export default function CreateSpotFormPage() {
 	};
 	return (
 		<div className="create-page-form-wrapper">
+			{/* NAVLINK img to redirect user back home */}
 			<div className="create-spot-home-navlink">
 				<NavLink to="/">
 					<img
 						src="https://mybnb-lucyluo.herokuapp.com/assets/logo-34e8587533b17eeb904517e28f490075173a3380205cde3cd6581bcae66d9c46.png"
 						alt="home log"
-						style={{ heigh: '40x', width: '40px' }}
+						style={{ heigh: '50x', width: '50px' }}
 					/>
 				</NavLink>
-				<span id="create-spot-title">Open your door to hosting</span>
 			</div>
+			{showSpotForm && (
+				<div id="create-spot-title">
+					Open your door to hosting, <br />
+					provide information about your place
+				</div>
+			)}
+			{showImageForm && (
+				<div id="create-spot-title">Let add some images to your place!</div>
+			)}
 			<div className="spot-form-wrapper">
 				{showSpotForm && (
 					<>
-						<div>Provide information about your place</div>
 						<form id="create-form" onSubmit={handleFormInfo}>
 							<input
 								className="spot-form-input"
@@ -127,8 +149,8 @@ export default function CreateSpotFormPage() {
 								placeholder="Name of your place"
 							/>
 							{hasSubmit && (
-								<div className="spot-error1">
-									{errors.name ? errors.name : null}
+								<div className="spot-error1 error">
+									{errors.name ? errors.name : <div></div>}
 								</div>
 							)}
 							<input
@@ -139,7 +161,7 @@ export default function CreateSpotFormPage() {
 								placeholder="Address"
 							/>
 							{hasSubmit && (
-								<div className="spot-error2">
+								<div className="spot-error2 error">
 									{errors.address ? errors.address : null}
 								</div>
 							)}
@@ -151,7 +173,7 @@ export default function CreateSpotFormPage() {
 								placeholder="City"
 							/>
 							{hasSubmit && (
-								<div className="spot-erro3r">
+								<div className="spot-error3 error">
 									{errors.city ? errors.city : null}
 								</div>
 							)}
@@ -163,7 +185,7 @@ export default function CreateSpotFormPage() {
 								placeholder="State"
 							/>
 							{hasSubmit && (
-								<div className="spot-error4">
+								<div className="spot-error4 error">
 									{errors.state ? errors.state : null}
 								</div>
 							)}
@@ -175,43 +197,19 @@ export default function CreateSpotFormPage() {
 								placeholder="Country"
 							/>
 							{hasSubmit && (
-								<div className="spot-error5">
+								<div className="spot-error5 error">
 									{errors.country ? errors.country : null}
 								</div>
 							)}
-							<input
-								className="spot-form-input"
-								type="number"
-								value={lat}
-								onChange={(e) => setLat(e.target.value)}
-								placeholder="Latitude (optional)"
-							/>
-							{hasSubmit && (
-								<div className="spot-error6">
-									{errors.lat ? errors.lat : null}
-								</div>
-							)}
-							<input
-								className="spot-form-input"
-								type="number"
-								value={lng}
-								onChange={(e) => setLng(e.target.value)}
-								placeholder="Longitude (optional)"
-							/>
-							{hasSubmit && (
-								<div className="spot-error7">
-									{errors.lng ? errors.lng : null}
-								</div>
-							)}
 							<textarea
-								className="spot-form-input form-textArea"
+								className="form-textArea"
 								type="text"
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
 								placeholder="Tell everyone about your amazing place..."
 							/>
 							{hasSubmit && (
-								<div className="spot-error8">
+								<div className="spot-error6 error">
 									{errors.description ? errors.description : null}
 								</div>
 							)}
@@ -223,11 +221,18 @@ export default function CreateSpotFormPage() {
 								placeholder="Price per night"
 							/>
 							{hasSubmit && (
-								<div className="spot-error9">
-									{errors.price ? errors.name : null}
+								<div className="spot-error7 error">
+									{errors.price ? errors.price : null}
 								</div>
 							)}
-							<button>Lets add some images!</button>
+							<button
+								className={`form-submit-button ${
+									disableCreateSpotForm ? 'disable' : ''
+								}`}
+								disabled={disableCreateSpotForm}
+							>
+								Lets add some pictures!
+							</button>
 						</form>
 					</>
 				)}
@@ -235,18 +240,22 @@ export default function CreateSpotFormPage() {
 				{/* IMAGES FORM */}
 				{showImageForm && (
 					<>
-						<div>Add images to show case your place!</div>
 						<form id="create-form" onSubmit={handleImageForm}>
 							<input
+								className="spot-form-input"
 								type="url"
 								value={previewImg}
 								onChange={(e) => setPreviewImg(e.target.value)}
 								placeholder="Preview Image"
 								required
 							/>
+							{hasSubmitImg && (
+								<div>{imageErrors.url ? imageErrors.url : null}</div>
+							)}
 							{otherImages.map((item, i) => {
 								return (
 									<input
+										className="spot-form-input"
 										key={i}
 										type="url"
 										value={item}
@@ -255,7 +264,14 @@ export default function CreateSpotFormPage() {
 									/>
 								);
 							})}
-							<button>host</button>
+							<button
+								className={`form-submit-button ${
+									disableImageForm ? 'disable' : ''
+								}`}
+								disabled={disableImageForm}
+							>
+								host
+							</button>
 						</form>
 					</>
 				)}

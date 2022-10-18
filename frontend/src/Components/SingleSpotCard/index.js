@@ -8,12 +8,17 @@ export default function SingleSpotCard({ spot }) {
 		name += spotNameArr[i] + ' ';
 		if (i === 2) break;
 	}
+	console.log(spot.previewImage);
 	return (
 		<NavLink to={`/spots/${spot.id}`} style={{ textDecoration: 'none' }}>
 			<div className="single-spot-card-wrapper">
 				<img
 					className="single-card-previewImage"
-					src={spot.previewImage}
+					src={
+						spot.previewImage == 'No preview Image Yet'
+							? 'https://www.nicepng.com/png/detail/4-42119_coming-soon-coming-soon-logo-png.png'
+							: spot.previewImage
+					}
 					alt={spot.name}
 				/>
 				<div className="single-card-row1 card-row">
