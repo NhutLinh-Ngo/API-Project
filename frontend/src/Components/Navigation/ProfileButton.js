@@ -41,7 +41,7 @@ function ProfileButton({ user }) {
 			{showMenu && (
 				<ul className="nav-dropped-down">
 					<li className="signedin-li">
-						<span>user:</span> {user.username}
+						<span>welcome back,</span> {user.firstName}
 					</li>
 					<li className="signedin-li">
 						<span>email:</span> {user.email}

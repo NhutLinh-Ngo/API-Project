@@ -25,6 +25,7 @@
     display: flex;
     align-items: center;
     column-gap: 2rem;
+    height: 60px;
 }
 .become-host{
     display: flex;
@@ -107,7 +108,9 @@
     font-weight: bold;
     color: white;
     border: none;
-    background-color: #df1561;
+    background-color: #ff5a5f;
+    border-radius: 23px;
+    cursor: pointer;
 }
 .signedin-li{
     font-size: 14px;

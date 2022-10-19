@@ -8,6 +8,7 @@ import CreateSpotFormPage from './Components/SpotCreateFormPage';
 import UpdateListingForm from './Components/SpotUpdateListingForm';
 import ScrollToTop from './Components/ZScrollToTop';
 import * as sessionActions from './store/session';
+import useModalVariableContext from './context/ModalShowVariable';
 function App() {
 	const dispatch = useDispatch();
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -15,9 +16,17 @@ function App() {
 		dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
 	}, [dispatch]);
 
+	const { showModalLogin, showModalSignUp, showModalReview } =
+		useModalVariableContext();
+
+	let disableScroll = false;
+
+	if (showModalLogin || showModalSignUp || showModalReview)
+		disableScroll = true;
+	console.log(disableScroll);
 	return (
 		isLoaded && (
-			<div className="main-page-wrapper">
+			<div className={`main-page-wrapper ${disableScroll ? 'hidden' : ''}`}>
 				<ScrollToTop />
 				<Switch>
 					<Route exact path="/">

@@ -10,7 +10,6 @@ import logo from '../../assets/logo.png';
 import './Navigation.css';
 function Navigation({ isLoaded }) {
 	const { spotId } = useParams();
-	console.log(spotId);
 	const sessionUser = useSelector((state) => state.session.user);
 	const [showMenu, setShowMenu] = useState(false);
 	const {
@@ -42,7 +41,7 @@ function Navigation({ isLoaded }) {
 		sessionLinks = <ProfileButton user={sessionUser} />;
 	} else {
 		sessionLinks = (
-			<>
+			<div className="nav-bar-loggedIn">
 				<button onClick={openMenu} className="navbar-button">
 					<i class="fa-solid fa-bars"></i>
 					<i class="fa-solid fa-circle-user"></i>
@@ -73,7 +72,7 @@ function Navigation({ isLoaded }) {
 						<SignupFormPage />
 					</Modal>
 				)}
-			</>
+			</div>
 		);
 	}
 
@@ -81,7 +80,16 @@ function Navigation({ isLoaded }) {
 		<div className={`navbar-wrapper`}>
 			<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
 				<NavLink exact to="/">
-					<img src={logo} style={{ height: '47px', width: '100px' }} />
+					<img
+						src={logo}
+						style={{
+							height: '45px',
+							width: '100px',
+							display: 'flex',
+							alignItems: 'center',
+							marginTop: '10px'
+						}}
+					/>
 				</NavLink>
 				{isLoaded && sessionLinks}
 			</div>
