@@ -69,7 +69,7 @@ export default function SpotDetailsBody({ spot, name }) {
 						/>
 						<div className="quickInfo-col1">
 							<div className="quickInfo-row1" style={{ fontSize: '24px' }}>
-								Free Cancelation for 24 hours.
+								Free Cancellation for 24 hours.
 							</div>
 						</div>
 					</div>
