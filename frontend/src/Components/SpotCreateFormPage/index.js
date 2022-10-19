@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, Redirect, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import './CreateSpotFormPage.css';
 import * as spotsActions from '../../store/spots';
 export default function CreateSpotFormPage() {
@@ -61,16 +61,6 @@ export default function CreateSpotFormPage() {
 			setShowImageForm(true);
 		}
 	};
-
-	//disable create button if not all data are given
-	const disableCreateSpotForm =
-		address && city && state && country && name && description && price
-			? false
-			: true;
-
-	// Disable Image form button of preview is not provided,
-	// prevent having to go through backend, cleaner overall UI
-	const disableImageForm = previewImg ? false : true;
 
 	// on submit handle for new spot images
 	const handleImageForm = async (e) => {

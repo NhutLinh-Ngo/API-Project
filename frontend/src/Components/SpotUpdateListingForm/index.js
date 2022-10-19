@@ -78,7 +78,7 @@ export default function UpdateListingForm() {
 					/>
 				</NavLink>
 			</div>
-			<div id="create-spot-title">
+			<div className="update-spot-form">
 				Need to make some changes? to <br /> {spot.name}
 			</div>
 			<div className="spot-form-wrapper">
