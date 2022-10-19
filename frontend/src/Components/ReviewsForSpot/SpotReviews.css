@@ -18,9 +18,11 @@
     display: flex;
     width: 100%;
     margin-top: 1.2rem;
+    flex-wrap: wrap;
 }
 .review-wrapper {
     width: 50%;
+    margin-bottom: 2rem;
 }
 .review-row1 {
     display: flex;
