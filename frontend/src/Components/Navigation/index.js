@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import { Modal } from '../../context/Modal';
@@ -9,6 +9,8 @@ import useModalVariableContext from '../../context/ModalShowVariable';
 import logo from '../../assets/logo.png';
 import './Navigation.css';
 function Navigation({ isLoaded }) {
+	const { spotId } = useParams();
+	console.log(spotId);
 	const sessionUser = useSelector((state) => state.session.user);
 	const [showMenu, setShowMenu] = useState(false);
 	const {
@@ -76,11 +78,13 @@ function Navigation({ isLoaded }) {
 	}
 
 	return (
-		<div className="navbar-wrapper">
-			<NavLink exact to="/">
-				<img src={logo} style={{ height: '47px', width: '100px' }} />
-			</NavLink>
-			{isLoaded && sessionLinks}
+		<div className={`navbar-wrapper`}>
+			<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
+				<NavLink exact to="/">
+					<img src={logo} style={{ height: '47px', width: '100px' }} />
+				</NavLink>
+				{isLoaded && sessionLinks}
+			</div>
 		</div>
 	);
 }

@@ -5,13 +5,21 @@
     top: 0px;
     left: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 17px 4.5%;
     overflow: hidden;
     box-sizing: border-box;
     background-color: white;
     z-index: 1;
 
+}
+.navbar-content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.navbar-max-width{
+    max-width: 1120px;
 }
 .nav-bar-loggedIn{
     display: flex;
@@ -45,6 +53,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
 
 }
 .nav-dropped-down-li{
@@ -81,6 +90,7 @@
 .navbar-button:focus{
     box-shadow: 0px 5px 2px rgba(118 118 118/0.2);
 }
+
 .fa-bars{
     font-size: 16px;
     padding-left: 10px;

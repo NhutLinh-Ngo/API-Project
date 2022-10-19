@@ -75,6 +75,16 @@ export default function SpotDetailsBody({ spot, name }) {
 					</div>
 				</div>
 
+				<div className="aircover">
+					<img
+						src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
+						style={{ height: '30px', width: '142px' }}
+					/>
+					<div>
+						Every booking includes free protection from Host cancellations,
+						listing inaccuracies, and other issues like trouble checking in.
+					</div>
+				</div>
 				<div className="description-wrapper">
 					<div>{spot.description}</div>
 				</div>
