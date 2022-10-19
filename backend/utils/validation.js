@@ -77,8 +77,8 @@ const validateSpot = [
 		.exists({ checkFalsy: true })
 		.withMessage('Name is required')
 		.bail()
-		.isLength({ max: 50 })
-		.withMessage('Name must be less than 50 characters')
+		.isLength({ max: 250 })
+		.withMessage('Name must be less than 250 characters')
 		.bail()
 		.notEmpty()
 		.withMessage('Name must be more than 1 characters'),

@@ -78,7 +78,7 @@ function Navigation({ isLoaded }) {
 
 	return (
 		<div className={`navbar-wrapper`}>
-			<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
+			<div className={`navbar-content`}>
 				<NavLink exact to="/">
 					<img
 						src={logo}
