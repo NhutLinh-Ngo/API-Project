@@ -78,7 +78,7 @@ function Navigation({ isLoaded }) {
 	return (
 		<div className="navbar-wrapper">
 			<NavLink exact to="/">
-				<img src={logo} style={{ height: '40px' }} />
+				<img src={logo} style={{ height: '47px', width: '100px' }} />
 			</NavLink>
 			{isLoaded && sessionLinks}
 		</div>
