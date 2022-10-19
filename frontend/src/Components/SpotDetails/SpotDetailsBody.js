@@ -79,7 +79,11 @@ export default function SpotDetailsBody({ spot, name }) {
 					<div>{spot.description}</div>
 				</div>
 			</div>
-			<div className="spot-details-body-rightCol"></div>
+			<div className="spot-details-body-rightCol">
+				<div className="booking-wrapper">
+					${spot.price} <span>night</span>
+				</div>
+			</div>
 		</div>
 	);
 }

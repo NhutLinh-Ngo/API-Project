@@ -2,7 +2,6 @@
 .spot-details-wrapper {
     margin-top: 120px;
     max-width: 1120px;
-    /* min-width: auto; */
     box-sizing: border-box;
 }
 
@@ -17,10 +16,7 @@
     flex: 1;
 }
 
-.spot-details-body-rightCol{
-    /* border: 2px solid orange; */
-    min-width: 35%;
-}
+
 
 
 /* HOST DETAILS */
@@ -31,6 +27,7 @@
 }
 
 .spot-details-hostInfo-row1{
+    margin-top: 1rem;
     font-weight: bold;
     font-size: 1.5rem
 }
@@ -123,6 +120,31 @@
     flex-grow: 1;
  }
 
+ /* Spot Detail body right Column */
+.spot-details-body-rightCol{
+    min-width: 35%;
+    margin-top: 2.2rem;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: right;
+    padding-bottom: 2rem;
+}
+
+.booking-wrapper{
+    /* margin: 1rem 1rem 0 3rem; */
+    max-height: 350px;
+    min-width: 300px;
+    border-radius: 15px;
+    padding: 1rem;
+    position: sticky;
+    top: 120px;
+    border: 1px solid rgb(224, 224, 224);
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
+}
+.booking-wrapper > span {
+    color: rgb(174, 173, 173);
+}
  .empty-div{
     background-color: yellow;
  }
