@@ -7,6 +7,7 @@ import SingleSpotDetails from './Components/SpotDetails';
 import CreateSpotFormPage from './Components/SpotCreateFormPage';
 import UpdateListingForm from './Components/SpotUpdateListingForm';
 import ScrollToTop from './Components/ZScrollToTop';
+import CreditBar from './Components/CreditPage';
 import * as sessionActions from './store/session';
 import useModalVariableContext from './context/ModalShowVariable';
 function App() {
@@ -32,10 +33,12 @@ function App() {
 					<Route exact path="/">
 						<Navigation isLoaded={isLoaded} />
 						<AllSpots />
+						<CreditBar />
 					</Route>
 					<Route exact path="/spots/:spotId">
 						<Navigation isLoaded={isLoaded} />
 						<SingleSpotDetails />
+						<CreditBar />
 					</Route>
 					<Route path="/spots/:spotId/update">
 						<UpdateListingForm />
