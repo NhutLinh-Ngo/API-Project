@@ -146,19 +146,42 @@
     max-height: 350px;
     min-width: 300px;
     border-radius: 15px;
-    padding: 1rem;
+    padding: 1.5rem;
     position: sticky;
     top: 120px;
     border: 1px solid rgb(224, 224, 224);
     overflow: hidden;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
 }
-.booking-wrapper > span {
-    color: rgb(174, 173, 173);
+
+.fees-wrapper{
+    font-size: 1rem;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-between;
+    text-decoration: underline;
 }
- .empty-div{
-    background-color: yellow;
- }
+
+.serviceFee{
+    border-bottom: 1px solid rgba(118 118 118/0.2);
+    padding-bottom: 1rem;
+}
+.total-title{
+    margin-bottom: 1rem;
+}
+
+.price-and-review{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.booking-reviews{
+    font-size: 0.8rem;
+}
  @media (max-width: 1110px) {
     .spot-details-wrapper{
         max-width: 980px;

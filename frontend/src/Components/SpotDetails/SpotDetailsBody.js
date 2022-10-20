@@ -2,6 +2,9 @@ import React from 'react';
 import './SingleSpotDetails.css';
 
 export default function SpotDetailsBody({ spot, name }) {
+	const serviceFee = parseInt((spot.price * 7 * 0.145).toFixed(0));
+	const pricePerWeek = parseInt(spot.price * 7);
+	const totalPrice = serviceFee + pricePerWeek + 300;
 	return (
 		<div className="spot-details-body">
 			<div className="spot-details-body-leftCol">
@@ -91,7 +94,39 @@ export default function SpotDetailsBody({ spot, name }) {
 			</div>
 			<div className="spot-details-body-rightCol">
 				<div className="booking-wrapper">
-					${spot.price} <span>night</span>
+					<div className="price-and-review">
+						<div>
+							${spot.price} <span style={{ fontSize: '1rem' }}> night</span>
+						</div>
+						<div className="booking-reviews">
+							{spot.avgStarRating ? (
+								<i class="fa-solid fa-star"></i>
+							) : (
+								<i class="fa-regular fa-star"></i>
+							)}{' '}
+							{spot.avgStarRating ? spot.avgStarRating : 0} •{' '}
+							<a href="#all-reviews" style={{ color: 'gray' }}>
+								{spot.numReviews} reviews
+							</a>
+						</div>
+					</div>
+					<div className="fees-wrapper">
+						<div>${spot.price} x 7 nights</div>
+						<div>${pricePerWeek}</div>
+					</div>
+					<div className="fees-wrapper">
+						<div>Cleaning fee</div>
+						<div>$300</div>
+					</div>
+					<div className="fees-wrapper serviceFee">
+						<div>Service fee</div>
+						<div>${serviceFee}</div>
+					</div>
+
+					<div>
+						<div className="total-title">Total before taxes: </div>
+						<div className="total">${totalPrice}</div>
+					</div>
 				</div>
 			</div>
 		</div>
