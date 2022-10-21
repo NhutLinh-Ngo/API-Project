@@ -354,7 +354,7 @@ router.delete('/:spotId', authentication, async (req, res, next) => {
 router.put('/:spotId', authentication, async (req, res, next) => {
 	const spotId = req.params.spotId;
 	const ownerId = req.user.id;
-	const { address, city, country, lat, lng, name, description, price } =
+	const { address, city, country, lat, lng, name, description, price, state } =
 		req.body;
 
 	const findSpot = await Spot.findByPk(spotId);
@@ -379,7 +379,8 @@ router.put('/:spotId', authentication, async (req, res, next) => {
 		lng,
 		name,
 		description,
-		price
+		price,
+		state
 	});
 	return res.json(findSpot);
 });
