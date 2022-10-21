@@ -101,15 +101,8 @@
     align-items: center;
     justify-content: center;
 }
-.signedin-li > button {
-    width: 93%;
-    height: 23px;
-    font-weight: bold;
-    color: white;
-    border: none;
-    background-color: #ff5a5f;
-    border-radius: 23px;
-    cursor: pointer;
+.logout-button:hover{
+    color: red
 }
 .signedin-li{
     font-size: 14px;
@@ -118,4 +111,9 @@
 
 .fa-sharp{
     font-size: 20px;
+}
+
+.account-nav-link{
+    color: black;
+    text-decoration: none;
 }
