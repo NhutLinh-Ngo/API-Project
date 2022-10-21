@@ -8,6 +8,7 @@ import CreateSpotFormPage from './Components/SpotCreateFormPage';
 import UpdateListingForm from './Components/SpotUpdateListingForm';
 import ScrollToTop from './Components/ZScrollToTop';
 import CreditBar from './Components/CreditPage';
+import Account from './Components/Account';
 import * as sessionActions from './store/session';
 import useModalVariableContext from './context/ModalShowVariable';
 function App() {
@@ -45,6 +46,11 @@ function App() {
 					</Route>
 					<Route path="/lets-make-money">
 						<CreateSpotFormPage />
+					</Route>
+					<Route path="/account">
+						<Navigation isLoaded={isLoaded} />
+						<Account />
+						<CreditBar />
 					</Route>
 				</Switch>
 			</div>

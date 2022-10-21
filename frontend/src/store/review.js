@@ -20,6 +20,7 @@ const initialState = {
 // todo: define TYPES
 
 const LOAD_SPOT_REVIEW = 'spot/LOAD_SPOT_REVIEW';
+const LOAD_USER_REVIEWS = 'user/LOAD_USER_REVIEWS';
 
 // todo: define ACTIONS
 
@@ -30,6 +31,12 @@ const loadSpotReviews = (reviews) => {
 	};
 };
 
+const loadUserReivews = (reviews) => {
+	return {
+		type: LOAD_USER_REVIEWS,
+		reviews
+	};
+};
 // todo: define THUNKS
 
 export const getReviewsBySpotId = (spotId) => async (dispatch) => {
@@ -60,6 +67,16 @@ export const deleteReview = (reviewId) => async () => {
 	const deleteRes = await res.json();
 	return deleteRes;
 };
+
+export const getCurrentUserReviews = () => async (dispatch) => {
+	const res = await csrfFetch('/api/reviews/current');
+
+	if (res.ok) {
+		const resData = await res.json();
+		const userReviews = normalizeData(resData.Reviews);
+		dispatch(loadUserReivews(userReviews));
+	}
+};
 // todo: Review Reducer
 const ReviewsReducer = (state = initialState, action) => {
 	Object.freeze(state);
@@ -67,6 +84,9 @@ const ReviewsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case LOAD_SPOT_REVIEW:
 			reviewsState.spot = action.reviews;
+			return reviewsState;
+		case LOAD_USER_REVIEWS:
+			reviewsState.user = action.reviews;
 			return reviewsState;
 		default:
 			return state;

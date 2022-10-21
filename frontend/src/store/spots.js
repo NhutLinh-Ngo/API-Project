@@ -18,6 +18,7 @@ const initialState = {
 //todo: define TYPES
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const LOAD_SINGLE_SPOT_DETAILS = '/spots/LOAD_SINGLE_SPOT_DETAILS';
+const CLEAN_UP_SINGLE_SPOT = 'spots/CLEAN_UP_SINGLE_SPOT';
 
 //todo: define ACTIONS
 const loadSpots = (allSpots) => {
@@ -34,6 +35,11 @@ const loadSingleSpots = (spot) => {
 	};
 };
 
+export const cleanUpSingleSpot = () => {
+	return {
+		type: CLEAN_UP_SINGLE_SPOT
+	};
+};
 // todo: define THUNKS
 // Spots Thunks
 export const getAllSpots = () => async (dispatch) => {
@@ -103,6 +109,9 @@ const spotsReducer = (state = initialState, action) => {
 			return spotsState;
 		case LOAD_SINGLE_SPOT_DETAILS:
 			spotsState.SingleSpots = action.spot;
+			return spotsState;
+		case CLEAN_UP_SINGLE_SPOT:
+			spotsState.SingleSpots = {};
 			return spotsState;
 		default:
 			return state;
