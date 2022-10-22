@@ -53,54 +53,78 @@ export default function Account() {
 				{sessionUser &&
 					showReviews &&
 					userReviews?.map((review, i) => (
-						<div className="account-display-reviews">
-							<div id="spot-name">
-								<span className="account-review-title">Review for:</span>{' '}
-								{review.Spot.name}
-							</div>
-							<div id="review-content-and-preview">
-								<div id="review-rating">
-									<div id="review-date">
-										<span className="account-review-title">Made on:</span>{' '}
-										{new Date(review.createdAt).toDateString()}
-									</div>
-									<div>
-										<span className="account-review-title">Rating:</span>{' '}
-										{review.stars} <i class="fa-solid fa-star"></i>
-									</div>
-									<div>
-										<span className="account-review-title">
-											Review content:
-										</span>{' '}
-										<br />
-										{review.review}
-									</div>
+						<form>
+							<div className="account-display-reviews">
+								<div id="spot-name">
+									<span className="account-review-title">Review for:</span>{' '}
+									{review.Spot.name}
 								</div>
-								<img
-									onClick={() => history.push(`/spots/${review.Spot.id}`)}
-									src={review.Spot.previewImage}
-									style={{ height: '90px', width: '180px', cursor: 'pointer' }}
-								/>
+								<div id="review-content-and-preview">
+									<div id="review-rating">
+										<div id="review-date">
+											<span className="account-review-title">Made on:</span>{' '}
+											{new Date(review.createdAt).toDateString()}
+										</div>
+										<div>
+											<span className="account-review-title">Rating:</span>{' '}
+											<input
+												value={review.stars}
+												style={{ width: '25px', border: 'none' }}
+												type="number"
+												min={1}
+												max={5}
+												onChange={(e) => (review.stars = e.target.value)}
+											/>{' '}
+											<i class="fa-solid fa-star"></i>
+										</div>
+										<div>
+											<span className="account-review-title">
+												Review content:
+											</span>{' '}
+											<br />
+											<textarea
+												value={review.review}
+												style={{
+													resize: 'none',
+													width: '336px',
+													height: '85px',
+													border: '1px solid rgb(208,208,208)',
+													borderRadius: '10px',
+													padding: '3px'
+												}}
+											/>
+										</div>
+									</div>
+									<img
+										onClick={() => history.push(`/spots/${review.Spot.id}`)}
+										src={review.Spot.previewImage}
+										style={{
+											height: '90px',
+											width: '180px',
+											cursor: 'pointer'
+										}}
+									/>
+								</div>
+								{}
+								<div className="delete-account-review">
+									<span>Update</span>
+									<span
+										onClick={async () => {
+											if (
+												window.confirm(
+													'Are you sure you want to delete this review?'
+												)
+											) {
+												await dispatch(reviewsActions.deleteReview(review.id));
+												await dispatch(reviewsActions.getCurrentUserReviews());
+											}
+										}}
+									>
+										Delete review
+									</span>
+								</div>
 							</div>
-							{}
-							<div className="delete-account-review">
-								<span>Update</span>
-								<span
-									onClick={async () => {
-										if (
-											window.confirm(
-												'Are you sure you want to delete this review?'
-											)
-										) {
-											await dispatch(reviewsActions.deleteReview(review.id));
-											await dispatch(reviewsActions.getCurrentUserReviews());
-										}
-									}}
-								>
-									Delete review
-								</span>
-							</div>
-						</div>
+						</form>
 					))}
 			</div>
 		</div>
