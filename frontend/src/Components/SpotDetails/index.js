@@ -21,8 +21,8 @@ export default function SingleSpotDetails() {
 	}, [dispatch]);
 
 	// wait for Spot to load
-	// if (!Object.keys(spot).length) return <LoadingScreen />;
-	if (!Object.keys(spot).length) return null;
+	if (!Object.keys(spot).length) return <LoadingScreen />;
+	// if (!Object.keys(spot).length) return null;
 
 	//get Preview Image
 	const previewImage = spot.SpotImages?.find((image) => image.preview === true);
