@@ -39,7 +39,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 250],
+					len: {
+						args: [1, 250],
+						msg: 'Please enter proper city'
+					},
 					notNull: {
 						msg: 'City is required'
 					}
