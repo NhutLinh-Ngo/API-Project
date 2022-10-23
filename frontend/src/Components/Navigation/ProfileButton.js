@@ -37,13 +37,12 @@ function ProfileButton({ user }) {
 			<button onClick={openMenu} className="navbar-button">
 				<i class="fa-solid fa-bars"></i>
 				<i class="fa-solid fa-circle-user"></i>
-			</button>
-			{showMenu && (
-				<ul className="nav-dropped-down">
-					<li className="signedin-li">
-						<span>welcome back,</span> {user.firstName}
-					</li>
-					{/* <li>
+				{showMenu && (
+					<ul className="nav-dropped-down">
+						<li className="signedin-li">
+							<span>welcome back,</span> {user.firstName}
+						</li>
+						{/* <li>
 						<NavLink
 							to="/account"
 							className="nav-dropped-down-li account-nav-link"
@@ -51,11 +50,12 @@ function ProfileButton({ user }) {
 							Account
 						</NavLink>
 					</li> */}
-					<li className="nav-dropped-down-li logout-button" onClick={logout}>
-						Log Out
-					</li>
-				</ul>
-			)}
+						<li className="nav-dropped-down-li logout-button" onClick={logout}>
+							Log Out
+						</li>
+					</ul>
+				)}
+			</button>
 		</div>
 	);
 }

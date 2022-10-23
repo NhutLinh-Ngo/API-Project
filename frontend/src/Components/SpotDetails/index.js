@@ -6,6 +6,7 @@ import Title from './Title';
 import SpotImages from './SpotImages';
 import SpotDetailsBody from './SpotDetailsBody';
 import SpotReviews from '../ReviewsForSpot';
+import LoadingScreen from '../LoadingScreen';
 import './SingleSpotDetails.css';
 
 export default function SingleSpotDetails() {
@@ -20,6 +21,7 @@ export default function SingleSpotDetails() {
 	}, [dispatch]);
 
 	// wait for Spot to load
+	// if (!Object.keys(spot).length) return <LoadingScreen />;
 	if (!Object.keys(spot).length) return null;
 
 	//get Preview Image

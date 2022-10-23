@@ -45,23 +45,23 @@ function Navigation({ isLoaded }) {
 				<button onClick={openMenu} className="navbar-button">
 					<i class="fa-solid fa-bars"></i>
 					<i class="fa-solid fa-circle-user"></i>
+					{showMenu && (
+						<ul className="nav-dropped-down">
+							<li
+								className="nav-dropped-down-li"
+								onClick={() => setShowModalLogin(true)}
+							>
+								Log In
+							</li>
+							<li
+								className="nav-dropped-down-li"
+								onClick={() => setShowModalSignup(true)}
+							>
+								Sign Up
+							</li>
+						</ul>
+					)}
 				</button>
-				{showMenu && (
-					<ul className="nav-dropped-down">
-						<li
-							className="nav-dropped-down-li"
-							onClick={() => setShowModalLogin(true)}
-						>
-							Log In
-						</li>
-						<li
-							className="nav-dropped-down-li"
-							onClick={() => setShowModalSignup(true)}
-						>
-							Sign Up
-						</li>
-					</ul>
-				)}
 				{showModalLogin && (
 					<Modal onClose={() => setShowModalLogin(false)}>
 						<LoginForm />
@@ -78,7 +78,7 @@ function Navigation({ isLoaded }) {
 
 	return (
 		<div className={`navbar-wrapper`}>
-			<div className={`navbar-content`}>
+			<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
 				<NavLink exact to="/">
 					<img
 						src={logo}
