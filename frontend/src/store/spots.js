@@ -75,10 +75,13 @@ export const CreateNewSpot = (spotInfo) => async (dispatch) => {
 };
 
 export const UpdateSpot = (spotInfo, spotId) => async () => {
-	return await csrfFetch(`/api/spots/${spotId}`, {
+	const res = await csrfFetch(`/api/spots/${spotId}`, {
 		method: 'PUT',
 		body: JSON.stringify(spotInfo)
 	});
+
+	const UpdatedSpot = await res.json();
+	return UpdatedSpot;
 };
 
 export const DeleteSpot = (spotId) => async () => {

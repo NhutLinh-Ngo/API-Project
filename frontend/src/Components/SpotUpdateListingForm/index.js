@@ -15,7 +15,7 @@ export default function UpdateListingForm() {
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('');
 	const [country, setCountry] = useState('');
-	const [name, setName] = useState(spot.name || '');
+	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [price, setPrice] = useState('');
 	const [errors, setErrors] = useState({});
@@ -39,6 +39,7 @@ export default function UpdateListingForm() {
 		e.preventDefault();
 		setHasSubmit(true);
 
+		setErrors({});
 		const SpotUpdateInfo = {
 			address,
 			city,
@@ -48,16 +49,17 @@ export default function UpdateListingForm() {
 			description,
 			price
 		};
-		await dispatch(spotsActions.UpdateSpot(SpotUpdateInfo, spotId)).catch(
-			async (res) => {
-				const data = await res.json();
-				if (data && data.errors) {
-					setErrors(data.errors);
-				}
+		const updatedSpot = await dispatch(
+			spotsActions.UpdateSpot(SpotUpdateInfo, spotId)
+		).catch(async (res) => {
+			const data = await res.json();
+			if (data && data.errors) {
+				setErrors(data.errors);
 			}
-		);
+		});
+
 		//REDIRECT TO NEW SPOT IF EVERYTHING GO WELL!
-		if (!Object.values(errors).length) history.push(`/spots/${spotId}`);
+		if (updatedSpot) history.push(`/spots/${spotId}`);
 	};
 
 	const HandleDeleteSpot = async () => {

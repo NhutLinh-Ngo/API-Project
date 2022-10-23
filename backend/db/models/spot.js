@@ -26,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true,
 				validate: {
-					len: [1, 250],
+					len: {
+						args: [1, 250],
+						msg: 'Please enter proper address'
+					},
 					notNull: {
 						msg: 'Street address is required'
 					}
@@ -46,7 +49,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [2, 250],
+					len: {
+						arg: [2, 250],
+						msg: 'Please enter proper State'
+					},
 					hasNumber(value) {
 						if (/[0-9]/.test(value))
 							throw new Error('State input cannot containt number');
@@ -60,7 +66,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 250],
+					len: {
+						args: [1, 250],
+						msg: 'Please enter proper Country'
+					},
 					hasNumber(value) {
 						if (/[0-9]/.test(value))
 							throw new Error('State input cannot containt number');
@@ -139,6 +148,9 @@ module.exports = (sequelize, DataTypes) => {
 					},
 					min: {
 						args: [1],
+						msg: 'Minimum price is $1'
+					},
+					isNumeric: {
 						msg: 'Minimum price is $1'
 					}
 				}
