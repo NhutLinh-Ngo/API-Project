@@ -68,7 +68,7 @@ npm start
 
 ## Functionality Demo
 
-- Login/singup.
+- Login/signup.
 
 ![img](https://i.imgur.com/78hOSdp.gif)
 
