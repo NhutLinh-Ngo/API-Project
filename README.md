@@ -1,7 +1,7 @@
 # `NhutBnB`
 
 [NhutBnB](https://nhut-airbnb-api.herokuapp.com/) is a webpage inspired by [airbnb](https://www.airbnb.com/).
-
+NhutBnB allow for creating/delete/updating listing, and creating/delete reviews.
 ## Contacts
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
