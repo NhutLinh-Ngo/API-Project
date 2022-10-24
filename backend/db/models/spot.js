@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				validate: {
 					len: {
-						arg: [2, 250],
+						args: [2, 250],
 						msg: 'Please enter proper State'
 					},
 					hasNumber(value) {
