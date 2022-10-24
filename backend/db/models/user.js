@@ -58,14 +58,20 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 50]
+					len: {
+						args: [1, 50],
+						msg: 'first Name is 50 character max'
+					}
 				}
 			},
 			lastName: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 50]
+					len: {
+						args: [1, 50],
+						msg: 'Last Name is 50 character max'
+					}
 				}
 			},
 			username: {
@@ -76,7 +82,10 @@ module.exports = (sequelize, DataTypes) => {
 					msg: 'Username already in uses!'
 				},
 				validate: {
-					len: [4, 30],
+					len: {
+						args: [4, 30],
+						msg: 'Username is 30 character max'
+					},
 					isNotEmail(value) {
 						if (Validator.isEmail(value)) {
 							throw new Error('Cannot be an email.');
@@ -92,7 +101,10 @@ module.exports = (sequelize, DataTypes) => {
 					msg: 'Email address already in use!'
 				},
 				validate: {
-					len: [3, 256],
+					len: {
+						args: [3, 250],
+						msg: 'email has 250 character limit'
+					},
 					isEmail: true
 				}
 			},
