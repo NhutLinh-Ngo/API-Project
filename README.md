@@ -43,7 +43,7 @@ git clone https://github.com/NhutLinh-Ngo/API-Project.git
 npm install
 ```
 
-- Run the following code to create database.
+- Run the following code to in the backend/ folder to create database.
 
 ```sh
 npx dotenv sequelize db:migrate
@@ -53,7 +53,7 @@ npx dotenv sequelize db:migrate
 npx dotenv sequelize db:seed:all
 ```
 
-- cd into frontend and backend/src folders.
+- cd into frontend and backend/src folders(both must be running).
 
 ```sh
 npm start
