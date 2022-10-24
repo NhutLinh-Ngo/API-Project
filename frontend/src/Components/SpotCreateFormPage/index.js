@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { getDetailsOfSpot } from '../../store/spots';
 import './CreateSpotFormPage.css';
 import * as spotsActions from '../../store/spots';
 export default function CreateSpotFormPage() {
@@ -81,22 +82,28 @@ export default function CreateSpotFormPage() {
 
 		// POST OTHER IMAGES IF PROVIDED,
 		//otherImage is fill with null thus it will only post aditional image if provided.
-		await otherImages.forEach(async (image) => {
-			if (image) {
-				const imageData = { url: image, preview: false };
-				await dispatch(spotsActions.AddImageToSpot(imageData, spotId)).catch(
-					async (res) => {
-						const data = await res.json();
-						if (data && data.errors) {
-							setImageErrors(data.errors);
+		let redirect = false;
+		if (sucessPost) {
+			otherImages.forEach(async (image) => {
+				if (image) {
+					const imageData = { url: image, preview: false };
+					await dispatch(spotsActions.AddImageToSpot(imageData, spotId)).catch(
+						async (res) => {
+							const data = await res.json();
+							if (data && data.errors) {
+								setImageErrors(data.errors);
+							}
 						}
-					}
-				);
-			}
-		});
+					);
+				}
+			});
+			redirect = true;
+		}
 
-		//REDIRECT TO NEW SPOT IF EVERYTHING GO WELL!
-		if (!Object.values(imageErrors).length) history.push(`/spots/${spotId}`);
+		if (redirect) {
+			await dispatch(getDetailsOfSpot(spotId));
+			history.push(`/spots/${spotId}`);
+		}
 	};
 
 	// FILL IN NULL FILLED array with aditional images if user provide them
@@ -222,11 +229,10 @@ export default function CreateSpotFormPage() {
 						<form id="create-form" onSubmit={handleImageForm}>
 							<input
 								className="spot-form-input"
-								type="url"
+								type="text"
 								value={previewImg}
 								onChange={(e) => setPreviewImg(e.target.value)}
 								placeholder="Preview Image"
-								required
 							/>
 							<div className="spot-error7 error">
 								{hasSubmitImg && (
