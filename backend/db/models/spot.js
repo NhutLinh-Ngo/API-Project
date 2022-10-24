@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					len: {
 						args: [1, 250],
-						msg: 'Please enter proper Country'
+						msg: 'Please enter proper Country under 250 characters'
 					},
 					hasNumber(value) {
 						if (/[0-9]/.test(value))
@@ -125,7 +125,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 					len: {
 						args: [1, 250],
-						msg: 'Name must be less than 50 characters'
+						msg: 'Please Enter Proper name under 250 characters'
 					}
 				}
 			},
@@ -138,7 +138,7 @@ module.exports = (sequelize, DataTypes) => {
 					},
 					len: {
 						args: [1, 250],
-						msg: 'Name must be less than 250 characters'
+						msg: 'Please Enter proper description under 250 characters'
 					}
 				}
 			},
