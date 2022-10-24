@@ -66,6 +66,12 @@ npm start
 - [Feature List](https://github.com/NhutLinh-Ngo/API-Project/wiki/Feature-List)
 - [Redux Store Shape](https://github.com/NhutLinh-Ngo/API-Project/wiki/Redux-State-Shape)
 
+## Future Features
+* Implement review update.
+* Implement full CRUD for bookings.
+* Implement Search bar.
+* Implement Google API to display spot location.
+
 ## Functionality Demo
 
 - Login/signup.
