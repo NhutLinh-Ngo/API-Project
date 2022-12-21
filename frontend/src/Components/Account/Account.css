@@ -67,6 +67,37 @@ cursor: pointer;
     color: rgb(231, 136, 136);
 }
 
+.account-page-review-stars-label{
+    cursor: pointer;
+}
+.account-page-review-stars{
+    display: none;
+    cursor: pointer;
+}
+
+
+.account-page-review-textarea{
+    resize: none;
+    width: 336px;
+    height: 84px;
+    border: none;
+    padding: 3px;
+    border-radius: 8px;
+}
+
+
+.account-page-review-textarea:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.account-page-review-image{
+    height: 100%;
+    width: 179px;
+    cursor: pointer;
+}
 .delete-account-review{
     margin-top: 1rem;
     display: flex;
@@ -74,10 +105,20 @@ cursor: pointer;
     font-weight: 300;
 }
 
-.delete-account-review > span{
+.delete-account-review > button{
+    border: none;
+    background-color: white;
     cursor: pointer;
 }
 
-.delete-account-review>span:hover{
+.delete-account-review>button:hover{
     color: red;
+}
+
+
+.error-account-review {
+    color: red;
+    font-size: 14px;
+    padding: 0;
+    height: 1rem;
 }

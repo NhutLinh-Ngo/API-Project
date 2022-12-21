@@ -42,14 +42,14 @@ function ProfileButton({ user }) {
 						<li className="signedin-li">
 							<span>welcome back,</span> {user.firstName}
 						</li>
-						{/* <li>
-						<NavLink
-							to="/account"
-							className="nav-dropped-down-li account-nav-link"
-						>
-							Account
-						</NavLink>
-					</li> */}
+						<li>
+							<NavLink
+								to="/account"
+								className="nav-dropped-down-li account-nav-link"
+							>
+								Account
+							</NavLink>
+						</li>
 						<li className="nav-dropped-down-li logout-button" onClick={logout}>
 							Log Out
 						</li>

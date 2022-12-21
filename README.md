@@ -1,6 +1,7 @@
 # `NhutBnB`
 
 [NhutBnB](https://nhut-airbnb-api.herokuapp.com/) is a webpage inspired by [airbnb](https://www.airbnb.com/).
+NhutBnB allow for creating/delete/updating listing, and creating/delete reviews.
 
 ## Contacts
 
@@ -43,7 +44,7 @@ git clone https://github.com/NhutLinh-Ngo/API-Project.git
 npm install
 ```
 
-- Run the following code to create database.
+- Run the following code to in the backend/ folder to create database.
 
 ```sh
 npx dotenv sequelize db:migrate
@@ -53,7 +54,7 @@ npx dotenv sequelize db:migrate
 npx dotenv sequelize db:seed:all
 ```
 
-- cd into frontend and backend/src folders.
+- cd into frontend and backend/src folders(both must be running).
 
 ```sh
 npm start
@@ -66,9 +67,16 @@ npm start
 - [Feature List](https://github.com/NhutLinh-Ngo/API-Project/wiki/Feature-List)
 - [Redux Store Shape](https://github.com/NhutLinh-Ngo/API-Project/wiki/Redux-State-Shape)
 
+## Future Features
+
+- Implement review update.
+- Implement full CRUD for bookings.
+- Implement Search bar.
+- Implement Google API to display spot location.
+
 ## Functionality Demo
 
-- Login/singup.
+- Login/signup.
 
 ![img](https://i.imgur.com/78hOSdp.gif)
 
