@@ -1,10 +1,54 @@
 import React from 'react';
 import './SingleSpotDetails.css';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import { useState } from 'react';
+import './SingleSpotDetails.css';
+import { useEffect } from 'react';
 
 export default function SpotDetailsBody({ spot, name }) {
+	const [starDate, setStartDate] = useState('');
 	const serviceFee = parseInt((spot.price * 7 * 0.145).toFixed(0));
 	const pricePerWeek = parseInt(spot.price * 7);
 	const totalPrice = serviceFee + pricePerWeek + 300;
+
+	useEffect(() => {
+		const box = document.getElementsByClassName(
+			'react-daterange-picker__inputGroup'
+		);
+		const checkIn = document.createElement('div');
+		const checkOut = document.createElement('div');
+		checkIn.classList.add('date-checkin-label');
+		checkOut.classList.add('date-checkin-label');
+
+		const monthButtom = document.getElementsByClassName(
+			'react-calendar__navigation__label'
+		);
+
+		const contentCheckIn = document.createTextNode('CHECK-IN');
+		const contentCheckOut = document.createTextNode('CHECK-OUT');
+		checkIn.appendChild(contentCheckIn);
+		checkOut.appendChild(contentCheckOut);
+		box[0].prepend(checkIn);
+		box[1].prepend(checkOut);
+	}, []);
+
+	useEffect(() => {
+		const endDate = document.getElementsByClassName(
+			'react-calendar__tile--rangeEnd'
+		);
+
+		if (endDate.length) {
+			const lastIndex = endDate.length - 1;
+			endDate[lastIndex].classList.add('checkout-date-tile');
+		}
+
+		console.log(starDate);
+	}, [starDate]);
+
+	const formatDate = (date, key) => {
+		const day = new Date(date).toDateString().toString();
+		return day.split(' ')[0].split('').slice(0, 2).join('');
+	};
 	return (
 		<div className="spot-details-body">
 			<div className="spot-details-body-leftCol">
@@ -94,6 +138,24 @@ export default function SpotDetailsBody({ spot, name }) {
 			</div>
 			<div className="spot-details-body-rightCol">
 				<div className="booking-wrapper">
+					<DateRangePicker
+						onChange={setStartDate}
+						value={starDate}
+						minDate={new Date()}
+						rangeDivider={false}
+						showDoubleView={true}
+						monthPlaceholder={'mm'}
+						yearPlaceholder={'yyyy'}
+						dayPlaceholder={'dd'}
+						calendarIcon={null}
+						showFixedNumberOfWeeks={true}
+						// tileDisabled={({ activeStartDate, date, view }) =>
+						// 	console.log(date)
+						// }
+						view={'month'}
+						formatShortWeekday={(locale, date) => formatDate(date, 'dd')}
+						className="spot-datepicker"
+					/>
 					<div className="price-and-review">
 						<div>
 							${spot.price} <span style={{ fontSize: '1rem' }}> night</span>
@@ -122,7 +184,6 @@ export default function SpotDetailsBody({ spot, name }) {
 						<div>Service fee</div>
 						<div>${serviceFee}</div>
 					</div>
-
 					<div>
 						<div className="total-title">Total before taxes: </div>
 						<div className="total">${totalPrice}</div>
