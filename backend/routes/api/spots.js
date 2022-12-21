@@ -155,9 +155,9 @@ router.post(
 );
 
 // Get all Bookings for a Spot based on the Spot's Id
-router.get('/:spotId/bookings', authentication, async (req, res, next) => {
+router.get('/:spotId/bookings', async (req, res, next) => {
 	const spotId = parseInt(req.params.spotId);
-	const userId = req.user.id;
+	const userId = req.user?.id;
 	let Bookings = [];
 	const findSpot = await Spot.findByPk(spotId);
 

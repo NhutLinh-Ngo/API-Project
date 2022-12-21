@@ -11,6 +11,7 @@ export default function SpotDetailsBody({ spot, name }) {
 	const pricePerWeek = parseInt(spot.price * 7);
 	const totalPrice = serviceFee + pricePerWeek + 300;
 
+	console.log(spot);
 	useEffect(() => {
 		const box = document.getElementsByClassName(
 			'react-daterange-picker__inputGroup'
@@ -20,10 +21,6 @@ export default function SpotDetailsBody({ spot, name }) {
 		checkIn.classList.add('date-checkin-label');
 		checkOut.classList.add('date-checkin-label');
 
-		const monthButtom = document.getElementsByClassName(
-			'react-calendar__navigation__label'
-		);
-
 		const contentCheckIn = document.createTextNode('CHECK-IN');
 		const contentCheckOut = document.createTextNode('CHECK-OUT');
 		checkIn.appendChild(contentCheckIn);
@@ -31,19 +28,6 @@ export default function SpotDetailsBody({ spot, name }) {
 		box[0].prepend(checkIn);
 		box[1].prepend(checkOut);
 	}, []);
-
-	useEffect(() => {
-		const endDate = document.getElementsByClassName(
-			'react-calendar__tile--rangeEnd'
-		);
-
-		if (endDate.length) {
-			const lastIndex = endDate.length - 1;
-			endDate[lastIndex].classList.add('checkout-date-tile');
-		}
-
-		console.log(starDate);
-	}, [starDate]);
 
 	const formatDate = (date, key) => {
 		const day = new Date(date).toDateString().toString();
@@ -147,11 +131,13 @@ export default function SpotDetailsBody({ spot, name }) {
 						monthPlaceholder={'mm'}
 						yearPlaceholder={'yyyy'}
 						dayPlaceholder={'dd'}
+						showNeighboringMonth={false}
 						calendarIcon={null}
-						showFixedNumberOfWeeks={true}
-						// tileDisabled={({ activeStartDate, date, view }) =>
-						// 	console.log(date)
-						// }
+						showFixedNumberOfWeeks={false}
+						tileDisabled={({ activeStartDate, date, view }) =>
+							date.toJSON().slice(0, 10) ==
+							new Date('2022-12-20').toJSON().slice(0, 10)
+						}
 						view={'month'}
 						formatShortWeekday={(locale, date) => formatDate(date, 'dd')}
 						className="spot-datepicker"
