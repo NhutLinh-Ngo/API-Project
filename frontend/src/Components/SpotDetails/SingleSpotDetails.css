@@ -143,7 +143,7 @@
 
 .booking-wrapper{
     /* margin: 1rem 1rem 0 3rem; */
-    max-height: 350px;
+    height: fit-content;
     min-width: fit-content;
     width: 90%;
     border-radius: 15px;
@@ -231,6 +231,7 @@
     flex-grow: 1;
     flex-shrink: 0;
     align-items: flex-end;
+    /* justify-content: flex-end; */
     border: thin solid black;
     overflow: hidden;
     max-width: 100%;
@@ -238,6 +239,7 @@
     border-radius: 10px;
     /* padding-bottom: 0.5rem; */
     position: relative;
+    cursor: pointer;
 }
 
 .date-checkin-label{
@@ -262,6 +264,7 @@
     justify-content: center;
     gap: 2px;
     position: relative;
+    cursor: pointer;
 }
 .react-daterange-picker__range-divider{
     height: 100%;
@@ -287,7 +290,7 @@
     -moz-appearance: textfield;
     font-size: 1rem;
     text-align: center;
-    /* border: 1px solid red; */
+    cursor: pointer;
 }
 
 .react-daterange-picker__inputGroup__input::-webkit-outer-spin-button,
@@ -339,6 +342,7 @@
     width: 350px;
     max-width: 100vw;
     z-index: 1;
+    top: 1px;
     position: absolute;
 }
 
@@ -554,4 +558,31 @@
     border-radius: 50%;
     background: black;
     color: white;
+}
+
+#show-calendar-div{
+    min-width: 100%;
+}
+#show-calendar-button{
+    min-width: 100%;
+    height: 50px;
+    border: none;
+    background-color: #e51d4e;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+#clear-date-button{
+    position: relative;
+    right: -500px;
+    border: none;
+    background: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+.react-daterange-picker__calendar-button{
+    display: none;
 }

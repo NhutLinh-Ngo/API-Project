@@ -16,10 +16,14 @@ const initialState = {
 };
 
 const GET_SPOT_BOOKING = 'bookings/GET_SPOT_BOOKING';
+const CLEAR_SPOT_BOOKINGS = 'bookings/CLEAR';
 
 const loadSpotBooking = (bookings) => ({
 	type: GET_SPOT_BOOKING,
 	bookings
+});
+export const clearSpotBookings = () => ({
+	type: CLEAR_SPOT_BOOKINGS
 });
 
 export const getSpotBookings = (spotId) => async (dispatch) => {
@@ -28,6 +32,7 @@ export const getSpotBookings = (spotId) => async (dispatch) => {
 	if (res.ok) {
 		const bookingData = await res.json();
 		dispatch(loadSpotBooking(bookingData.Bookings));
+		return bookingData.Bookings;
 	}
 };
 
@@ -39,7 +44,11 @@ const BookingReducer = (state = initialState, action) => {
 		case GET_SPOT_BOOKING:
 			const obj = {};
 			action.bookings.forEach((booking) => (obj[booking.spotId] = booking));
-			return obj;
+			bookingsState.singleSpotBookings = obj;
+			return bookingsState;
+		case CLEAR_SPOT_BOOKINGS:
+			bookingsState.singleSpotBookings = {};
+			return bookingsState;
 		default:
 			return state;
 	}

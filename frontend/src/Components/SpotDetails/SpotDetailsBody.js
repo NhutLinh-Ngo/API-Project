@@ -1,17 +1,45 @@
 import React from 'react';
 import './SingleSpotDetails.css';
-import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import DateRangePicker, {
+	CalendarIcon
+} from '@wojtekmaj/react-daterange-picker';
+import * as bookingActions from '../../store/booking';
 import { useState } from 'react';
 import './SingleSpotDetails.css';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 export default function SpotDetailsBody({ spot, name }) {
-	const [starDate, setStartDate] = useState('');
-	const serviceFee = parseInt((spot.price * 7 * 0.145).toFixed(0));
-	const pricePerWeek = parseInt(spot.price * 7);
-	const totalPrice = serviceFee + pricePerWeek + 300;
+	const dispatch = useDispatch();
+	const [bookingDates, setStartDate] = useState('');
+	const [selectedStartDate, setSelectedStartdate] = useState('');
+	const [spotBookings, setSpotBookings] = useState([]);
+	const [serviceFee, setServiceFee] = useState(0);
+	const [totalPrice, setTotalPrice] = useState(0);
+	const [priceBeforeFee, setPriceBeforeFee] = useState(0);
+	const [totalStay, setTotalStay] = useState(0);
+	const [bookingDetails, setBookingDetails] = useState(false);
+	const [availabilityButton, setAvailabilityButton] = useState('');
 
-	console.log(spot);
+	const [haveDateSelected, setHaveDateSelected] = useState(true);
+	const [calendarOpened, setCalendarOpened] = useState(false);
+
+	// Load spot bookings
+	useEffect(() => {
+		const getBookings = async () => {
+			let bookings = await dispatch(bookingActions.getSpotBookings(spot.id));
+			bookings = bookings.map((booking) => [
+				booking.startDate,
+				booking.endDate
+			]);
+			setSpotBookings(bookings);
+		};
+
+		getBookings();
+		return () => dispatch(bookingActions.clearSpotBookings());
+	}, []);
+
+	//add check-in and check-in label to booking input box
 	useEffect(() => {
 		const box = document.getElementsByClassName(
 			'react-daterange-picker__inputGroup'
@@ -29,10 +57,110 @@ export default function SpotDetailsBody({ spot, name }) {
 		box[1].prepend(checkOut);
 	}, []);
 
+	// add onclick function to datePickWrapper
+	useEffect(() => {
+		const dateRangeWrapper = document.getElementsByClassName(
+			'react-daterange-picker__wrapper'
+		);
+	}, []);
+	//Set booking details once date have been selected
+	useEffect(() => {
+		if (bookingDates) {
+			setBookingDetails(true);
+			setHaveDateSelected(false);
+			const totalStay =
+				new Date(bookingDates[1].getDate()) -
+				new Date(bookingDates[0]).getDate();
+			const priceBeforeFee = parseInt(spot.price * totalStay);
+			const serviceFee = parseInt((spot.price * totalStay * 0.145).toFixed(0));
+			const totalPrice = serviceFee + priceBeforeFee + 300;
+			setPriceBeforeFee(priceBeforeFee);
+			setServiceFee(serviceFee);
+			setTotalPrice(totalPrice);
+			setTotalStay(totalStay);
+		} else {
+			setBookingDetails(false);
+			setPriceBeforeFee(0);
+			setServiceFee(0);
+			setTotalPrice(0);
+			setTotalStay(0);
+			setHaveDateSelected(true);
+		}
+	}, [bookingDates]);
+
+	// move the open calendar button into a different place.
+	useEffect(() => {
+		if (haveDateSelected) {
+			let calendarButton = document.getElementById('show-calendar-button');
+			const newLocationForButton = document.getElementById('show-calendar-div');
+			if (!availabilityButton) setAvailabilityButton(calendarButton);
+			calendarButton = availabilityButton ? availabilityButton : calendarButton;
+			newLocationForButton.append(calendarButton);
+		} else {
+			const newLocationForButton = document.getElementById('show-calendar-div');
+			while (newLocationForButton.lastElementChild) {
+				newLocationForButton.removeChild(newLocationForButton.lastElementChild);
+			}
+		}
+	}, [haveDateSelected]);
+
+	useEffect(() => {
+		if (calendarOpened) {
+			const calendarDiv = document.getElementsByClassName('react-calendar');
+			const clearDateButton = document.getElementById('clear-date-button');
+			calendarDiv[0].append(clearDateButton);
+			console.log(calendarDiv[0], clearDateButton);
+		}
+	}, [calendarOpened]);
+	// // click event listener to close down calendar when clicked on
+	// useEffect(() => {
+	// 	if (!showMenu) return;
+
+	// 	const calendar = document.getElementsByClassName(
+	// 		'react-daterange-picker__calendar'
+	// 	);
+	// 	const calendar1 = document.getElementsByClassName('react-daterange-picker');
+	// 	console.log(calendar1.length, calendar, showMenu);
+
+	// 	const spotbody = document.getElementsByClassName('spot-details-wrapper');
+	// 	console.log(spotbody);
+
+	// 	const closeMenu = () => {
+	// 		if (calendar1.length) {
+	// 			calendar1[0].classList.remove('react-daterange-picker--open');
+	// 			calendar1[0].classList.add('react-daterange-picker--closed');
+	// 			calendar[0].classList.remove('react-daterange-picker__calendar--open');
+	// 			calendar[0].classList.add('react-daterange-picker__calendar--closed');
+	// 		}
+	// 		setHaveDateSelected(false);
+	// 	};
+
+	// 	document.addEventListener('click', closeMenu);
+
+	// 	return () => document.removeEventListener('click', closeMenu);
+	// }, [showMenu]);
+
+	// // function to open calendar when clicked on button
+	// const handleOpenCalender = (e) => {
+	// 	if (showMenu) return;
+
+	// 	const calendar = document.getElementsByClassName(
+	// 		'react-daterange-picker__calendar'
+	// 	);
+	// 	const calendar1 = document.getElementsByClassName('react-daterange-picker');
+	// 	console.log(calendar, 'asdfasdfsadfsd', calendar1);
+	// 	calendar1[0].classList.remove('react-daterange-picker--closed');
+	// 	calendar1[0].classList.add('react-daterange-picker--open');
+	// 	calendar[0].classList.remove('react-daterange-picker__calendar--closed');
+	// 	calendar[0].classList.add('react-daterange-picker__calendar--open');
+	// 	setHaveDateSelected(true);
+	// };
+
 	const formatDate = (date, key) => {
 		const day = new Date(date).toDateString().toString();
 		return day.split(' ')[0].split('').slice(0, 2).join('');
 	};
+
 	return (
 		<div className="spot-details-body">
 			<div className="spot-details-body-leftCol">
@@ -122,26 +250,6 @@ export default function SpotDetailsBody({ spot, name }) {
 			</div>
 			<div className="spot-details-body-rightCol">
 				<div className="booking-wrapper">
-					<DateRangePicker
-						onChange={setStartDate}
-						value={starDate}
-						minDate={new Date()}
-						rangeDivider={false}
-						showDoubleView={true}
-						monthPlaceholder={'mm'}
-						yearPlaceholder={'yyyy'}
-						dayPlaceholder={'dd'}
-						showNeighboringMonth={false}
-						calendarIcon={null}
-						showFixedNumberOfWeeks={false}
-						tileDisabled={({ activeStartDate, date, view }) =>
-							date.toJSON().slice(0, 10) ==
-							new Date('2022-12-20').toJSON().slice(0, 10)
-						}
-						view={'month'}
-						formatShortWeekday={(locale, date) => formatDate(date, 'dd')}
-						className="spot-datepicker"
-					/>
 					<div className="price-and-review">
 						<div>
 							${spot.price} <span style={{ fontSize: '1rem' }}> night</span>
@@ -158,22 +266,79 @@ export default function SpotDetailsBody({ spot, name }) {
 							</a>
 						</div>
 					</div>
-					<div className="fees-wrapper">
-						<div>${spot.price} x 7 nights</div>
-						<div>${pricePerWeek}</div>
-					</div>
-					<div className="fees-wrapper">
-						<div>Cleaning fee</div>
-						<div>$300</div>
-					</div>
-					<div className="fees-wrapper serviceFee">
-						<div>Service fee</div>
-						<div>${serviceFee}</div>
-					</div>
-					<div>
-						<div className="total-title">Total before taxes: </div>
-						<div className="total">${totalPrice}</div>
-					</div>
+					<DateRangePicker
+						onChange={setStartDate}
+						value={bookingDates}
+						minDate={new Date()}
+						onClickDay={(value, event) => {
+							if (selectedStartDate) setSelectedStartdate('');
+							else setSelectedStartdate(value.toJSON().slice(0, 10).toString());
+						}}
+						rangeDivider={false}
+						showDoubleView={true}
+						monthPlaceholder={'mm'}
+						yearPlaceholder={'yyyy'}
+						dayPlaceholder={'dd'}
+						showNeighboringMonth={false}
+						calendarIcon={
+							<button id="show-calendar-button">Check availability</button>
+						}
+						clearIcon={
+							calendarOpened ? (
+								<button id="clear-date-button">Clear dates</button>
+							) : null
+						}
+						goToRangeStartOnSelect={false}
+						showFixedNumberOfWeeks={false}
+						tileDisabled={({ activeStartDate, date, view }) => {
+							let currDate = date.toJSON().slice(0, 10).toString();
+							for (let i = 0; i < spotBookings.length; i++) {
+								let bookingDate = spotBookings[i];
+								if (bookingDate[0] <= currDate && bookingDate[1] >= currDate)
+									return true;
+
+								if (selectedStartDate) {
+									if (selectedStartDate > currDate) return true;
+									if (
+										bookingDate[0] > selectedStartDate &&
+										currDate > bookingDate[0]
+									)
+										return true;
+								}
+							}
+						}}
+						view={'month'}
+						formatShortWeekday={(locale, date) => formatDate(date, 'dd')}
+						onClick={() => setCalendarOpened(true)}
+						autoFocus={false}
+					/>
+					<div
+						id="show-calendar-div"
+						onClick={() => setCalendarOpened(true)}
+					></div>
+					{/* <button onClick={handleOpenCalender}>Check availability</button> */}
+					{bookingDetails && (
+						<>
+							<div className="fees-wrapper">
+								<div>
+									${spot.price} x {totalStay} nights
+								</div>
+								<div>${priceBeforeFee}</div>
+							</div>
+							<div className="fees-wrapper">
+								<div>Cleaning fee</div>
+								<div>$300</div>
+							</div>
+							<div className="fees-wrapper serviceFee">
+								<div>Service fee</div>
+								<div>${serviceFee}</div>
+							</div>
+							<div>
+								<div className="total-title">Total before taxes: </div>
+								<div className="total">${totalPrice}</div>
+							</div>
+						</>
+					)}
 				</div>
 			</div>
 		</div>
