@@ -5,25 +5,58 @@ import DateRangePicker, {
 } from '@wojtekmaj/react-daterange-picker';
 import * as bookingActions from '../../store/booking';
 import { useState } from 'react';
-import './SingleSpotDetails.css';
+import { Modal } from '../../context/Modal';
+import LoginForm from '../LoginFormModal';
+import SignupFormPage from '../SignupFormPage';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import useModalVariableContext from '../../context/ModalShowVariable';
+import './SingleSpotDetails.css';
+import { NavLink } from 'react-router-dom';
 
+function currencyFormat(num) {
+	return num.toLocaleString('en-US', {
+		style: 'currency',
+		currency: 'USD'
+	});
+}
 export default function SpotDetailsBody({ spot, name }) {
 	const dispatch = useDispatch();
-	const [bookingDates, setStartDate] = useState('');
+	const user = useSelector((state) => state.session.user);
+	const allBooking = useSelector((state) => state.bookings.singleSpotBookings);
+
+	//all booking state
+	const [bookingDates, setBookingDates] = useState('');
 	const [selectedStartDate, setSelectedStartdate] = useState('');
 	const [spotBookings, setSpotBookings] = useState([]);
 	const [serviceFee, setServiceFee] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [priceBeforeFee, setPriceBeforeFee] = useState(0);
 	const [totalStay, setTotalStay] = useState(0);
+	const [tax, setTax] = useState(0);
+	const [grandTotal, setGrandTotal] = useState(0);
 	const [bookingDetails, setBookingDetails] = useState(false);
 	const [availabilityButton, setAvailabilityButton] = useState('');
 
 	const [haveDateSelected, setHaveDateSelected] = useState(true);
 	const [calendarOpened, setCalendarOpened] = useState(false);
 
+	const [haveCalendarRendered, setHaveCalendarRendered] = useState(false);
+
+	//Login and signup modal if user Not Login In
+	const {
+		showModalLogin,
+		setShowModalLogin,
+		showModalSignup,
+		setShowModalSignup
+	} = useModalVariableContext();
+
+	//error state
+	const [errors, setErrors] = useState({});
+
+	//booked modal
+	const [showBookedModal, setShowBookedModal] = useState(false);
+	const [confirmedDate, setConfirmedDate] = useState('');
 	// Load spot bookings
 	useEffect(() => {
 		const getBookings = async () => {
@@ -36,6 +69,7 @@ export default function SpotDetailsBody({ spot, name }) {
 		};
 
 		getBookings();
+
 		return () => dispatch(bookingActions.clearSpotBookings());
 	}, []);
 
@@ -59,6 +93,7 @@ export default function SpotDetailsBody({ spot, name }) {
 
 	// add onclick function to datePickWrapper
 	useEffect(() => {
+		// const open()
 		const dateRangeWrapper = document.getElementsByClassName(
 			'react-daterange-picker__wrapper'
 		);
@@ -68,22 +103,22 @@ export default function SpotDetailsBody({ spot, name }) {
 		if (bookingDates) {
 			setBookingDetails(true);
 			setHaveDateSelected(false);
-			const totalStay =
-				new Date(bookingDates[1].getDate()) -
-				new Date(bookingDates[0]).getDate();
+			const totalStay = Math.floor(
+				(new Date(bookingDates[1]) - new Date(bookingDates[0])) / 86400000
+			);
 			const priceBeforeFee = parseInt(spot.price * totalStay);
 			const serviceFee = parseInt((spot.price * totalStay * 0.145).toFixed(0));
 			const totalPrice = serviceFee + priceBeforeFee + 300;
-			setPriceBeforeFee(priceBeforeFee);
-			setServiceFee(serviceFee);
-			setTotalPrice(totalPrice);
+			const taxes = totalPrice * 0.15;
+			const grandTotal = totalPrice + taxes;
+			setPriceBeforeFee(currencyFormat(priceBeforeFee));
+			setServiceFee(currencyFormat(serviceFee));
+			setTotalPrice(currencyFormat(totalPrice));
 			setTotalStay(totalStay);
+			setTax(currencyFormat(taxes));
+			setGrandTotal(currencyFormat(grandTotal));
 		} else {
 			setBookingDetails(false);
-			setPriceBeforeFee(0);
-			setServiceFee(0);
-			setTotalPrice(0);
-			setTotalStay(0);
 			setHaveDateSelected(true);
 		}
 	}, [bookingDates]);
@@ -105,62 +140,71 @@ export default function SpotDetailsBody({ spot, name }) {
 	}, [haveDateSelected]);
 
 	useEffect(() => {
+		const calendarDiv = document.getElementsByClassName('react-calendar');
 		if (calendarOpened) {
-			const calendarDiv = document.getElementsByClassName('react-calendar');
 			const clearDateButton = document.getElementById('clear-date-button');
 			calendarDiv[0].append(clearDateButton);
-			console.log(calendarDiv[0], clearDateButton);
 		}
+		if (!haveCalendarRendered) setHaveCalendarRendered(calendarDiv);
 	}, [calendarOpened]);
-	// // click event listener to close down calendar when clicked on
-	// useEffect(() => {
-	// 	if (!showMenu) return;
-
-	// 	const calendar = document.getElementsByClassName(
-	// 		'react-daterange-picker__calendar'
-	// 	);
-	// 	const calendar1 = document.getElementsByClassName('react-daterange-picker');
-	// 	console.log(calendar1.length, calendar, showMenu);
-
-	// 	const spotbody = document.getElementsByClassName('spot-details-wrapper');
-	// 	console.log(spotbody);
-
-	// 	const closeMenu = () => {
-	// 		if (calendar1.length) {
-	// 			calendar1[0].classList.remove('react-daterange-picker--open');
-	// 			calendar1[0].classList.add('react-daterange-picker--closed');
-	// 			calendar[0].classList.remove('react-daterange-picker__calendar--open');
-	// 			calendar[0].classList.add('react-daterange-picker__calendar--closed');
-	// 		}
-	// 		setHaveDateSelected(false);
-	// 	};
-
-	// 	document.addEventListener('click', closeMenu);
-
-	// 	return () => document.removeEventListener('click', closeMenu);
-	// }, [showMenu]);
-
-	// // function to open calendar when clicked on button
-	// const handleOpenCalender = (e) => {
-	// 	if (showMenu) return;
-
-	// 	const calendar = document.getElementsByClassName(
-	// 		'react-daterange-picker__calendar'
-	// 	);
-	// 	const calendar1 = document.getElementsByClassName('react-daterange-picker');
-	// 	console.log(calendar, 'asdfasdfsadfsd', calendar1);
-	// 	calendar1[0].classList.remove('react-daterange-picker--closed');
-	// 	calendar1[0].classList.add('react-daterange-picker--open');
-	// 	calendar[0].classList.remove('react-daterange-picker__calendar--closed');
-	// 	calendar[0].classList.add('react-daterange-picker__calendar--open');
-	// 	setHaveDateSelected(true);
-	// };
 
 	const formatDate = (date, key) => {
 		const day = new Date(date).toDateString().toString();
 		return day.split(' ')[0].split('').slice(0, 2).join('');
 	};
 
+	//Handle submit Booking
+	const handleSubmitBooking = async (e) => {
+		e.preventDefault();
+
+		if (!user) {
+			return setShowModalLogin(true);
+		}
+		if (user?.id == spot.ownerId) {
+			setHaveDateSelected(true);
+			setBookingDetails(false);
+			setBookingDates('');
+			return window.alert('Lookings like you own this place come by anyime!');
+		}
+		setConfirmedDate(bookingDates);
+		const startDate = new Date(bookingDates[0])
+			.toJSON()
+			.slice(0, 10)
+			.toString();
+		let endDate = new Date(bookingDates[1]);
+		endDate.setHours(endDate.getHours() - 23);
+		endDate = new Date(endDate).toJSON().slice(0, 10).toString();
+
+		const bookingInfo = { startDate, endDate };
+
+		const newBooking = await dispatch(
+			bookingActions.createBooking(spot.id, bookingInfo)
+		).catch(async (res) => {
+			const data = await res.json();
+			if (data && data.errors) {
+				setErrors(data.errors);
+			}
+		});
+		if (newBooking) {
+			let bookings = await dispatch(bookingActions.getSpotBookings(spot.id));
+			bookings = bookings.map((booking) => [
+				booking.startDate,
+				booking.endDate
+			]);
+			setSpotBookings(bookings);
+			setErrors({});
+			setHaveDateSelected(true);
+			setBookingDetails(false);
+			setShowBookedModal(true);
+			setBookingDates('');
+		}
+	};
+
+	useEffect(() => {
+		if (errors.endDate || errors.startDate)
+			window.alert(errors.endDate ? errors.endDate : errors.startDate);
+	}, [errors]);
+	const disabled = user?.id == spot.ownerId;
 	return (
 		<div className="spot-details-body">
 			<div className="spot-details-body-leftCol">
@@ -267,7 +311,7 @@ export default function SpotDetailsBody({ spot, name }) {
 						</div>
 					</div>
 					<DateRangePicker
-						onChange={setStartDate}
+						onChange={setBookingDates}
 						value={bookingDates}
 						minDate={new Date()}
 						onClickDay={(value, event) => {
@@ -292,6 +336,7 @@ export default function SpotDetailsBody({ spot, name }) {
 						showFixedNumberOfWeeks={false}
 						tileDisabled={({ activeStartDate, date, view }) => {
 							let currDate = date.toJSON().slice(0, 10).toString();
+							if (currDate <= new Date().toJSON().slice(0, 10)) return true;
 							for (let i = 0; i < spotBookings.length; i++) {
 								let bookingDate = spotBookings[i];
 								if (bookingDate[0] <= currDate && bookingDate[1] >= currDate)
@@ -309,21 +354,27 @@ export default function SpotDetailsBody({ spot, name }) {
 						}}
 						view={'month'}
 						formatShortWeekday={(locale, date) => formatDate(date, 'dd')}
-						onClick={() => setCalendarOpened(true)}
-						autoFocus={false}
+						onClick={() =>
+							haveCalendarRendered.length ? setCalendarOpened(true) : null
+						}
+						disabled={disabled}
 					/>
 					<div
 						id="show-calendar-div"
 						onClick={() => setCalendarOpened(true)}
 					></div>
-					{/* <button onClick={handleOpenCalender}>Check availability</button> */}
+					{bookingDates ? (
+						<button className="reserve-button" onClick={handleSubmitBooking}>
+							Reserve
+						</button>
+					) : null}
 					{bookingDetails && (
 						<>
 							<div className="fees-wrapper">
 								<div>
 									${spot.price} x {totalStay} nights
 								</div>
-								<div>${priceBeforeFee}</div>
+								<div>{priceBeforeFee}</div>
 							</div>
 							<div className="fees-wrapper">
 								<div>Cleaning fee</div>
@@ -331,16 +382,74 @@ export default function SpotDetailsBody({ spot, name }) {
 							</div>
 							<div className="fees-wrapper serviceFee">
 								<div>Service fee</div>
-								<div>${serviceFee}</div>
+								<div>{serviceFee}</div>
 							</div>
-							<div>
+							<div className="total-price-wrapper">
 								<div className="total-title">Total before taxes: </div>
-								<div className="total">${totalPrice}</div>
+								<div className="total">{totalPrice}</div>
 							</div>
 						</>
 					)}
 				</div>
 			</div>
+			{showBookedModal && (
+				<Modal
+					onClose={() => {
+						setShowBookedModal(false);
+					}}
+				>
+					<div className="confirmed-booking-modal-wrapper">
+						<div id="congrat-div">Congratulation, your trip is confirmed!</div>
+						<div className="comfirmed-booking-modal-content-wrapper">
+							<div className="comfirmed-booking-modal-content">
+								<div className="confirmed-booking-modal-title">Dates</div>
+								<div>
+									{new Date(confirmedDate[0]).toDateString().slice(0, 10)} -{' '}
+									{new Date(confirmedDate[1]).toDateString().slice(0, 10)},{' '}
+									{new Date(confirmedDate[1]).toDateString().slice(-4)}
+								</div>
+							</div>
+							<div className="comfirmed-booking-modal-content">
+								<div className="confirmed-booking-modal-title">
+									Price details
+								</div>
+								<div className="fees-wrapper">
+									<div>
+										${spot.price} x {totalStay} nights
+									</div>
+									<div>{priceBeforeFee}</div>
+								</div>
+								<div className="fees-wrapper">
+									<div>Cleaning fee</div>
+									<div>$300</div>
+								</div>
+								<div className="fees-wrapper">
+									<div>Service fee</div>
+									<div>{serviceFee}</div>
+								</div>
+								<div className="fees-wrapper serviceFee">
+									<div>Taxes</div>
+									<div>{tax}</div>
+								</div>
+								<div className="total-price-wrapper">
+									<div className="total-title">Total (USD): </div>
+									<div className="total">{grandTotal}</div>
+								</div>
+								<div>
+									You can manage all your trips in the{' '}
+									<NavLink to="/account">account</NavLink> page.
+								</div>
+								<div
+									className="confirmed-trip-modal-done-button"
+									onClick={() => setShowBookedModal(false)}
+								>
+									Done
+								</div>
+							</div>
+						</div>
+					</div>
+				</Modal>
+			)}
 		</div>
 	);
 }

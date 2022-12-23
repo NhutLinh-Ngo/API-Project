@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				validate: {
 					isAfter: {
-						args: new Date().toString(),
+						args: new Date().toJSON().slice(0, 10),
 						msg: `Booking date can only be made after today`
 					}
 				}
@@ -39,7 +39,9 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					beforeStartDate(value) {
 						if (value <= this.startDate)
-							throw new Error('endDate cannot come before startDate');
+							throw new Error(
+								'checkout date cannot come before or be the same as checkin date'
+							);
 					}
 				}
 			}

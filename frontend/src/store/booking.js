@@ -16,10 +16,15 @@ const initialState = {
 };
 
 const GET_SPOT_BOOKING = 'bookings/GET_SPOT_BOOKING';
-const CLEAR_SPOT_BOOKINGS = 'bookings/CLEAR';
+const CLEAR_SPOT_BOOKINGS = 'bookings/CLEAR_SINGLE_SPOT_BOOKINGS';
+const GET_USER_BOOKINGS = 'bookings/GET_USER_BOOOKINGS';
 
 const loadSpotBooking = (bookings) => ({
 	type: GET_SPOT_BOOKING,
+	bookings
+});
+const loadUserBooking = (bookings) => ({
+	type: GET_USER_BOOKINGS,
 	bookings
 });
 export const clearSpotBookings = () => ({
@@ -36,6 +41,26 @@ export const getSpotBookings = (spotId) => async (dispatch) => {
 	}
 };
 
+export const getUserBookings = () => async (dispatch) => {
+	const res = await csrfFetch('/api/bookings/current');
+
+	if (res.ok) {
+		const userBookings = await res.json();
+		dispatch(loadUserBooking(userBookings.Bookings));
+		return userBookings.Bookings;
+	}
+};
+export const createBooking = (spotId, bookingDate) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${spotId}/bookings`, {
+		method: 'POST',
+		body: JSON.stringify(bookingDate)
+	});
+
+	if (res.ok) {
+		const BookedDate = await res.json();
+		return BookedDate;
+	}
+};
 const BookingReducer = (state = initialState, action) => {
 	Object.freeze(state);
 	const bookingsState = { ...state };
@@ -43,11 +68,14 @@ const BookingReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_SPOT_BOOKING:
 			const obj = {};
-			action.bookings.forEach((booking) => (obj[booking.spotId] = booking));
-			bookingsState.singleSpotBookings = obj;
+			// action.bookings.forEach((booking) => (obj[booking.spotId] = booking));
+			bookingsState.singleSpotBookings = action.bookings;
 			return bookingsState;
 		case CLEAR_SPOT_BOOKINGS:
 			bookingsState.singleSpotBookings = {};
+			return bookingsState;
+		case GET_USER_BOOKINGS:
+			bookingsState.userBookings = normalizeData(action.bookings);
 			return bookingsState;
 		default:
 			return state;

@@ -174,7 +174,12 @@
 .total-title{
     margin-bottom: 1rem;
 }
-
+.total-price-wrapper {
+    display: flex;
+    font-size: 1.1rem;
+    font-weight: bold;
+    justify-content: space-between;
+}
 .price-and-review{
     display: flex;
     justify-content: space-between;
@@ -205,6 +210,7 @@
         max-width: 500px;
     }
 }
+
 
 /* Calander stuff */
 .react-daterange-picker {
@@ -238,7 +244,7 @@
     height: 60px;
     border-radius: 10px;
     /* padding-bottom: 0.5rem; */
-    position: relative;
+    /* position: relative; */
     cursor: pointer;
 }
 
@@ -317,7 +323,7 @@
     background: transparent;
     padding: 4px 6px;
     padding-bottom: 0.5rem;
-    /* display: none; */
+    display: none;
 }
 
 .react-daterange-picker__button:enabled {
@@ -562,6 +568,7 @@
 
 #show-calendar-div{
     min-width: 100%;
+    /* border: 3px solid red; */
 }
 #show-calendar-button{
     min-width: 100%;
@@ -573,7 +580,16 @@
     cursor: pointer;
     font-size: 1.1rem;
 }
-
+.reserve-button{
+        min-width: 100%;
+            height: 50px;
+            border: none;
+            background-color: #e51d4e;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+}
 #clear-date-button{
     position: relative;
     right: -500px;
@@ -583,6 +599,56 @@
     font-size: 1rem;
     text-decoration: underline;
 }
-.react-daterange-picker__calendar-button{
-    display: none;
+
+.confirmed-booking-modal-title{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.confirmed-booking-modal-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem 1rem;
+    border-radius: 15px;
+    position: fixed;
+    top: 25%;
+    right: 50%;
+    /* transform: translateY(-50%); */
+    transform: translateX(50%);
+    background-color: white;
+    min-width: 394px;
+}
+#congrat-div{
+    font-size: 1.5rem;
+}
+
+.comfirmed-booking-modal-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.comfirmed-booking-modal-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(118 118 118/0.2);
+
+}
+
+.confirmed-trip-modal-done-button{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #e51d4e;
 }
