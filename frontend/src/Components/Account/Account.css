@@ -55,6 +55,18 @@ cursor: pointer;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.4);
 }
 
+.account-display-bookings{
+    padding: 1rem;
+    width: 50%;
+    min-width: 500px;
+    height: 200px;
+    border-radius: 20px;
+    border: 1px solid rgb(208, 208, 208);
+    box-shadow: 0px 0px 10px rgba(118 118 118/0.4);
+    display: flex;
+    gap: 1rem;
+}
+
 #review-rating{
     max-width: 320px;
 }
@@ -98,6 +110,17 @@ cursor: pointer;
     width: 179px;
     cursor: pointer;
 }
+.account-page-booking-image-wrapper{
+    display: flex;
+    gap: 1rem;
+    height: 106px;
+}
+.account-page-booking-image{
+    height: 100%;
+    width: 120px;
+    cursor: pointer;
+    border-radius: 10px;
+}
 .delete-account-review{
     margin-top: 1rem;
     display: flex;
@@ -121,4 +144,48 @@ cursor: pointer;
     font-size: 14px;
     padding: 0;
     height: 1rem;
+}
+
+#spot-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#account-page-how-many-reviews{
+    color: gray
+}
+
+#account-page-total-review{
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.8rem;
+}
+
+#your-trip{
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+#booking-dates{
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+#booking-date{
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+
+#account-booking-date-info{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: fit-content;
+    width: 30%;
+}
+
+.account-booking-edit-button{
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
 }

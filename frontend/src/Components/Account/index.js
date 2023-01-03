@@ -59,15 +59,21 @@ export default function Account() {
 			</div>
 
 			<div className="account-display-wrapper">
-				{sessionUser &&
-					showReviews &&
-					userReviews?.map((review, i) => (
-						<AccountReviewCard review={review} key={i} />
-					))}
+				{sessionUser && showReviews && (
+					<>
+						<div>
+							You can edit your reviews directly on the card, just simply click
+							on the text or stars to edit.
+						</div>
+						{userReviews?.map((review, i) => (
+							<AccountReviewCard review={review} key={i} />
+						))}
+					</>
+				)}
 			</div>
 			<div className="account-display-wrapper">
 				{sessionUser &&
-					showReviews &&
+					showBookings &&
 					userBookings?.map((booking, i) => (
 						<AccountBookingCard booking={booking} key={i} />
 					))}

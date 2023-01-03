@@ -36,10 +36,6 @@ const AccountReviewCard = ({ review }) => {
 
 	return (
 		<>
-			<div>
-				You can edit your reviews directly on the card, just simply click on the
-				text or stars to edit.
-			</div>
 			<form onSubmit={handleUpdateReview}>
 				<div className="account-display-reviews">
 					<div id="spot-name">
