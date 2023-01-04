@@ -368,14 +368,23 @@
     background: white;
     /* font-family: Arial, Helvetica, sans-serif; */
     line-height: 1.125em;
+    padding: 1rem;
+}
+.booking-calendar{
     position: absolute;
-    top: 1px;
     transform: translateX(-54.2%);
     border-radius: 20px;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
-    padding: 1rem;
+    height: fit-content;
 }
 
+ @media (max-height: 930px) {
+    .booking-calendar{
+        position: absolute;
+        transform: translateX(-54.2%);
+        top: 60px;
+    }
+ }
 .react-calendar--doubleView {
     min-width: 760px;
 }

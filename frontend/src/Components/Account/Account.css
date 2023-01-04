@@ -189,3 +189,31 @@ cursor: pointer;
     font-size: 1.2rem;
     cursor: pointer;
 }
+#booking-edit-modal{
+    width: 780px;
+    border-radius: 20px;
+    position: fixed;
+    top: 20%;
+    transform: translateX(-50%);
+    background-color: white;
+    overflow: hidden;
+    padding: 2rem 1rem 1rem 1rem;
+}
+.booking-edit-calendar{
+    height: 430px;
+}
+
+.booking-edit-dateranger-picker{
+    min-width: 240px;
+}
+
+#booking-edit-top-row{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+#total-night-stay{
+    font-weight: bold;
+    font-size: 2rem;
+}

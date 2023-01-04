@@ -175,7 +175,7 @@ router.get('/:spotId/bookings', async (req, res, next) => {
 
 		// the spot does not belong to current user.
 		Bookings = await findSpot.getBookings({
-			attributes: ['spotId', 'startDate', 'endDate']
+			attributes: ['id', 'spotId', 'startDate', 'endDate']
 		});
 
 		return res.json({ Bookings });

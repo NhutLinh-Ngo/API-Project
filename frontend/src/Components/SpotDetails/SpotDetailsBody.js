@@ -1,13 +1,9 @@
 import React from 'react';
 import './SingleSpotDetails.css';
-import DateRangePicker, {
-	CalendarIcon
-} from '@wojtekmaj/react-daterange-picker';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import * as bookingActions from '../../store/booking';
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import LoginForm from '../LoginFormModal';
-import SignupFormPage from '../SignupFormPage';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useModalVariableContext from '../../context/ModalShowVariable';
@@ -91,13 +87,6 @@ export default function SpotDetailsBody({ spot, name }) {
 		box[1].prepend(checkOut);
 	}, []);
 
-	// add onclick function to datePickWrapper
-	useEffect(() => {
-		// const open()
-		const dateRangeWrapper = document.getElementsByClassName(
-			'react-daterange-picker__wrapper'
-		);
-	}, []);
 	//Set booking details once date have been selected
 	useEffect(() => {
 		if (bookingDates) {
@@ -358,6 +347,7 @@ export default function SpotDetailsBody({ spot, name }) {
 							haveCalendarRendered.length ? setCalendarOpened(true) : null
 						}
 						disabled={disabled}
+						calendarClassName="booking-calendar"
 					/>
 					<div
 						id="show-calendar-div"

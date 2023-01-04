@@ -61,6 +61,19 @@ export const createBooking = (spotId, bookingDate) => async (dispatch) => {
 		return BookedDate;
 	}
 };
+
+export const editBooking = (bookingId, bookingDate) => async () => {
+	const res = await csrfFetch(`/api/bookings/${bookingId}`, {
+		method: 'PUT',
+		body: JSON.stringify(bookingDate)
+	});
+
+	if (res.ok) {
+		const editedDate = await res.json();
+		return editedDate;
+	}
+};
+
 const BookingReducer = (state = initialState, action) => {
 	Object.freeze(state);
 	const bookingsState = { ...state };
