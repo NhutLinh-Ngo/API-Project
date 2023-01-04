@@ -57,14 +57,14 @@ cursor: pointer;
 
 .account-display-bookings{
     padding: 1rem;
-    width: 50%;
+    width: fit-content;
     min-width: 500px;
     height: 200px;
     border-radius: 20px;
     border: 1px solid rgb(208, 208, 208);
     box-shadow: 0px 0px 10px rgba(118 118 118/0.4);
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 #review-rating{
@@ -114,6 +114,7 @@ cursor: pointer;
     display: flex;
     gap: 1rem;
     height: 106px;
+    width: 450px;
 }
 .account-page-booking-image{
     height: 100%;
@@ -173,6 +174,8 @@ cursor: pointer;
 #booking-date{
     font-weight: 300;
     font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 #account-booking-date-info{
@@ -180,7 +183,7 @@ cursor: pointer;
     flex-direction: column;
     gap: 0.4rem;
     min-width: fit-content;
-    width: 30%;
+    width:200px;
 }
 
 .account-booking-edit-button{
@@ -216,4 +219,25 @@ cursor: pointer;
 #total-night-stay{
     font-weight: bold;
     font-size: 2rem;
+}
+
+.save-edit-booking{
+    width: 70px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(30, 30, 30);
+    border-radius: 5px;
+    position: absolute;
+    right: 70px;
+    bottom: 10px;
+    cursor: pointer;
+}
+
+.disable-edit-button{
+    background: rgb(185, 185, 185);
+    cursor: not-allowed;
 }

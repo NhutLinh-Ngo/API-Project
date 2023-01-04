@@ -18,6 +18,7 @@ const initialState = {
 const GET_SPOT_BOOKING = 'bookings/GET_SPOT_BOOKING';
 const CLEAR_SPOT_BOOKINGS = 'bookings/CLEAR_SINGLE_SPOT_BOOKINGS';
 const GET_USER_BOOKINGS = 'bookings/GET_USER_BOOOKINGS';
+const CLEAR_USER_BOOKING = 'bookings/CLEAR_USER_BOOKING';
 
 const loadSpotBooking = (bookings) => ({
 	type: GET_SPOT_BOOKING,
@@ -29,6 +30,10 @@ const loadUserBooking = (bookings) => ({
 });
 export const clearSpotBookings = () => ({
 	type: CLEAR_SPOT_BOOKINGS
+});
+
+export const clearUserBookings = () => ({
+	type: CLEAR_USER_BOOKING
 });
 
 export const getSpotBookings = (spotId) => async (dispatch) => {
@@ -89,6 +94,9 @@ const BookingReducer = (state = initialState, action) => {
 			return bookingsState;
 		case GET_USER_BOOKINGS:
 			bookingsState.userBookings = normalizeData(action.bookings);
+			return bookingsState;
+		case CLEAR_USER_BOOKING:
+			bookingsState.userBookings = {};
 			return bookingsState;
 		default:
 			return state;
