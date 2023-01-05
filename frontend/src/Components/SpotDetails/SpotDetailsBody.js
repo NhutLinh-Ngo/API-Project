@@ -1,6 +1,7 @@
 import React from 'react';
 import './SingleSpotDetails.css';
-import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+// import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyle';
 import * as bookingActions from '../../store/booking';
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';

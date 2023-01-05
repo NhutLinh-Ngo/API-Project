@@ -79,6 +79,14 @@ export const editBooking = (bookingId, bookingDate) => async () => {
 	}
 };
 
+export const deleteBooking = (bookingId) => async () => {
+	const res = await csrfFetch(`/api/bookings/${bookingId}`, {
+		method: 'DELETE'
+	});
+	const deleteRes = await res.json();
+	return deleteRes;
+};
+
 const BookingReducer = (state = initialState, action) => {
 	Object.freeze(state);
 	const bookingsState = { ...state };

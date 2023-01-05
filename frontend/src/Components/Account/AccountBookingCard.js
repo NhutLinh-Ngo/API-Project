@@ -187,8 +187,9 @@ const AccountBookingCard = ({ booking }) => {
 	const handleCancelTrip = async (e) => {
 		e.preventDefault();
 		if (window.confirm('Do you wish to cancel this trip?')) {
-			// await dispatch(bookingActions.clearUserBookings());
-			// await dispatch(bookingActions.getUserBookings());
+			await dispatch(bookingActions.deleteBooking(booking.id));
+			await dispatch(bookingActions.clearUserBookings());
+			await dispatch(bookingActions.getUserBookings());
 		}
 	};
 	return (
