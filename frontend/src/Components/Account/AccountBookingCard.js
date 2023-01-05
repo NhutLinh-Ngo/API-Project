@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import * as spotActions from '../../store/spots';
 import * as bookingActions from '../../store/booking';
 import { NavLink, useHistory } from 'react-router-dom';
-import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+// import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyle';
 import { Modal } from '../../context/Modal';
 function currencyFormat(num) {
 	return num.toLocaleString('en-US', {
