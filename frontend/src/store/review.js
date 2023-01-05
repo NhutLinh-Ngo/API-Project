@@ -77,6 +77,18 @@ export const getCurrentUserReviews = () => async (dispatch) => {
 		dispatch(loadUserReivews(userReviews));
 	}
 };
+
+// update review
+export const updateReview = (reviewInfo, reviewId) => async () => {
+	const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+		method: 'PUT',
+		body: JSON.stringify(reviewInfo)
+	});
+
+	const updatedReview = await res.json();
+	return updatedReview;
+};
+
 // todo: Review Reducer
 const ReviewsReducer = (state = initialState, action) => {
 	Object.freeze(state);

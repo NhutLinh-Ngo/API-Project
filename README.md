@@ -2,6 +2,7 @@
 
 [NhutBnB](https://nhut-airbnb-api.herokuapp.com/) is a webpage inspired by [airbnb](https://www.airbnb.com/).
 NhutBnB allow for creating/delete/updating listing, and creating/delete reviews.
+
 ## Contacts
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -67,10 +68,19 @@ npm start
 - [Redux Store Shape](https://github.com/NhutLinh-Ngo/API-Project/wiki/Redux-State-Shape)
 
 ## Future Features
+
+<<<<<<< HEAD
+
+- Implement review update.
+- Implement full CRUD for bookings.
+- Implement Search bar.
+- # Implement Google API to display spot location.
+
 * Implement review update.
 * Implement full CRUD for bookings.
 * Implement Search bar.
 * Implement Google API to display spot location.
+  > > > > > > > dev-main
 
 ## Functionality Demo
 

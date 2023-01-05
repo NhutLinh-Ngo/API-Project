@@ -143,19 +143,20 @@
 
 .booking-wrapper{
     /* margin: 1rem 1rem 0 3rem; */
-    max-height: 350px;
-    min-width: 300px;
+    height: fit-content;
+    min-width: fit-content;
+    width: 90%;
     border-radius: 15px;
     padding: 1.5rem;
     position: sticky;
     top: 120px;
     border: 1px solid rgb(224, 224, 224);
-    overflow: hidden;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
 
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+    margin-left: 1rem;
 }
 
 .fees-wrapper{
@@ -173,7 +174,12 @@
 .total-title{
     margin-bottom: 1rem;
 }
-
+.total-price-wrapper {
+    display: flex;
+    font-size: 1.1rem;
+    font-weight: bold;
+    justify-content: space-between;
+}
 .price-and-review{
     display: flex;
     justify-content: space-between;
@@ -203,4 +209,455 @@
     .spot-details-wrapper{
         max-width: 500px;
     }
+}
+
+
+/* Calander stuff */
+.react-daterange-picker {
+    display: inline-flex;
+    position: relative;
+}
+
+.react-daterange-picker,
+.react-daterange-picker *,
+.react-daterange-picker *:before,
+.react-daterange-picker *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.react-daterange-picker--disabled {
+    background-color: #f0f0f0;
+    color: #6d6d6d;
+}
+
+.react-daterange-picker__wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: flex-end;
+    /* justify-content: flex-end; */
+    border: thin solid black;
+    overflow: hidden;
+    max-width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    /* padding-bottom: 0.5rem; */
+    /* position: relative; */
+    cursor: pointer;
+}
+
+.date-checkin-label{
+    font-size: 13px;
+    font-weight: bold;
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    min-width: fit-content;
+}
+
+.react-daterange-picker__inputGroup {
+    /* min-width: calc((4px * 3) + 0.54em * 8 + 0.217em * 2); */
+    /* min-width: 90px; */
+    min-width: fit-content;
+    box-sizing: border-box;
+    flex-grow: 1;
+    padding: 2px 5px;
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    position: relative;
+    cursor: pointer;
+}
+.react-daterange-picker__range-divider{
+    height: 100%;
+    width: 2px;
+    border-left: thin solid black;
+}
+.react-daterange-picker__inputGroup__divider {
+    padding: 1px 0;
+    white-space: pre;
+}
+.react-date-picker__inputGroup__divider{
+    color: gray;
+}
+.react-daterange-picker__inputGroup__input {
+    width: fit-content;
+    height: 100%;
+    position: relative;
+    border: 0;
+    padding: 0;
+    background: none;
+    font: inherit;
+    box-sizing: content-box;
+    -moz-appearance: textfield;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.react-daterange-picker__inputGroup__input::-webkit-outer-spin-button,
+.react-daterange-picker__inputGroup__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.react-daterange-picker__inputGroup__input:invalid {
+    background: none
+}
+.react-daterange-picker__inputGroup__input:focus {
+    border-color: none;
+    outline: none;
+}
+
+.react-daterange-picker__inputGroup__input--hasLeadingZero {
+    margin-left: -0.54em;
+    padding-left: calc(1px + 0.54em);
+}
+
+.react-daterange-picker__button {
+    border: 0;
+    background: transparent;
+    padding: 4px 6px;
+    padding-bottom: 0.5rem;
+    display: none;
+}
+
+.react-daterange-picker__button:enabled {
+    cursor: pointer;
+}
+
+.react-daterange-picker__button:enabled:hover .react-daterange-picker__button__icon,
+.react-daterange-picker__button:enabled:focus .react-daterange-picker__button__icon {
+    stroke: #0078d7;
+}
+
+.react-daterange-picker__button:disabled .react-daterange-picker__button__icon {
+    stroke: #6d6d6d;
+}
+
+.react-daterange-picker__button svg {
+    display: inherit;
+    /* display: none; */
+}
+
+.react-daterange-picker__calendar {
+    width: 350px;
+    max-width: 100vw;
+    z-index: 1;
+    top: 1px;
+    position: absolute;
+}
+
+.react-daterange-picker__calendar--closed {
+    display: none;
+}
+
+.react-daterange-picker__calendar .react-calendar {
+    border-width: thin;
+}
+
+
+/* React-calender */
+.react-calendar {
+    min-width: 380px;
+    max-width: 100%;
+    background: white;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    line-height: 1.125em;
+    padding: 1rem;
+}
+.booking-calendar{
+    position: absolute;
+    transform: translateX(-54.2%);
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
+    height: fit-content;
+}
+
+ @media (max-height: 930px) {
+    .booking-calendar{
+        position: absolute;
+        transform: translateX(-54.2%);
+        top: 60px;
+    }
+ }
+.react-calendar--doubleView {
+    min-width: 760px;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer {
+    display: flex;
+    margin: -0.5em;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer>* {
+    width: 50%;
+    margin: 0.5em;
+}
+
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.react-calendar button {
+    margin: 0;
+    border: 0;
+    outline: none;
+}
+
+.react-calendar button:enabled:hover {
+    cursor: pointer;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    margin-top: 1.5rem;
+    align-items: center;
+}
+.react-calendar__navigation__label{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 30px;
+    font-size: 20px;
+}
+.react-calendar__navigation__label__divider{
+    display: none;
+}
+
+.react-calendar__navigation button {
+    min-width: 44px;
+    background: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 50%;
+}
+.react-calendar__navigation__next2-button ,
+.react-calendar__navigation__prev2-button{
+    display: none;
+}
+.react-calendar__navigation__next-button,
+.react-calendar__navigation__prev-button{
+    font-size: 30px;
+}
+
+.react-calendar__navigation button:disabled {
+    color: gray;
+
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: #f7f7f7;
+}
+
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.6em;
+    color: rgb(52, 52, 52);
+    text-decoration: none;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    padding: 0.5em;
+
+}
+.react-calendar__month-view__weekdays__weekday > abbr {
+    text-decoration: none;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: bold;
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: #757575;
+}
+
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+    padding: 2em 0.5em;
+}
+
+.react-calendar__tile {
+    max-width: 100%;
+    height: 50px;
+    padding: 10px 6.6667px;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+    color: black;
+    font-weight: bold;
+}
+
+
+.react-calendar__tile:disabled {
+    color: rgb(187, 187, 187);
+    text-decoration: line-through;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    border: 2px solid black;
+    border-radius: 49%;
+    background: none;
+}
+
+.react-calendar__tile--now {
+    background: white;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+    /* border-radius: 49%; */
+    border: 1px solid black;
+    background: none;
+}
+
+.react-calendar__tile--hasActive {
+    background: #76baff;
+    /* border-radius: 50%; */
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+    background: black;
+}
+
+.react-calendar__tile--active {
+    background: #e6e6e6;
+    color: black;
+
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+    border: 2px solid black;
+    border-radius: 49%;
+    background: none;
+    color: black;
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+    background-color: #e6e6e6;
+    /* border-radius: 49%; */
+}
+
+.react-calendar__tile--rangeStart {
+    border-radius: 50%;
+    background: black;
+    color: white;
+}
+.react-calendar__tile--rangeEnd {
+    border-radius: 50%;
+    background: black;
+    color: white;
+}
+
+#show-calendar-div{
+    min-width: 100%;
+    /* border: 3px solid red; */
+}
+#show-calendar-button{
+    min-width: 100%;
+    height: 50px;
+    border: none;
+    background-color: #e51d4e;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+.reserve-button{
+        min-width: 100%;
+            height: 50px;
+            border: none;
+            background-color: #e51d4e;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+}
+#clear-date-button{
+    position: relative;
+    right: -500px;
+    border: none;
+    background: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
+.confirmed-booking-modal-title{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.confirmed-booking-modal-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem 1rem;
+    border-radius: 15px;
+    position: fixed;
+    top: 25%;
+    right: 50%;
+    /* transform: translateY(-50%); */
+    transform: translateX(50%);
+    background-color: white;
+    min-width: 394px;
+}
+#congrat-div{
+    font-size: 1.5rem;
+}
+
+.comfirmed-booking-modal-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.comfirmed-booking-modal-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(118 118 118/0.2);
+
+}
+
+.confirmed-trip-modal-done-button{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #e51d4e;
 }

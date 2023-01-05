@@ -42,7 +42,7 @@
     background-color: rgb(244, 244, 244);
 }
 .nav-dropped-down{
-    height: 130px;
+    height: 150px;
     width: 200px;
     position: fixed;
     /* right: 4.5%; */
@@ -57,6 +57,7 @@
     justify-content: space-around;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
     transform: translateX(-65%);
+    padding-top: 10px;
 }
 .nav-dropped-down-li{
     height: 40px;
@@ -116,6 +117,6 @@
 }
 
 .account-nav-link{
-    color: black;
+    color: #717171;
     text-decoration: none;
 }
