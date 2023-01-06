@@ -14,7 +14,7 @@ const GoogleMapSingleSpot = ({ spot }) => {
 
 	// Enable or disable logs. Its optional.
 	Geocode.enableDebug();
-
+	console.log('hello');
 	useEffect(() => {
 		// Get latitude & longitude from address
 		const makeMap = () => {
