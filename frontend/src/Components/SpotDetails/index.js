@@ -7,6 +7,7 @@ import SpotImages from './SpotImages';
 import SpotDetailsBody from './SpotDetailsBody';
 import SpotReviews from '../ReviewsForSpot';
 import LoadingScreen from '../LoadingScreen';
+import GoogleMapSingleSpot from './GoogleMapSingle';
 import './SingleSpotDetails.css';
 
 export default function SingleSpotDetails() {
@@ -49,6 +50,7 @@ export default function SingleSpotDetails() {
 			<SpotImages otherImages={otherImages} previewImage={previewImage} />
 			<SpotDetailsBody name={name} spot={spot} />
 			<SpotReviews spot={spot} />
+			<GoogleMapSingleSpot spot={spot} />
 		</div>
 	);
 }

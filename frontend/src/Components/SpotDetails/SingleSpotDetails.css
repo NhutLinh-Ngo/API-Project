@@ -661,3 +661,17 @@
     color: white;
     background-color: #e51d4e;
 }
+
+
+
+/* Google Map single Spot */
+.map-single-wrapper{
+    padding: 2rem 0;
+    border-top: 1px solid rgba(118 118 118/0.2);
+}
+
+.map-single-title{
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 1rem;
+}
