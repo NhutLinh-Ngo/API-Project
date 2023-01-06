@@ -1,11 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {
-	GoogleMap,
-	useJsApiLoader,
-	Marker,
-	InfoWindow,
-	OverlayView
-} from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 //This is of course not the raw key but either from getting it from the backend and storing it in redux or in your frontend .env
 import Geocode from 'react-geocode';
 import { useDispatch, useSelector } from 'react-redux';

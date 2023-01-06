@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 //This is of course not the raw key but either from getting it from the backend and storing it in redux or in your frontend .env
 import Geocode from 'react-geocode';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,7 +43,8 @@ const GoogleMapSingleSpot = ({ spot }) => {
 
 	const containerStyle = {
 		width: '100%',
-		height: '500px'
+		height: '500px',
+		zIndex: '-1'
 	};
 
 	const [map, setMap] = useState(null);
@@ -64,12 +65,16 @@ const GoogleMapSingleSpot = ({ spot }) => {
 					center={currentPosition}
 					onUnmount={onUnmount}
 				>
-					<Marker
+					<OverlayView
 						position={currentPosition}
-						title="red-marker"
-						// icon={<i class="fa-solid fa-location-dot"></i>}
-						streetView={false}
-					/>
+						mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+					>
+						<div className="single-house-map">
+							<div className="marker-circle-content">
+								<i class="fa-solid fa-house-chimney"></i>
+							</div>
+						</div>
+					</OverlayView>
 				</GoogleMap>
 			)}
 		</div>
