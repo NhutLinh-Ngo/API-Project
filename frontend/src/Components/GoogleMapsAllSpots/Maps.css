@@ -1,0 +1,52 @@
+.map-marker-wrapper{
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+.google-map-marker-wrapper{
+    position: relative;
+}
+
+.preview-wrapper{
+    position: absolute;
+    width: 330px;
+    bottom: 0;
+    left: 50px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white;
+    cursor: pointer;
+}
+#preview-image-wrapper{
+    max-width: 330px;
+    max-height: 215px;
+}
+
+
+#spot-preview-image-map{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#map-preview-wrapper{
+    padding: 1rem;
+}
+#map-location-review{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#map-preview-price-wrapper{
+    display: flex;
+    font-size: 0.8rem;
+}
+
+#map-preview-price{
+    font-weight: bold;
+}

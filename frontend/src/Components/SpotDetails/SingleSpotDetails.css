@@ -216,6 +216,7 @@
 .react-daterange-picker {
     display: inline-flex;
     position: relative;
+    z-index: 1000;
 }
 
 .react-daterange-picker,
@@ -347,7 +348,7 @@
 .react-daterange-picker__calendar {
     width: 350px;
     max-width: 100vw;
-    z-index: 1;
+    z-index: 100;
     top: 1px;
     position: absolute;
 }
@@ -376,6 +377,7 @@
     border-radius: 20px;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
     height: fit-content;
+    /* border: 1px solid red; */
 }
 
  @media (max-height: 930px) {
@@ -660,4 +662,38 @@
     align-items: center;
     color: white;
     background-color: #e51d4e;
+}
+
+
+
+/* Google Map single Spot */
+.map-single-wrapper{
+    padding: 2rem 0;
+    border-top: 1px solid rgba(118 118 118/0.2);
+}
+
+.map-single-title{
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 1rem;
+}
+
+
+.single-house-map{
+    font-weight: bold;
+    font-size: 1.3rem;
+    height: 50px;
+    width: 50px;
+    border-radius: 2px 50% 50% 50%;
+    transform: rotate(-135deg);
+    color: white;
+    background-color: #e31c5a;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker-circle-content {
+    transform: rotate(135deg);
 }
