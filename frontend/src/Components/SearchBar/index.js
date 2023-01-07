@@ -5,9 +5,8 @@ import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyl
 import { Modal } from '../../context/Modal';
 import useSearchBarActive from '../../context/SearchBarActive';
 
-function SearchBar() {
+function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
 	const history = useHistory();
-	const [guests, setGuests] = useState(1);
 	const [showDestinations, setShowDestinations] = useState(false);
 	const { searchBarModalActive, setSearchBarModalActive } =
 		useSearchBarActive();
@@ -35,8 +34,6 @@ function SearchBar() {
 	tomorrow.setDate(tomorrow.getDate() + 2);
 	nextDay.setDate(nextDay.getDate() + 5);
 
-	const [checkInOutDate, setCheckInOutDate] = useState('');
-
 	// format calander date
 	const formatDate = (date, key) => {
 		const day = new Date(date).toDateString().toString();
@@ -55,13 +52,18 @@ function SearchBar() {
 	}, [searchBarModalActive]);
 
 	useEffect(() => {
-		const onScroll = () => setSearchBarModalActive(false);
+		const onScroll = () => {
+			setSearchBarModalActive(false);
+			setShowSearchBar(false);
+		};
 
 		window.removeEventListener('scroll', onScroll);
 		window.addEventListener('scroll', onScroll, { passive: true });
 		return () => window.removeEventListener('scroll', onScroll);
 	}, []);
-	const handleSearch = (e) => {};
+	const handleSearch = (e) => {
+		e.preventDefault();
+	};
 
 	console.log(checkInOutDate, 'asdfsdfasdfsdfsd');
 	return (

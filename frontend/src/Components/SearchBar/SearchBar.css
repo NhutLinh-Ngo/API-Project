@@ -6,8 +6,19 @@
     height: 60px;
     box-sizing: border-box;
     min-width: fit-content;
+    animation-name: grow;
+    animation-duration: .3s;
+    transform-origin: top;
 }
+@keyframes grow {
+    from {
+        transform: scale(0);
+    }
 
+    to {
+        transform: scale(1);
+    }
+}
 .searchBar-outer {
     display: flex;
     flex-direction: column;

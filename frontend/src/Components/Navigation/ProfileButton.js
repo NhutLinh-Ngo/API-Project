@@ -30,7 +30,7 @@ function ProfileButton({ user }) {
 	};
 
 	return (
-		<div className="nav-bar-loggedIn">
+		<div className="nav-bar-loggedIn nav-bar-component">
 			<NavLink to="/lets-make-money" className="become-host">
 				Become a host
 			</NavLink>

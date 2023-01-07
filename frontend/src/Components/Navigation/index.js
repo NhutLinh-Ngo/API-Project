@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import { Modal } from '../../context/Modal';
@@ -13,6 +13,8 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
 	const { spotId } = useParams();
 	const sessionUser = useSelector((state) => state.session.user);
+	const history = useHistory();
+
 	const [showMenu, setShowMenu] = useState(false);
 	const {
 		showModalLogin,
@@ -20,7 +22,8 @@ function Navigation({ isLoaded }) {
 		showModalSignup,
 		setShowModalSignup
 	} = useModalVariableContext();
-	const { searchBarModalActive } = useSearchBarActive();
+	const [showSearchBar, setShowSearchBar] = useState(false);
+	const [checkInOutDate, setCheckInOutDate] = useState('');
 	let sessionLinks;
 
 	const openMenu = () => {
@@ -44,7 +47,7 @@ function Navigation({ isLoaded }) {
 		sessionLinks = <ProfileButton user={sessionUser} />;
 	} else {
 		sessionLinks = (
-			<div className="nav-bar-loggedIn">
+			<div className="nav-bar-loggedIn nav-bar-component">
 				<button onClick={openMenu} className="navbar-button">
 					<i class="fa-solid fa-bars"></i>
 					<i class="fa-solid fa-circle-user"></i>
@@ -83,31 +86,39 @@ function Navigation({ isLoaded }) {
 		<>
 			<div
 				className={`navbar-wrapper ${
-					searchBarModalActive ? 'search-modal-active' : ''
+					showSearchBar ? 'search-modal-active' : ''
 				}`}
 			>
 				<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
-					<NavLink exact to="/">
+					<div className="nav-bar-component">
 						<img
+							className="image-link-home"
 							src={logo}
-							style={{
-								height: '45px',
-								width: '100px',
-								display: 'flex',
-								alignItems: 'center',
-								marginTop: '10px'
-							}}
+							onClick={() => history.push('/')}
 						/>
-					</NavLink>
-					{/* <div className="start-search-button">
-						<div className="start-your-search">Start your search</div>
-						<div className="magnifying-glass">
-							<i class="fa-solid fa-magnifying-glass"></i>
+					</div>
+					{!showSearchBar && (
+						<div
+							className="nav-bar-component center"
+							onClick={() => setShowSearchBar(true)}
+						>
+							<div className="start-search-button">
+								<div className="start-your-search">Start your search</div>
+								<div className="magnifying-glass">
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</div>
+							</div>
 						</div>
-					</div> */}
+					)}
 					{isLoaded && sessionLinks}
 				</div>
-				<SearchBar />
+				{showSearchBar && (
+					<SearchBar
+						setShowSearchBar={setShowSearchBar}
+						checkInOutDate={checkInOutDate}
+						setCheckInOutDate={setCheckInOutDate}
+					/>
+				)}
 			</div>
 		</>
 	);
