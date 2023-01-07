@@ -164,11 +164,11 @@ cursor: pointer;
 }
 
 #your-trip{
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1.5rem;
 }
 #booking-dates{
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1.3rem;
 }
 #booking-date{
@@ -188,7 +188,7 @@ cursor: pointer;
 
 .account-booking-edit-button{
     text-decoration: underline;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1.2rem;
     cursor: pointer;
 }
@@ -217,7 +217,7 @@ cursor: pointer;
 }
 
 #total-night-stay{
-    font-weight: bold;
+    font-weight: 500;
     font-size: 2rem;
 }
 
@@ -227,7 +227,7 @@ cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
+    font-weight: 500;
     color: white;
     background-color: rgb(30, 30, 30);
     border-radius: 5px;

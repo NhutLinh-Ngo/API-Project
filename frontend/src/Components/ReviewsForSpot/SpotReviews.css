@@ -4,7 +4,7 @@
 }
 .review-title{
     font-size: 1.6rem;
-    font-weight: 600;
+    font-weight: 500;
 }
 .create-new-review{
     border: none;
@@ -44,7 +44,7 @@
 }
 
 .reviewer-name {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .review-date {

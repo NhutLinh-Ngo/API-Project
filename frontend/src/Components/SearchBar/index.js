@@ -1,16 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import './SearchBar.css';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyle';
 import { Modal } from '../../context/Modal';
 import useSearchBarActive from '../../context/SearchBarActive';
+import { usaCities } from 'typed-usa-states';
+import states from '../../utilz/state';
 
-function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
+function SearchBar({
+	setShowSearchBar,
+	checkInOutDate,
+	setCheckInOutDate,
+	destination,
+	setDestination
+}) {
 	const history = useHistory();
+	const searchInputRef = useRef(null);
 	const [showDestinations, setShowDestinations] = useState(false);
 	const { searchBarModalActive, setSearchBarModalActive } =
 		useSearchBarActive();
-	const [destination, setDestination] = useState();
+	const [searchLocationResult, setSearchLocationResult] = useState([]);
 
 	const openMenu = () => {
 		if (showDestinations) return;
@@ -28,6 +37,37 @@ function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
 
 		return () => document.removeEventListener('click', closeMenu);
 	}, [showDestinations]);
+
+	//Search result finder
+	useEffect(() => {
+		const allStateArr = Object.keys(states);
+		if (destination.length) {
+			let matches = [];
+			let search = destination.toLowerCase();
+			const handleSearch = () => {
+				// Search by state first
+				allStateArr.forEach((state) => {
+					if (state.toLowerCase().startsWith(search)) {
+						let foundState = `${state}, United States`;
+						matches.push(foundState);
+					}
+				});
+				for (let i = 0; i < usaCities.length; i++) {
+					let state = usaCities[i].state;
+					let city = usaCities[i].name;
+					// then search by city
+					if (city.toLowerCase().includes(search)) {
+						let foundCity = `${city}, ${states[state]}`;
+						matches.push(foundCity);
+					}
+				}
+
+				setSearchLocationResult(matches.slice(0, 6));
+			};
+
+			handleSearch();
+		} else setSearchLocationResult([]);
+	}, [destination]);
 
 	const tomorrow = new Date();
 	const nextDay = new Date();
@@ -61,16 +101,22 @@ function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
 		window.addEventListener('scroll', onScroll, { passive: true });
 		return () => window.removeEventListener('scroll', onScroll);
 	}, []);
-	const handleSearch = (e) => {
+	const handleSearchSubmit = (e) => {
 		e.preventDefault();
 	};
-
-	console.log(checkInOutDate, 'asdfsdfasdfsdfsd');
 	return (
 		<>
 			<div className="searchBar-outer">
-				<form onSubmit={handleSearch} className="searchBar-form">
-					<div className="searchBar-input-wrapper" onClick={openMenu}>
+				<div onClick={handleSearchSubmit} className="searchBar-form">
+					<div
+						className="searchBar-input-wrapper"
+						onClick={(e) => {
+							e.stopPropagation();
+							openMenu();
+							setSearchBarModalActive(false);
+							searchInputRef.current.focus();
+						}}
+					>
 						<label className="searchBar-label">Where</label>
 						<input
 							type="text"
@@ -79,42 +125,8 @@ function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
 							value={destination}
 							onChange={(e) => setDestination(e.target.value)}
 							maxLength="140"
+							ref={searchInputRef}
 						/>
-						{/* {showDestinations && (
-						<div className="where-dropdown">
-							<div className="where-dropdown-header">Popular Searches</div>
-							<div
-								className="where-selection"
-								onClick={() => {
-									setDestination('California');
-									history.push(`/search/indonesia/${guests}`);
-								}}
-							>
-								<img className="dropdown-clock" src={clock}></img>
-								<div className="where-destination-outer">
-									<div className="where-destination-header">
-										California · Stays
-									</div>
-									<div className="where-destination-date">Any week</div>
-								</div>
-							</div>
-							<div
-								className="where-selection"
-								onClick={() => {
-									setDestination('Florida');
-									history.push(`/search/thailand/${guests}`);
-								}}
-							>
-								<img className="dropdown-clock" src={clock}></img>
-								<div className="where-destination-outer">
-									<div className="where-destination-header">
-										Florida · Stays
-									</div>
-									<div className="where-destination-date">Any week</div>
-								</div>
-							</div>
-						</div>
-					)} */}
 					</div>
 					<div
 						className="searchBar-input-wrapper-date"
@@ -130,7 +142,10 @@ function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
 								: 'Add dates'}
 						</div>
 					</div>
-					<div className="searchBar-input-wrapper-date">
+					<div
+						className="searchBar-input-wrapper-date"
+						onClick={() => setSearchBarModalActive(true)}
+					>
 						<label className="searchBar-label">Check Out</label>
 						<div
 							id="add-date"
@@ -147,7 +162,24 @@ function SearchBar({ setShowSearchBar, checkInOutDate, setCheckInOutDate }) {
 							<div>Search</div>
 						</button>
 					</div>
-				</form>
+				</div>
+				{showDestinations && searchLocationResult.length > 0 && (
+					<div className="search-result-wrapper">
+						{searchLocationResult.map((result) => (
+							<div id="search-each-result-wrapper">
+								<div id="search-each-result-icon" className="center">
+									<i class="fa-solid fa-location-dot"></i>
+								</div>
+								<div
+									id="search-each-result"
+									onClick={() => setDestination(result)}
+								>
+									{result}
+								</div>
+							</div>
+						))}
+					</div>
+				)}
 			</div>
 			{searchBarModalActive && (
 				<Modal onClose={() => setSearchBarModalActive(false)}>

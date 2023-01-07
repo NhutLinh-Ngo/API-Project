@@ -7,7 +7,7 @@
     box-sizing: border-box;
     min-width: fit-content;
     animation-name: grow;
-    animation-duration: .3s;
+    animation-duration: 0.3s;
     transform-origin: top;
 }
 @keyframes grow {
@@ -38,7 +38,9 @@
     text-align: center;
     cursor: pointer;
 }
-
+.searchBar-input-wrapper-date>*{
+    cursor: pointer;
+}
 
 #add-date{
     font-weight: 300;
@@ -46,13 +48,13 @@
 }
 
 .have-date-selected{
-    font-weight: bold !important;
+    font-weight: 500 !important;
     color: black !important;
 }
 
 .searchBar-label {
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 500;
     padding-bottom: 0.1rem;
     position: relative;
 }
@@ -61,64 +63,12 @@
     height: 20px;
     border: none;
     outline: none;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 0.9rem;
     width: 100%;
     margin: 0;
     padding: 0;
     border-radius: 0%;
-}
-
-.where-dropdown {
-    position: absolute;
-    top: 60px;
-    left: -20px;
-    background-color: white;
-    padding: 20px 0;
-    border-radius: 20px;
-    z-index: 10;
-    box-shadow: rgba(129, 129, 129, 0.492) 0px 4px 3px -2.5px;
-    transform: none;
-    border: 1px #71717112 solid;
-}
-
-.where-dropdown-header {
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 5px 25px;
-}
-
-.where-selection {
-    display: flex;
-    align-items: center;
-    padding: 10px 25px;
-    width: 180px;
-    cursor: pointer;
-}
-
-.where-selection:hover {
-    background-color: rgba(197, 197, 197, 0.13);
-}
-
-.where-destination-outer {
-    padding-left: 10px
-}
-
-.where-destination-header {
-    font-size: 1rem;
-    font-weight: 300;
-}
-
-.where-destination-date {
-    font-size: 0.75rem;
-    font-weight: 250;
-    color: rgb(89, 89, 89);
-}
-
-.dropdown-clock {
-    background-color: rgba(230, 230, 230, 0.633);
-    padding: 8px 10px;
-    border-radius: 20%;
 }
 
 .searchBar-input-date {
@@ -140,7 +90,7 @@
     height: 17px;
     font-size: 0.7rem;
     padding: 0 0 1px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .searchBar-guests-minus {
@@ -176,6 +126,42 @@
     width: 16px;
 }
 
+/* Search result */
+
+.search-result-wrapper{
+    position: absolute;
+    top: 70px;
+    width: 361px;
+    border-radius: 30px;
+    padding: 1rem;
+    border: 1px solid rgba(128, 128, 128, 0.303);
+    background-color: white;
+}
+
+#search-each-result-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 8px 32px 8px 24px;
+    height: 64px;
+    cursor: pointer;
+
+}
+
+#search-each-result-wrapper:hover{
+    background-color: rgb(247,247,247);
+}
+#search-each-result-icon{
+    height: 48px;
+    width: 48px;
+    background: #EBEBEB;
+    border-radius: 15px;
+    color: gray;
+}
+
+#search-each-result{
+    font-weight: 300;
+}
 
 /* calendar */
 .search-daterange-box{

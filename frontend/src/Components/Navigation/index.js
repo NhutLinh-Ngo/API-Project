@@ -6,7 +6,6 @@ import { Modal } from '../../context/Modal';
 import LoginForm from '../LoginFormModal';
 import SignupFormPage from '../SignupFormPage';
 import useModalVariableContext from '../../context/ModalShowVariable';
-import useSearchBarActive from '../../context/SearchBarActive';
 import logo from '../../assets/logo.png';
 import SearchBar from '../SearchBar';
 import './Navigation.css';
@@ -24,6 +23,7 @@ function Navigation({ isLoaded }) {
 	} = useModalVariableContext();
 	const [showSearchBar, setShowSearchBar] = useState(false);
 	const [checkInOutDate, setCheckInOutDate] = useState('');
+	const [destination, setDestination] = useState('');
 	let sessionLinks;
 
 	const openMenu = () => {
@@ -117,6 +117,8 @@ function Navigation({ isLoaded }) {
 						setShowSearchBar={setShowSearchBar}
 						checkInOutDate={checkInOutDate}
 						setCheckInOutDate={setCheckInOutDate}
+						destination={destination}
+						setDestination={setDestination}
 					/>
 				)}
 			</div>
