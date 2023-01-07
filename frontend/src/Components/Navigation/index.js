@@ -7,6 +7,7 @@ import LoginForm from '../LoginFormModal';
 import SignupFormPage from '../SignupFormPage';
 import useModalVariableContext from '../../context/ModalShowVariable';
 import logo from '../../assets/logo.png';
+import SearchBar from '../SearchBar';
 import './Navigation.css';
 function Navigation({ isLoaded }) {
 	const { spotId } = useParams();
@@ -77,23 +78,32 @@ function Navigation({ isLoaded }) {
 	}
 
 	return (
-		<div className={`navbar-wrapper`}>
-			<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
-				<NavLink exact to="/">
-					<img
-						src={logo}
-						style={{
-							height: '45px',
-							width: '100px',
-							display: 'flex',
-							alignItems: 'center',
-							marginTop: '10px'
-						}}
-					/>
-				</NavLink>
-				{isLoaded && sessionLinks}
+		<>
+			<div className={`navbar-wrapper`}>
+				<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
+					<NavLink exact to="/">
+						<img
+							src={logo}
+							style={{
+								height: '45px',
+								width: '100px',
+								display: 'flex',
+								alignItems: 'center',
+								marginTop: '10px'
+							}}
+						/>
+					</NavLink>
+					<div className="start-search-button">
+						<div className="start-your-search">Start your search</div>
+						<div className="magnifying-glass">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</div>
+					</div>
+					{isLoaded && sessionLinks}
+				</div>
+				<SearchBar />
 			</div>
-		</div>
+		</>
 	);
 }
 
