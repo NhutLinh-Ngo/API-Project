@@ -3,13 +3,14 @@ import { useHistory } from 'react-router-dom';
 import './SearchBar.css';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyle';
 import { Modal } from '../../context/Modal';
-import clock from './clock.svg';
+import useSearchBarActive from '../../context/SearchBarActive';
 
 function SearchBar() {
 	const history = useHistory();
 	const [guests, setGuests] = useState(1);
 	const [showDestinations, setShowDestinations] = useState(false);
-	const [showCalendar, setShowCalendar] = useState(false);
+	const { searchBarModalActive, setSearchBarModalActive } =
+		useSearchBarActive();
 	const [destination, setDestination] = useState();
 
 	const openMenu = () => {
@@ -43,7 +44,7 @@ function SearchBar() {
 	};
 
 	useEffect(() => {
-		if (showCalendar) {
+		if (searchBarModalActive) {
 			// appending the calendar to the modal div
 			const div = document.getElementById('search-bar-modal');
 			const calendar = document.getElementsByClassName('search-calendar');
@@ -51,9 +52,18 @@ function SearchBar() {
 			div.prepend(clearDate);
 			div.append(calendar[0]);
 		}
-	}, [showCalendar]);
+	}, [searchBarModalActive]);
+
+	useEffect(() => {
+		const onScroll = () => setSearchBarModalActive(false);
+
+		window.removeEventListener('scroll', onScroll);
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => window.removeEventListener('scroll', onScroll);
+	}, []);
 	const handleSearch = (e) => {};
 
+	console.log(checkInOutDate, 'asdfsdfasdfsdfsd');
 	return (
 		<>
 			<div className="searchBar-outer">
@@ -106,10 +116,13 @@ function SearchBar() {
 					</div>
 					<div
 						className="searchBar-input-wrapper-date"
-						onClick={() => setShowCalendar(true)}
+						onClick={() => setSearchBarModalActive(true)}
 					>
 						<label className="searchBar-label">Check In</label>
-						<div id="add-date">
+						<div
+							id="add-date"
+							className={`${checkInOutDate ? 'have-date-selected' : ''}`}
+						>
 							{checkInOutDate
 								? new Date(checkInOutDate[0]).toLocaleDateString()
 								: 'Add dates'}
@@ -117,21 +130,25 @@ function SearchBar() {
 					</div>
 					<div className="searchBar-input-wrapper-date">
 						<label className="searchBar-label">Check Out</label>
-						<div id="add-date">
+						<div
+							id="add-date"
+							className={`${checkInOutDate ? 'have-date-selected' : ''}`}
+						>
 							{checkInOutDate
 								? new Date(checkInOutDate[1]).toLocaleDateString()
 								: 'Add dates'}
 						</div>
 					</div>
-					<div className="searchBar-button-div">
-						<button type="submit" className="searchBar-button">
+					<div className="searchBar-button-div center">
+						<button type="submit" className="searchBar-button center">
 							<i class="fa-solid fa-magnifying-glass"></i>
+							<div>Search</div>
 						</button>
 					</div>
 				</form>
 			</div>
-			{showCalendar && (
-				<Modal onClose={() => setShowCalendar(false)}>
+			{searchBarModalActive && (
+				<Modal onClose={() => setSearchBarModalActive(false)}>
 					<div id="search-bar-modal">
 						<DateRangePicker
 							onChange={setCheckInOutDate}

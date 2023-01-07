@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import { ModalProvider } from './context/Modal';
 import { ModalVariableProviser } from './context/ModalShowVariable';
+import { SearchBarActiveProvider } from './context/SearchBarActive';
 import * as sessionActions from './store/session';
 import * as spotsActions from './store/spots';
 
@@ -25,13 +26,15 @@ if (process.env.NODE_ENV !== 'production') {
 const Root = () => {
 	return (
 		<Provider store={store}>
-			<ModalVariableProviser>
-				<ModalProvider>
-					<BrowserRouter>
-						<App />
-					</BrowserRouter>
-				</ModalProvider>
-			</ModalVariableProviser>
+			<SearchBarActiveProvider>
+				<ModalVariableProviser>
+					<ModalProvider>
+						<BrowserRouter>
+							<App />
+						</BrowserRouter>
+					</ModalProvider>
+				</ModalVariableProviser>
+			</SearchBarActiveProvider>
 		</Provider>
 	);
 };

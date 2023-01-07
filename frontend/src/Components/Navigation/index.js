@@ -6,6 +6,7 @@ import { Modal } from '../../context/Modal';
 import LoginForm from '../LoginFormModal';
 import SignupFormPage from '../SignupFormPage';
 import useModalVariableContext from '../../context/ModalShowVariable';
+import useSearchBarActive from '../../context/SearchBarActive';
 import logo from '../../assets/logo.png';
 import SearchBar from '../SearchBar';
 import './Navigation.css';
@@ -19,6 +20,7 @@ function Navigation({ isLoaded }) {
 		showModalSignup,
 		setShowModalSignup
 	} = useModalVariableContext();
+	const { searchBarModalActive } = useSearchBarActive();
 	let sessionLinks;
 
 	const openMenu = () => {
@@ -79,7 +81,11 @@ function Navigation({ isLoaded }) {
 
 	return (
 		<>
-			<div className={`navbar-wrapper`}>
+			<div
+				className={`navbar-wrapper ${
+					searchBarModalActive ? 'search-modal-active' : ''
+				}`}
+			>
 				<div className={`navbar-content ${spotId ? 'navbar-max-width' : ''}`}>
 					<NavLink exact to="/">
 						<img
@@ -93,12 +99,12 @@ function Navigation({ isLoaded }) {
 							}}
 						/>
 					</NavLink>
-					<div className="start-search-button">
+					{/* <div className="start-search-button">
 						<div className="start-your-search">Start your search</div>
 						<div className="magnifying-glass">
 							<i class="fa-solid fa-magnifying-glass"></i>
 						</div>
-					</div>
+					</div> */}
 					{isLoaded && sessionLinks}
 				</div>
 				<SearchBar />
