@@ -99,7 +99,7 @@ function Navigation({ isLoaded }) {
 					</div>
 					{!showSearchBar && (
 						<div
-							className="nav-bar-component center"
+							className="nav-bar-component center start-search-button-wrapper"
 							onClick={() => setShowSearchBar(true)}
 						>
 							<div className="start-search-button">

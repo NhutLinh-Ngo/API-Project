@@ -17,7 +17,7 @@ async function getLocation(address) {
 	);
 }
 
-const GoogleMapAllSpots = ({ spots, selectedSpot }) => {
+const GoogleMapAllSpots = ({ spots, zoom }) => {
 	const [currentPosition, setCurrentPosition] = useState([]);
 	const [mapLoaded, setMapLoaded] = useState(false);
 	const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const GoogleMapAllSpots = ({ spots, selectedSpot }) => {
 			{isLoaded && (
 				<GoogleMap
 					mapContainerStyle={containerStyle}
-					zoom={7}
+					zoom={zoom ? zoom : 7}
 					center={currentPosition[0]?.location}
 					onUnmount={onUnmount}
 				>

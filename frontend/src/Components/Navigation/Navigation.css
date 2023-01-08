@@ -28,7 +28,11 @@
 .nav-bar-component{
     flex: 1 0 140px;
 }
-
+@media (max-width: 865px) {
+    .start-search-button-wrapper {
+        display: none;
+    }
+}
 .image-link-home{
     cursor: pointer;
     height: 45px;

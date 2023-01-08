@@ -100,14 +100,28 @@ export default function AllSpots() {
 				</button>
 			)}
 			{!showMap && (
-				<div className="allSpots-wrapper">
-					{filterSpots.length == 0 &&
-						allSpots?.map((spot) => (
-							<SingleSpotCard spot={spot} key={spot.id} />
-						))}
-					{filterSpots.map((spot) => (
-						<SingleSpotCard spot={spot} key={spot.id} />
-					))}
+				<div className="allSpots-main-wrapper">
+					{filterSpots.length == 0 && (
+						<div className="allSpots-wrapper">
+							{filterSpots.length == 0 &&
+								allSpots?.map((spot) => (
+									<SingleSpotCard spot={spot} key={spot.id} />
+								))}
+						</div>
+					)}
+
+					{filterSpots.length > 0 && (
+						<div className="allSpots-result-wrapper">
+							{filterSpots.map((spot) => (
+								<SingleSpotCard spot={spot} key={spot.id} />
+							))}
+						</div>
+					)}
+					{filterSpots.length > 0 && (
+						<div className="allSpot-map-search-wrapper">
+							<GoogleMapAllSpots spots={filterSpots} zoom={13} />
+						</div>
+					)}
 				</div>
 			)}
 			{filterSpots.length == 0 && showMap && (

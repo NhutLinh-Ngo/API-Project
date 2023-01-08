@@ -107,19 +107,18 @@ function SearchBar({
 		if (!checkInOutDate && !destination) {
 			return setShowSearchBar(false);
 		}
-		const checkInDate = new Date(checkInOutDate[0])
-			.toJSON()
-			.slice(0, 10)
-			.toString();
-		const checkOutDate = new Date(checkInOutDate[1])
-			.toJSON()
-			.slice(0, 10)
-			.toString();
+		const checkInDate = checkInOutDate[0]
+			? new Date(checkInOutDate[0]).toJSON().slice(0, 10).toString()
+			: '';
+		const checkOutDate = checkInOutDate[1]
+			? new Date(checkInOutDate[1]).toJSON().slice(0, 10).toString()
+			: '';
 		history.push(
 			`/?desc=${destination}&checkIn=${checkInDate}&checkOut=${checkOutDate}`
 		);
 		setCheckInOutDate('');
 		setDestination('');
+		setShowSearchBar(false);
 	};
 
 	return (
