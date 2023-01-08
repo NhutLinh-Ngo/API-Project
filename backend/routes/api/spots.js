@@ -423,7 +423,14 @@ router.get(
 		let pagination = req.pagination;
 		let where = req.where;
 
-		let findSpots = await Spot.findAll({ ...pagination, where });
+		let findSpots = await Spot.findAll({
+			...pagination,
+			where,
+			include: {
+				model: Booking,
+				attributes: ['startDate', 'endDate']
+			}
+		});
 		let Spots = [];
 		for (let i = 0; i < findSpots.length; i++) {
 			let spot = findSpots[i].toJSON();

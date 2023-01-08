@@ -101,13 +101,31 @@ function SearchBar({
 		window.addEventListener('scroll', onScroll, { passive: true });
 		return () => window.removeEventListener('scroll', onScroll);
 	}, []);
+
 	const handleSearchSubmit = (e) => {
 		e.preventDefault();
+		if (!checkInOutDate && !destination) {
+			return setShowSearchBar(false);
+		}
+		const checkInDate = new Date(checkInOutDate[0])
+			.toJSON()
+			.slice(0, 10)
+			.toString();
+		const checkOutDate = new Date(checkInOutDate[1])
+			.toJSON()
+			.slice(0, 10)
+			.toString();
+		history.push(
+			`/?desc=${destination}&checkIn=${checkInDate}&checkOut=${checkOutDate}`
+		);
+		setCheckInOutDate('');
+		setDestination('');
 	};
+
 	return (
 		<>
 			<div className="searchBar-outer">
-				<div onClick={handleSearchSubmit} className="searchBar-form">
+				<form onSubmit={handleSearchSubmit} className="searchBar-form">
 					<div
 						className="searchBar-input-wrapper"
 						onClick={(e) => {
@@ -162,20 +180,18 @@ function SearchBar({
 							<div>Search</div>
 						</button>
 					</div>
-				</div>
+				</form>
 				{showDestinations && searchLocationResult.length > 0 && (
 					<div className="search-result-wrapper">
 						{searchLocationResult.map((result) => (
-							<div id="search-each-result-wrapper">
+							<div
+								id="search-each-result-wrapper"
+								onClick={() => setDestination(result)}
+							>
 								<div id="search-each-result-icon" className="center">
 									<i class="fa-solid fa-location-dot"></i>
 								</div>
-								<div
-									id="search-each-result"
-									onClick={() => setDestination(result)}
-								>
-									{result}
-								</div>
+								<div id="search-each-result">{result}</div>
 							</div>
 						))}
 					</div>
