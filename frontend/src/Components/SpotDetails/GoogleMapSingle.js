@@ -14,7 +14,6 @@ const GoogleMapSingleSpot = ({ spot }) => {
 
 	// Enable or disable logs. Its optional.
 	Geocode.enableDebug();
-	console.log('hello');
 	useEffect(() => {
 		// Get latitude & longitude from address
 		const makeMap = () => {
@@ -32,7 +31,6 @@ const GoogleMapSingleSpot = ({ spot }) => {
 		makeMap();
 	}, []);
 
-	console.log(currentPosition);
 	//This sets the center of the map. This must be set BEFORE the map loads
 
 	// This is the equivalent to a script tag

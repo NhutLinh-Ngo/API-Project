@@ -6,7 +6,6 @@ import './ReviewDelete.css';
 
 export default function DeleteReview({ reviewId, spotId }) {
 	const dispatch = useDispatch();
-	console.log(reviewId);
 
 	const handledeleteReview = async () => {
 		await dispatch(reviewsActions.deleteReview(reviewId));

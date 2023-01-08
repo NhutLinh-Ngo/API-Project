@@ -434,7 +434,6 @@ router.get(
 		let Spots = [];
 		for (let i = 0; i < findSpots.length; i++) {
 			let spot = findSpots[i].toJSON();
-			// console.log(spot);
 			// GET AVG Rating for each Spot
 			let rating = await Review.findAll({
 				where: { spotId: Number(spot.id) },

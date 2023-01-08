@@ -25,7 +25,6 @@ function App() {
 
 	if (showModalLogin || showModalSignUp || showModalReview)
 		disableScroll = true;
-	console.log(disableScroll);
 	return (
 		isLoaded && (
 			<div className={`main-page-wrapper ${disableScroll ? 'hidden' : ''}`}>

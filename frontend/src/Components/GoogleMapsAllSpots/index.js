@@ -30,7 +30,6 @@ const GoogleMapAllSpots = ({ spots, zoom }) => {
 	// Enable or disable logs. Its optional.
 	Geocode.enableDebug();
 
-	console.log(spots);
 	useEffect(() => {
 		// Get latitude & longitude from address
 		const makeMap = async () => {
@@ -48,7 +47,6 @@ const GoogleMapAllSpots = ({ spots, zoom }) => {
 		if (!currentPosition.length) makeMap();
 	}, [spots]);
 
-	console.log(currentPosition);
 	//This sets the center of the map. This must be set BEFORE the map loads
 
 	// This is the equivalent to a script tag

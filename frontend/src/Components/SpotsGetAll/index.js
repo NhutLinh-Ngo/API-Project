@@ -16,7 +16,6 @@ export default function AllSpots() {
 
 	const allSpots = useSelector((state) => Object.values(state.spots.AllSpots));
 
-	console.log(allSpots);
 	const [showMap, setShowMap] = useState(false);
 	const [filterSpots, setFilterSpots] = useState([]);
 	useEffect(() => {
@@ -30,7 +29,6 @@ export default function AllSpots() {
 					if (!spotBookings.length) return true;
 					for (let i = 0; i < spotBookings.length; i++) {
 						let booking = spotBookings[i];
-						console.log(booking);
 						// conflicting start date
 						if (
 							(checkInDate >= booking.startDate &&
