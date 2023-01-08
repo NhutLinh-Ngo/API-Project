@@ -59,7 +59,8 @@ const GoogleMapAllSpots = ({ spots, zoom }) => {
 
 	const containerStyle = {
 		width: '100%',
-		height: '100vh'
+		minHeight: '100%',
+		boxSizing: 'border-box'
 	};
 
 	const [map, setMap] = useState(null);
