@@ -49,6 +49,7 @@ export const getAllSpots = () => async (dispatch) => {
 		const spotsData = await res.json();
 		const normalizedSpots = normalizeData(spotsData.Spots);
 		dispatch(loadSpots(normalizedSpots));
+		return spotsData.Spots;
 	}
 };
 

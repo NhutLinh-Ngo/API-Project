@@ -1,0 +1,221 @@
+.searchBar-form {
+    display: flex;
+    border: 1px solid rgba(128, 128, 128, 0.358);
+    border-radius: 40px;
+    padding: 10px;
+    height: 60px;
+    box-sizing: border-box;
+    min-width: fit-content;
+    animation-name: grow;
+    animation-duration: 0.3s;
+    transform-origin: top;
+}
+@keyframes grow {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+.searchBar-outer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    min-width: fit-content;
+}
+.searchBar-input-wrapper{
+    min-width: 130px;
+    padding-left: 0.7rem;
+    cursor: pointer;
+}
+.searchBar-input-wrapper-date{
+    min-width: 130px;
+    border-left: 1px solid rgba(128, 128, 128, 0.358);
+    text-align: center;
+    cursor: pointer;
+}
+.searchBar-input-wrapper-date>*{
+    cursor: pointer;
+}
+
+#add-date{
+    font-weight: 300;
+    color: #71717171;
+}
+
+.have-date-selected{
+    font-weight: 500 !important;
+    color: black !important;
+}
+
+.searchBar-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding-bottom: 0.1rem;
+    position: relative;
+}
+
+.searchBar-input{
+    height: 20px;
+    border: none;
+    outline: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0%;
+}
+
+.searchBar-input-date {
+    font-size: 0.8rem;
+}
+
+.searchBar-guests-outer {
+    font-size: 0.9rem;
+    display: flex;
+}
+
+.searchBar-guests-minus,
+.searchBar-guests-plus {
+    background: none;
+    border-radius: 50%;
+    border: 1px solid rgb(76, 76, 76);
+    text-align: center;
+    width: 17px;
+    height: 17px;
+    font-size: 0.7rem;
+    padding: 0 0 1px;
+    font-weight: 500;
+}
+
+.searchBar-guests-minus {
+    margin-right: 6px;
+}
+
+.searchBar-guests-plus {
+    margin-left: 6px;
+}
+
+.searchBar-guests-outer button:disabled {
+    border: 1px solid rgba(128, 128, 128, 0.303);
+}
+
+
+.searchBar-button {
+    color: white;
+    border: none;
+    background: none;
+    border-radius: 40px;
+    font-size: 1rem;
+    height: 40px;
+    background-color: #ff385c;
+    color: white;
+    padding: 12px;
+    height: 40px;
+    border-radius: 40px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.searchBar-glass {
+    width: 16px;
+}
+
+/* Search result */
+
+.search-result-wrapper{
+    position: absolute;
+    top: 70px;
+    width: 361px;
+    border-radius: 30px;
+    padding: 1rem;
+    border: 1px solid rgba(128, 128, 128, 0.303);
+    background-color: white;
+}
+
+#search-each-result-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 8px 32px 8px 24px;
+    height: 64px;
+    cursor: pointer;
+
+}
+
+#search-each-result-wrapper:hover{
+    background-color: rgb(247,247,247);
+}
+#search-each-result-icon{
+    height: 48px;
+    width: 48px;
+    background: #EBEBEB;
+    border-radius: 15px;
+    color: gray;
+}
+
+#search-each-result{
+    font-weight: 300;
+}
+
+/* calendar */
+.search-daterange-box{
+    height: 0px;
+    overflow: hidden;
+}
+
+#search-bar-modal{
+    position: fixed;
+    border-radius: 20px;
+    overflow: hidden;
+    top: 150px;
+    width: 850px;
+    min-height: 452px;
+    transform: translateX(-50%);
+    background-color: white;
+}
+
+#clear-date{
+    position: absolute;
+    right: 50%;
+    top: 20px;
+    transform: translateX(50%);
+    border: 1px solid rgba(128, 128, 128, 0.303);
+    border-radius: 40px;
+    height: 40px;
+    width: 150px;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+#clear-date:hover{
+    box-shadow: 0px 0px 10px rgba(118 118 118/0.2);
+}
+/* @media screen and (max-width: 700px) {
+
+    .searchBar-input {
+        width: 80%;
+        overflow: hidden;
+        position: relative;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+} */
+
+
+/* @media screen and (max-width: 990px) {
+    .searchBar-form {
+        grid-template-columns: 87% 5%;
+        width: 350px
+    }
+
+    .searchBar-hidden {
+        display: none;
+    }
+} */
