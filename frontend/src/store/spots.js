@@ -19,6 +19,7 @@ const initialState = {
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const LOAD_SINGLE_SPOT_DETAILS = '/spots/LOAD_SINGLE_SPOT_DETAILS';
 const CLEAN_UP_SINGLE_SPOT = 'spots/CLEAN_UP_SINGLE_SPOT';
+const CLEAR_UP_ALL_SPOTS = 'spots/CLEAR_UP_ALL_SPOTS';
 
 //todo: define ACTIONS
 const loadSpots = (allSpots) => {
@@ -38,6 +39,11 @@ const loadSingleSpots = (spot) => {
 export const cleanUpSingleSpot = () => {
 	return {
 		type: CLEAN_UP_SINGLE_SPOT
+	};
+};
+export const cleanUpAllSpots = () => {
+	return {
+		type: CLEAR_UP_ALL_SPOTS
 	};
 };
 // todo: define THUNKS
@@ -116,6 +122,9 @@ const spotsReducer = (state = initialState, action) => {
 			return spotsState;
 		case CLEAN_UP_SINGLE_SPOT:
 			spotsState.SingleSpots = {};
+			return spotsState;
+		case CLEAR_UP_ALL_SPOTS:
+			spotsState.AllSpots = {};
 			return spotsState;
 		default:
 			return state;

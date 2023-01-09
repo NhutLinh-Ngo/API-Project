@@ -44,6 +44,7 @@ cursor: pointer;
     flex-direction: column;
     align-items: center;
     row-gap: 1rem;
+    position: relative;
 }
 
 .account-display-reviews{
@@ -55,16 +56,35 @@ cursor: pointer;
     box-shadow: 0px 0px 10px rgba(118 118 118/0.4);
 }
 
+/* Bookings */
+
+.account-booking-title{
+    width: 70vw;
+    font-weight: 500;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 820px;
+    max-width: 1008px;
+}
+
+#upcoming-reservation{
+    color: black;
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding: 0.8rem 0;
+}
 .account-display-bookings{
-    padding: 1rem;
-    width: fit-content;
-    min-width: 500px;
-    height: 200px;
+    width: 70vw;
+    min-width: 820px;
+    max-width: 1008px;
+    height: 300px;
+    min-height: fit-content;
     border-radius: 20px;
     border: 1px solid rgb(208, 208, 208);
-    box-shadow: 0px 0px 10px rgba(118 118 118/0.4);
     display: flex;
-    gap: 2rem;
+    overflow: hidden;
 }
 
 #review-rating{
@@ -76,7 +96,7 @@ cursor: pointer;
 }
 
 .account-review-title{
-    color: rgb(231, 136, 136);
+    color: rgb(151, 151, 151);
 }
 
 .account-page-review-stars-label{
@@ -113,14 +133,13 @@ cursor: pointer;
 .account-page-booking-image-wrapper{
     display: flex;
     gap: 1rem;
-    height: 106px;
-    width: 450px;
+    height: 100%;
+    min-width: 50%;
 }
 .account-page-booking-image{
     height: 100%;
-    width: 120px;
+    width: 100%;
     cursor: pointer;
-    border-radius: 10px;
 }
 .delete-account-review{
     margin-top: 1rem;
@@ -147,29 +166,36 @@ cursor: pointer;
     height: 1rem;
 }
 
-#spot-name{
+#spot-name-info{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 0.3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgb(208, 208, 208);
 }
-#account-page-how-many-reviews{
-    color: gray
-}
-
-#account-page-total-review{
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    font-size: 0.8rem;
-}
-
-#your-trip{
-    font-weight: 500;
-    font-size: 1.5rem;
-}
-#booking-dates{
-    font-weight: 500;
+#spot-name{
+    font-weight: 400;
     font-size: 1.3rem;
+}
+#spot-hosted-by{
+    color: gray;
+}
+
+
+.account-booking-trip-info{
+    display: flex;
+    padding: 1rem;
+}
+.account-booking-trip-dates{
+    border-right: 1px solid rgb(208, 208, 208);
+    padding-right: 40px;
+}
+.short-width{
+    width: 135px;
+}
+.account-booking-trip-address{
+    padding-left: 40px;
+    color: gray;
 }
 #booking-date{
     font-weight: 300;
@@ -181,16 +207,36 @@ cursor: pointer;
 #account-booking-date-info{
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
     min-width: fit-content;
-    width:200px;
+    min-width:50%;
+    padding: 1.3rem;
 }
 
 .account-booking-edit-button{
-    text-decoration: underline;
-    font-weight: 500;
-    font-size: 1.2rem;
+    font-weight: 300;
+    font-size: 1rem;
     cursor: pointer;
+    background-color: rgb(215, 215, 215);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.account-booking-edit-button:hover {
+    background-color: rgb(170, 169, 169);
+    font-weight: 400;
+}
+
+.account-booking-cancel-button{
+    border: 1px solid rgb(208, 208, 208);
+    width: fit-content;
+    padding: 8px;
+    font-size: 13px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.account-booking-cancel-button:hover {
+    color: red;
+    border: 1px solid red;
+    font-weight: 500;
 }
 #booking-edit-modal{
     width: 780px;
@@ -240,4 +286,53 @@ cursor: pointer;
 .disable-edit-button{
     background: rgb(185, 185, 185);
     cursor: not-allowed;
+}
+
+
+/* pass Bookings */
+.account-display-pass-bookings{
+    width: 70vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    min-width: 820px;
+    max-width: 1008px;
+    padding-bottom: 2rem;
+}
+.pass-booking-date{
+    font-size: 10px;
+}
+.account-pass-booking-card-info{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.account-pass-booking-card-wrapper{
+    display: flex;
+    gap: 2rem;
+}
+.account-pass-booking-card-address{
+    font-weight: 400;
+}
+.account-pass-booking-card-host{
+    font-weight: 300;
+    color: gray;
+}
+
+.account-pass-booking-card-date{
+    display: flex;
+    gap: 5px;
+    color: gray;
+}
+.account-pass-booking-card-image{
+    height: 90px;
+    width: 90px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.account-pass-booking-card-image > img{
+    height: 100%;
+    width: 100%;
 }

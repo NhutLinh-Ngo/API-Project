@@ -426,10 +426,17 @@ router.get(
 		let findSpots = await Spot.findAll({
 			...pagination,
 			where,
-			include: {
-				model: Booking,
-				attributes: ['startDate', 'endDate']
-			}
+			include: [
+				{
+					model: Booking,
+					attributes: ['startDate', 'endDate']
+				},
+				{
+					model: User,
+					as: 'Owner',
+					attributes: ['firstName', 'lastName']
+				}
+			]
 		});
 		let Spots = [];
 		for (let i = 0; i < findSpots.length; i++) {

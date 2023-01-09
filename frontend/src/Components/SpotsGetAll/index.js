@@ -67,6 +67,8 @@ export default function AllSpots() {
 		};
 
 		fetchData();
+
+		return () => dispatch(spotsActions.cleanUpAllSpots());
 	}, [dispatch, destination, checkInDate, checkOutDate]);
 
 	useEffect(() => {}, []);

@@ -19,7 +19,15 @@ const AccountBookingCard = ({ booking }) => {
 
 	const [showCalendarModal, setShowCalendarModal] = useState(false);
 	const thisSpot = allSpots[booking.Spot.id];
+	// get 3 Word Name of location
+	const spotNameArr = thisSpot.name?.split(' ');
+	let name = '';
+	for (let i = 0; i < spotNameArr?.length; i++) {
+		name += spotNameArr[i] + ' ';
+		if (i === 2) break;
+	}
 	const startDate = new Date(booking.startDate.replace('-', '/'));
+	const tripYear = startDate.toDateString().slice(11, 15);
 	const startMonth = startDate.toDateString().slice(4, 7);
 	const startDay = startDate.toDateString().slice(8, 10);
 	const endDate = new Date(booking.endDate.replace('-', '/'));
@@ -40,12 +48,7 @@ const AccountBookingCard = ({ booking }) => {
 
 	// checking to see if the trip is within the same Month if it is the format
 	// should be: Jan 01 - 10, else Jan 01 - Feb 01
-	const tripDate =
-		startMonth == endMonth
-			? `${startMonth} ${startDay} - ${endDay}`
-			: `${startDate.toDateString().slice(4, 10)} - ${endDate
-					.toDateString()
-					.slice(4, 10)}`;
+	const tripDate = startMonth == endMonth ? true : false;
 
 	// Have this trip already taken place? if it has, it CAN NOT be EDITED.! using today date
 	const todayDate = new Date().toJSON().slice(0, 10);
@@ -53,11 +56,6 @@ const AccountBookingCard = ({ booking }) => {
 
 	//calendar booking dates
 	const [bookingDates, setBookingDates] = useState([startDate, endDate]);
-
-	//load all spot if it is not present
-	useEffect(() => {
-		if (!Object.values(allSpots).length) dispatch(spotActions.getAllSpots());
-	}, []);
 
 	useEffect(() => {
 		if (showCalendarModal) {
@@ -190,32 +188,57 @@ const AccountBookingCard = ({ booking }) => {
 		if (window.confirm('Do you wish to cancel this trip?')) {
 			await dispatch(bookingActions.deleteBooking(booking.id));
 			await dispatch(bookingActions.clearUserBookings());
-			await dispatch(bookingActions.getUserBookings());
+			// await dispatch(bookingActions.getUserBookings());
 		}
 	};
 	return (
 		<>
 			<div className="account-display-bookings">
 				<div id="account-booking-date-info">
-					<div id="your-trip">Your Trip</div>
-					<div id="booking-dates">Dates</div>
-					<div id="booking-date">
-						{tripDate}{' '}
-						{canEdit && (
-							<div
-								className="account-booking-edit-button"
-								onClick={() => setShowCalendarModal(true)}
-							>
-								Edit
+					<div id="spot-name-info">
+						<div id="spot-name">{booking.Spot.name}</div>
+						<div id="spot-hosted-by">
+							{name} hosted by {thisSpot.Owner.firstName}
+						</div>
+					</div>
+					<div className="account-booking-trip-info">
+						<div
+							className={`${
+								tripDate ? 'short-width' : 'long-width'
+							} account-booking-trip-dates`}
+						>
+							{startMonth == endMonth && (
+								<div id="booking-date">{startMonth}</div>
+							)}
+							<div id="booking-date">
+								{startMonth == endMonth
+									? `${startDay} - ${endDay}`
+									: `${startDate.toDateString().slice(4, 10)} - ${endDate
+											.toDateString()
+											.slice(4, 10)}`}{' '}
 							</div>
-						)}
+							<div id="booking-date">{tripYear}</div>
+							{canEdit && (
+								<div
+									className="account-booking-edit-button center"
+									onClick={() => setShowCalendarModal(true)}
+								>
+									Edit
+								</div>
+							)}
+						</div>
+						<div className="account-booking-trip-address">
+							<div>{thisSpot.address}</div>
+							<div>{thisSpot.city}</div>
+							<div>{thisSpot.country}</div>
+						</div>
 					</div>
 					{canEdit && (
 						<div
-							className="account-booking-edit-button"
+							className="account-booking-cancel-button"
 							onClick={handleCancelTrip}
 						>
-							Cancel this Trip
+							Cancel reservation
 						</div>
 					)}
 				</div>
@@ -225,14 +248,6 @@ const AccountBookingCard = ({ booking }) => {
 						onClick={() => history.push(`/spots/${booking.Spot.id}`)}
 						src={booking.Spot.previewImage}
 					/>
-					<div id="spot-name">
-						<div>{booking.Spot.name}</div>
-						<div id="account-page-total-review">
-							<i class="fa-solid fa-star"></i>
-							{thisSpot?.avgRating}{' '}
-							<p id="account-page-how-many-reviews">(reviews)</p>
-						</div>
-					</div>
 				</div>
 			</div>
 			{showCalendarModal && (
