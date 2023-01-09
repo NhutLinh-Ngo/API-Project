@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailsOfSpot, cleanUpSingleSpot } from '../../store/spots';
+import { clearUserBookings } from '../../store/booking';
 import { useParams } from 'react-router-dom';
 import Title from './Title';
 import SpotImages from './SpotImages';
@@ -18,7 +19,10 @@ export default function SingleSpotDetails() {
 	useEffect(() => {
 		dispatch(getDetailsOfSpot(spotId));
 
-		return () => dispatch(cleanUpSingleSpot());
+		return async () => {
+			await dispatch(cleanUpSingleSpot());
+			await dispatch(clearUserBookings());
+		};
 	}, [dispatch]);
 
 	// wait for Spot to load
