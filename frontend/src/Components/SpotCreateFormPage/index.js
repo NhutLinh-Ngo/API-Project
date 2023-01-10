@@ -69,18 +69,9 @@ export default function CreateSpotFormPage() {
 	// on submit handle for new spot images
 	const handleImageForm = async (e) => {
 		e.preventDefault();
-		if (!images.length) {
-			if (
-				window.confirm(
-					'Are you sure you dont want to add any picture to your listing ?'
-				)
-			) {
-				return history.push(`/spots/${spotId}`);
-			}
-		} else {
-			history.push(`/spots/${spotId}`);
-			await dispatch(getDetailsOfSpot(spotId));
-		}
+
+		history.push(`/spots/${spotId}`);
+		await dispatch(getDetailsOfSpot(spotId));
 	};
 
 	const handleAddPhotos = (e) => {
