@@ -18,6 +18,8 @@ export default function AllSpots() {
 
 	const [showMap, setShowMap] = useState(false);
 	const [filterSpots, setFilterSpots] = useState([]);
+	const [count, setCount] = useState(0);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			let spots = await dispatch(spotsActions.getAllSpots());
@@ -63,15 +65,32 @@ export default function AllSpots() {
 				);
 				FilteredSpots = spots;
 			}
+
 			setFilterSpots(FilteredSpots);
 		};
 
 		fetchData();
 
-		return () => dispatch(spotsActions.cleanUpAllSpots());
+		return () => {
+			dispatch(spotsActions.cleanUpAllSpots());
+		};
 	}, [dispatch, destination, checkInDate, checkOutDate]);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		let counter = count;
+		const interval = setInterval(() => {
+			if (counter >= allSpots.length) {
+				clearInterval(interval);
+			} else {
+				setCount((count) => count + 1);
+				counter++; // local variable that this closure will see
+			}
+		}, 35);
+
+		return () => clearInterval(interval);
+	}, [allSpots]);
+
+	const spotsArrayList = allSpots.slice(0, count);
 	if (!allSpots.length) return null;
 
 	const display = (showMap) => {
@@ -104,7 +123,7 @@ export default function AllSpots() {
 					{filterSpots.length == 0 && (
 						<div className="allSpots-wrapper">
 							{filterSpots.length == 0 &&
-								allSpots?.map((spot) => (
+								spotsArrayList?.map((spot) => (
 									<SingleSpotCard spot={spot} key={spot.id} />
 								))}
 						</div>

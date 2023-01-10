@@ -24,7 +24,7 @@ export default function CreateSpotFormPage() {
 	// images controlled state
 	const [otherImages, setOtherImages] = useState(new Array(4).fill(null));
 	const [hasSubmitImg, setHasSubmitImg] = useState(false);
-	const [imageErrors, setImageErrors] = useState({});
+	const [imageErrors, setImageErrors] = useState(false);
 	const [UploadedImages, setUploadedImages] = useState([]);
 
 	// TOGGLE BETWEEN create spot and add images form
@@ -76,6 +76,7 @@ export default function CreateSpotFormPage() {
 	};
 
 	const handleAddPhotos = (e) => {
+		setImageErrors(false);
 		setShowLoadingScreen(true);
 		const postImage = async (imagess) => {
 			console.log(imagess);
@@ -223,10 +224,25 @@ export default function CreateSpotFormPage() {
 							<div className="uploaded-images-wrapper">
 								{!showLoadingScreen &&
 									UploadedImages.map((image) => (
-										<img src={image} className="spot-uploaded-images" />
+										<img
+											src={image}
+											className="spot-uploaded-images"
+											onError={({ currentTarget }) => {
+												currentTarget.onerror = null;
+												currentTarget.src =
+													'https://nhutbnb.s3.us-west-1.amazonaws.com/error_image.png';
+												setImageErrors(true);
+											}}
+										/>
 									))}
 								{showLoadingScreen && <LoadingScreen />}
 							</div>
+							{imageErrors && (
+								<div className="upload-image-error">
+									Looks like some of your images didn't load properly, please
+									consider trying again.
+								</div>
+							)}
 							<div className="choose-file-main-button-wrapper center">
 								<label className="choose-file-main-button">
 									Choose files
