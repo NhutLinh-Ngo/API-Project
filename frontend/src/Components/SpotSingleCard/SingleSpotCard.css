@@ -42,3 +42,8 @@
     color: black;
     font-weight: 300;
 }
+.upload-image-error{
+    text-align: center;
+    color: red;
+    padding-bottom: 5px;
+}

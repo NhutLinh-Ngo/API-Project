@@ -19,10 +19,15 @@ export default function SpotImages({ spot }) {
 					src={
 						previewImage
 							? previewImage.url
-							: 'https://www.nicepng.com/png/detail/4-42119_coming-soon-coming-soon-logo-png.png'
+							: 'https://nhutbnb.s3.us-west-1.amazonaws.com/default_photo.png'
 					}
 					alt="preview Image"
 					className="spot-details-preview"
+					onError={({ currentTarget }) => {
+						currentTarget.onerror = null;
+						currentTarget.src =
+							'https://nhutbnb.s3.us-west-1.amazonaws.com/default_photo.png';
+					}}
 				/>
 			</div>
 			<div className="spot-details-other-images">
@@ -33,9 +38,14 @@ export default function SpotImages({ spot }) {
 						src={
 							image
 								? image.url
-								: 'https://www.nicepng.com/png/detail/4-42119_coming-soon-coming-soon-logo-png.png'
+								: 'https://nhutbnb.s3.us-west-1.amazonaws.com/default_photo.png'
 						}
 						alt={`Images`}
+						onError={({ currentTarget }) => {
+							currentTarget.onerror = null;
+							currentTarget.src =
+								'https://nhutbnb.s3.us-west-1.amazonaws.com/default_photo.png';
+						}}
 					/>
 				))}
 			</div>
