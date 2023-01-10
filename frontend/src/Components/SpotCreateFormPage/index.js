@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getDetailsOfSpot } from '../../store/spots';
 import './CreateSpotFormPage.css';
 import * as spotsActions from '../../store/spots';
+import LoadingScreen from '../LoadingScreen';
 export default function CreateSpotFormPage() {
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -30,8 +31,8 @@ export default function CreateSpotFormPage() {
 	const [showSpotForm, setShowSpotForm] = useState(true);
 	const [showImageForm, setShowImageForm] = useState(false);
 
-	//AWS IMAGES
-	const [images, setImages] = useState([]);
+	//upload loading screen
+	const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
 	// onsubmit handle for Creating new Spot
 	let newSpot;
@@ -75,6 +76,7 @@ export default function CreateSpotFormPage() {
 	};
 
 	const handleAddPhotos = (e) => {
+		setShowLoadingScreen(true);
 		const postImage = async (imagess) => {
 			console.log(imagess);
 			let imageArr = [];
@@ -93,8 +95,8 @@ export default function CreateSpotFormPage() {
 				});
 				imageArr.push(newImage.url);
 			}
-			console.log(imageArr);
 			setUploadedImages(imageArr);
+			setShowLoadingScreen(false);
 		};
 		const updateFiles = (e) => {
 			const files = e.target.files;
@@ -219,9 +221,11 @@ export default function CreateSpotFormPage() {
 					<>
 						<form id="create-form" onSubmit={handleImageForm}>
 							<div className="uploaded-images-wrapper">
-								{UploadedImages.map((image) => (
-									<img src={image} className="spot-uploaded-images" />
-								))}
+								{!showLoadingScreen &&
+									UploadedImages.map((image) => (
+										<img src={image} className="spot-uploaded-images" />
+									))}
+								{showLoadingScreen && <LoadingScreen />}
 							</div>
 							<div className="choose-file-main-button-wrapper center">
 								<label className="choose-file-main-button">
