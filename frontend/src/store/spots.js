@@ -99,16 +99,26 @@ export const DeleteSpot = (spotId) => async () => {
 
 // Images
 export const AddImageToSpot = (imageInfo, spotId) => async (dispatch) => {
+	const { url, preview } = imageInfo;
+	console.log(url, 'asdfasdfasdfasdf');
+	const formData = new FormData();
+	formData.append('image', url);
+	formData.append('preview', preview);
 	const res = await csrfFetch(`/api/spots/${spotId}/images`, {
 		method: 'POST',
-		body: JSON.stringify(imageInfo)
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		},
+		body: formData
 	});
 
 	if (res.ok) {
-		const data = res.json();
+		const data = await res.json();
+		console.log(data, 'asdfasdfasdfasdfsd');
 		return data;
 	}
 };
+
 //todo: define REDUCER
 const spotsReducer = (state = initialState, action) => {
 	Object.freeze(state);

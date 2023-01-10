@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './SingleSpotDetails.css';
 
-export default function SpotImages({ previewImage, otherImages }) {
+export default function SpotImages({ spot }) {
+	//get Preview Image
+	const previewImage = spot.SpotImages?.find((image) => image.preview === true);
+	// get all Non-preview Images
+	let otherImages = new Array(4).fill(null);
+	const nonPreviewImages = spot.SpotImages?.filter(
+		(image) => image.preview === false
+	);
+	nonPreviewImages?.forEach((image, i) => {
+		otherImages[i] = image;
+	});
 	return (
 		<div className="spot-details-images-wrapper">
 			<div className="spot-details-preview-image">

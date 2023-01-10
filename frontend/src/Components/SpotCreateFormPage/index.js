@@ -21,14 +21,17 @@ export default function CreateSpotFormPage() {
 	const [hasSubmit, setHasSubmit] = useState(false);
 
 	// images controlled state
-	const [previewImg, setPreviewImg] = useState(null);
 	const [otherImages, setOtherImages] = useState(new Array(4).fill(null));
 	const [hasSubmitImg, setHasSubmitImg] = useState(false);
 	const [imageErrors, setImageErrors] = useState({});
+	const [UploadedImages, setUploadedImages] = useState([]);
 
 	// TOGGLE BETWEEN create spot and add images form
 	const [showSpotForm, setShowSpotForm] = useState(true);
 	const [showImageForm, setShowImageForm] = useState(false);
+
+	//AWS IMAGES
+	const [images, setImages] = useState([]);
 
 	// onsubmit handle for Creating new Spot
 	let newSpot;
@@ -66,53 +69,50 @@ export default function CreateSpotFormPage() {
 	// on submit handle for new spot images
 	const handleImageForm = async (e) => {
 		e.preventDefault();
-		setHasSubmitImg(true);
-		setImageErrors({});
-
-		// POST PREVIEW IAMGE
-		const previewImageData = { url: previewImg, preview: true };
-		let sucessPost = await dispatch(
-			spotsActions.AddImageToSpot(previewImageData, spotId)
-		).catch(async (res) => {
-			const data = await res.json();
-			if (data && data.errors) {
-				setImageErrors(data.errors);
+		if (!images.length) {
+			if (
+				window.confirm(
+					'Are you sure you dont want to add any picture to your listing ?'
+				)
+			) {
+				return history.push(`/spots/${spotId}`);
 			}
-		});
-
-		// POST OTHER IMAGES IF PROVIDED,
-		//otherImage is fill with null thus it will only post aditional image if provided.
-		let redirect = false;
-		if (sucessPost) {
-			otherImages.forEach(async (image) => {
-				if (image) {
-					const imageData = { url: image, preview: false };
-					await dispatch(spotsActions.AddImageToSpot(imageData, spotId)).catch(
-						async (res) => {
-							const data = await res.json();
-							if (data && data.errors) {
-								setImageErrors(data.errors);
-							}
-						}
-					);
-				}
-			});
-			redirect = true;
-		}
-
-		if (redirect) {
-			await dispatch(getDetailsOfSpot(spotId));
+		} else {
 			history.push(`/spots/${spotId}`);
+			await dispatch(getDetailsOfSpot(spotId));
 		}
 	};
 
-	// FILL IN NULL FILLED array with aditional images if user provide them
-	const updateOtherImagesFieldChange = (index) => (e) => {
-		let newArr = [...otherImages];
-		newArr[index] = e.target.value;
+	const handleAddPhotos = (e) => {
+		const postImage = async (imagess) => {
+			console.log(imagess);
+			let imageArr = [];
+			let allImages = Object.values(imagess);
+			for (let i = 0; i < allImages.length; i++) {
+				let image = allImages[i];
+				let preview = i == 0 ? true : false;
+				const imageData = { url: image, preview };
+				const newImage = await dispatch(
+					spotsActions.AddImageToSpot(imageData, spotId)
+				).catch(async (res) => {
+					const data = await res.json();
+					if (data && data.errors) {
+						setImageErrors(data.errors);
+					}
+				});
+				imageArr.push(newImage.url);
+			}
+			console.log(imageArr);
+			setUploadedImages(imageArr);
+		};
+		const updateFiles = (e) => {
+			const files = e.target.files;
+			postImage(files);
+		};
 
-		setOtherImages(newArr);
+		updateFiles(e);
 	};
+
 	return (
 		<div className="create-page-form-wrapper">
 			{/* NAVLINK img to redirect user back home */}
@@ -227,30 +227,22 @@ export default function CreateSpotFormPage() {
 				{showImageForm && (
 					<>
 						<form id="create-form" onSubmit={handleImageForm}>
-							<input
-								className="spot-form-input"
-								type="text"
-								value={previewImg}
-								onChange={(e) => setPreviewImg(e.target.value)}
-								placeholder="Preview Image"
-							/>
-							<div className="spot-error7 error">
-								{hasSubmitImg && (
-									<span>{imageErrors.url ? imageErrors.url : null}</span>
-								)}
+							<div className="uploaded-images-wrapper">
+								{UploadedImages.map((image) => (
+									<img src={image} className="spot-uploaded-images" />
+								))}
 							</div>
-							{otherImages.map((item, i) => {
-								return (
+							<div className="choose-file-main-button-wrapper center">
+								<label className="choose-file-main-button">
+									Choose files
 									<input
-										className="spot-form-input image-form-input"
-										key={i}
-										type="url"
-										value={item}
-										onChange={updateOtherImagesFieldChange(i)}
-										placeholder="additional Image (optional)"
+										type="file"
+										multiple
+										onChange={handleAddPhotos}
+										className="choose-file-image-button"
 									/>
-								);
-							})}
+								</label>
+							</div>
 							<button className="form-submit-button">host</button>
 						</form>
 					</>

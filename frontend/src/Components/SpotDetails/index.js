@@ -29,17 +29,6 @@ export default function SingleSpotDetails() {
 	// if (!Object.keys(spot).length) return <LoadingScreen />;
 	if (!Object.keys(spot).length) return null;
 
-	//get Preview Image
-	const previewImage = spot.SpotImages?.find((image) => image.preview === true);
-	// get all Non-preview Images
-	let otherImages = new Array(4).fill(null);
-	const nonPreviewImages = spot.SpotImages?.filter(
-		(image) => image.preview === false
-	);
-	nonPreviewImages?.forEach((image, i) => {
-		otherImages[i] = image;
-	});
-
 	// get 3 Word Name of location
 	const spotNameArr = spot.name?.split(' ');
 	let name = '';
@@ -51,7 +40,7 @@ export default function SingleSpotDetails() {
 	return (
 		<div className="spot-details-wrapper">
 			<Title spot={spot} />
-			<SpotImages otherImages={otherImages} previewImage={previewImage} />
+			<SpotImages spot={spot} />
 			<SpotDetailsBody name={name} spot={spot} />
 			<SpotReviews spot={spot} />
 			<GoogleMapSingleSpot spot={spot} />

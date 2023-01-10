@@ -22,6 +22,8 @@ const {
 	createPaginationObject
 } = require('../../utils/middleWare');
 
+const { singleMulterUpload, singlePublicFileUpload } = require('../../awsS3');
+
 const router = express.Router();
 
 // GET SPOTS OF CURRENT USER
@@ -253,12 +255,14 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 router.post(
 	'/:spotId/images',
 	authentication,
+	singleMulterUpload('image'),
 	validateSpotImage,
 	async (req, res, next) => {
 		const spotId = req.params.spotId;
 		const ownerId = req.user.id;
 
-		const { url, preview } = req.body;
+		const { preview } = req.body;
+		const url = await singlePublicFileUpload(req.file);
 		const findSpot = await Spot.findByPk(spotId);
 
 		if (findSpot) {
