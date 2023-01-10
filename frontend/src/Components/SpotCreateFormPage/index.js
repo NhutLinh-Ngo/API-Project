@@ -238,6 +238,9 @@ export default function CreateSpotFormPage() {
 									/>
 								</label>
 							</div>
+							<div className="image-disclaimer">
+								Please re-upload all images if changes need to be made.
+							</div>
 							<button className="form-submit-button">host</button>
 						</form>
 					</>
