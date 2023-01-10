@@ -85,7 +85,7 @@ background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
     color: white;
     font-size: 1.2rem;
     font-weight: 300;
-    margin-top: 2rem;
+    margin-top: 1rem;
     cursor: pointer;
 }
 .form-submit-button:hover{
@@ -143,4 +143,9 @@ background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
     width: 40%;
     min-width: 235px;
     border-radius: 20px;
+}
+
+.image-disclaimer{
+    text-align: center;
+    padding: 4px 0;
 }
