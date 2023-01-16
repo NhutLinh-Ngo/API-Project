@@ -26,7 +26,6 @@ const PriceOverlay = ({ spot }) => {
 			<div className="map-marker-wrapper" onClick={() => setShowPreview(true)}>
 				${spot.price}
 			</div>
-			;
 			{showPreview && (
 				<div className="preview-wrapper" onClick={directToSpotPage}>
 					<div id="preview-image-wrapper">

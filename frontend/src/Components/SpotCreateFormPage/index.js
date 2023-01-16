@@ -71,13 +71,14 @@ export default function CreateSpotFormPage() {
 	const handleImageForm = async (e) => {
 		e.preventDefault();
 
-		history.push(`/spots/${spotId}`);
 		await dispatch(getDetailsOfSpot(spotId));
+		history.push(`/spots/${spotId}`);
 	};
 
 	const handleAddPhotos = (e) => {
 		setImageErrors(false);
 		setShowLoadingScreen(true);
+		setHasSubmitImg(false);
 		const postImage = async (imagess) => {
 			console.log(imagess);
 			let imageArr = [];
@@ -98,6 +99,7 @@ export default function CreateSpotFormPage() {
 			}
 			setUploadedImages(imageArr);
 			setShowLoadingScreen(false);
+			setHasSubmitImg(true);
 		};
 		const updateFiles = (e) => {
 			const files = e.target.files;
@@ -257,7 +259,14 @@ export default function CreateSpotFormPage() {
 							<div className="image-disclaimer">
 								Please re-upload all images if changes need to be made.
 							</div>
-							<button className="form-submit-button">host</button>
+							{hasSubmitImg && (
+								<button className="form-submit-button">Complete</button>
+							)}
+							{!hasSubmitImg && (
+								<button className="form-submit-button">
+									View listing without Photos
+								</button>
+							)}
 						</form>
 					</>
 				)}

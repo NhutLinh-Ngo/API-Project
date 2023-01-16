@@ -5,6 +5,7 @@ import Geocode from 'react-geocode';
 import { useDispatch, useSelector } from 'react-redux';
 import PriceOverlay from './PriceOverlay.js';
 import './Maps.css';
+import { useHistory } from 'react-router-dom';
 async function getLocation(address) {
 	return Geocode.fromAddress(address).then(
 		(response) => {
@@ -20,7 +21,8 @@ async function getLocation(address) {
 const GoogleMapAllSpots = ({ spots, zoom }) => {
 	const [currentPosition, setCurrentPosition] = useState([]);
 	const [mapLoaded, setMapLoaded] = useState(false);
-	const dispatch = useDispatch();
+	const history = useHistory();
+
 	Geocode.setApiKey(process.env.REACT_APP_MAPS_KEY);
 	// set response language. Defaults to english.
 	Geocode.setLanguage('en');
@@ -44,8 +46,9 @@ const GoogleMapAllSpots = ({ spots, zoom }) => {
 			}
 			setCurrentPosition(allLocation);
 		};
-		if (!currentPosition.length) makeMap();
-	}, [spots]);
+
+		makeMap();
+	}, [spots.length]);
 
 	//This sets the center of the map. This must be set BEFORE the map loads
 
